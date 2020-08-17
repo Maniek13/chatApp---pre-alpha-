@@ -1,0 +1,99 @@
+D:\komunikator\klient\Klient\obj\Debug\Klient.csprojAssemblyReference.cache
+D:\komunikator\klient\Klient\obj\Debug\Klient.Properties.Resources.resources
+D:\komunikator\klient\Klient\obj\Debug\Klient.csproj.GenerateResource.cache
+D:\komunikator\klient\Klient\bin\Debug\Klient.exe.config
+D:\komunikator\klient\Klient\bin\Debug\Klient.exe
+D:\komunikator\klient\Klient\bin\Debug\Klient.pdb
+D:\komunikator\klient\Klient\obj\Debug\Klient.exe
+D:\komunikator\klient\Klient\obj\Debug\Klient.pdb
+D:\komunikator\klient\Klient\obj\Debug\Klient.KlientLogowanie.resources
+D:\komunikator\klient\Klient\obj\Debug\Klient.KlientAplikacja.resources
+F:\komunikator\klient\bin\Debug\Klient.exe.config
+F:\komunikator\klient\bin\Debug\Klient.exe
+F:\komunikator\klient\bin\Debug\Klient.pdb
+F:\komunikator\klient\obj\Debug\Klient.csprojAssemblyReference.cache
+F:\komunikator\klient\obj\Debug\Klient.KlientLogowanie.resources
+F:\komunikator\klient\obj\Debug\Klient.Properties.Resources.resources
+F:\komunikator\klient\obj\Debug\Klient.csproj.GenerateResource.cache
+F:\komunikator\klient\obj\Debug\Klient.exe
+F:\komunikator\klient\obj\Debug\Klient.pdb
+F:\komunikator\klient\obj\Debug\Klient.NewUser.resources
+F:\komunikator c#\klient\bin\Debug\Klient.exe.config
+F:\komunikator c#\klient\bin\Debug\Klient.exe
+F:\komunikator c#\klient\bin\Debug\Klient.pdb
+F:\komunikator c#\klient\obj\Debug\Klient.csprojAssemblyReference.cache
+F:\komunikator c#\klient\obj\Debug\Klient.KlientLogowanie.resources
+F:\komunikator c#\klient\obj\Debug\Klient.KlientAplikacja.resources
+F:\komunikator c#\klient\obj\Debug\Klient.NewUser.resources
+F:\komunikator c#\klient\obj\Debug\Klient.Properties.Resources.resources
+F:\komunikator c#\klient\obj\Debug\Klient.csproj.GenerateResource.cache
+F:\komunikator c#\klient\obj\Debug\Klient.exe
+F:\komunikator c#\klient\obj\Debug\Klient.pdb
+F:\komunikator\klient\obj\Debug\Klient.KlientAplikacja.resources
+D:\pendrive\komunikator\klient\bin\Debug\Klient.exe.config
+D:\pendrive\komunikator\klient\bin\Debug\Klient.exe
+D:\pendrive\komunikator\klient\bin\Debug\Klient.pdb
+D:\pendrive\komunikator\klient\obj\Debug\Klient.csprojAssemblyReference.cache
+D:\pendrive\komunikator\klient\obj\Debug\Klient.KlientLogowanie.resources
+D:\pendrive\komunikator\klient\obj\Debug\Klient.KlientAplikacja.resources
+D:\pendrive\komunikator\klient\obj\Debug\Klient.NewUser.resources
+D:\pendrive\komunikator\klient\obj\Debug\Klient.Properties.Resources.resources
+D:\pendrive\komunikator\klient\obj\Debug\Klient.csproj.GenerateResource.cache
+D:\pendrive\komunikator\klient\obj\Debug\Klient.exe
+D:\pendrive\komunikator\klient\obj\Debug\Klient.pdb
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.csprojAssemblyReference.cache
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.KlientLogowanie.resources
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.KlientAplikacja.resources
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.NewUser.resources
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.Properties.Resources.resources
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.csproj.GenerateResource.cache
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.exe
+D:\pendrive\komunikator\klient asyn\obj\Debug\Klient.pdb
+D:\pendrive\komunikator\klient asyn\bin\Debug\Klient.exe.config
+D:\pendrive\komunikator\klient asyn\bin\Debug\Klient.exe
+D:\pendrive\komunikator\klient asyn\bin\Debug\Klient.pdb
+D:\pendrive\komunikator\klientasyn\bin\Debug\Klient.exe.config
+D:\pendrive\komunikator\klientasyn\bin\Debug\Klient.exe
+D:\pendrive\komunikator\klientasyn\bin\Debug\Klient.pdb
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csprojAssemblyReference.cache
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.KlientLogowanie.resources
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.KlientAplikacja.resources
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.NewUser.resources
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.Properties.Resources.resources
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csproj.GenerateResource.cache
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.exe
+D:\pendrive\komunikator\klientasyn\obj\Debug\Klient.pdb
+G:\pendrive\komunikator\klientasyn\bin\Debug\Klient.exe.config
+G:\pendrive\komunikator\klientasyn\bin\Debug\Klient.exe
+G:\pendrive\komunikator\klientasyn\bin\Debug\Klient.pdb
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csprojAssemblyReference.cache
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.KlientLogowanie.resources
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.KlientAplikacja.resources
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.NewUser.resources
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.Properties.Resources.resources
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csproj.GenerateResource.cache
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.exe
+G:\pendrive\komunikator\klientasyn\obj\Debug\Klient.pdb
+E:\komunikator\klientasyn\bin\Debug\Klient.exe.config
+E:\komunikator\klientasyn\bin\Debug\Klient.exe
+E:\komunikator\klientasyn\bin\Debug\Klient.pdb
+E:\komunikator\klientasyn\obj\Debug\Klient.csprojAssemblyReference.cache
+E:\komunikator\klientasyn\obj\Debug\Klient.KlientLogowanie.resources
+E:\komunikator\klientasyn\obj\Debug\Klient.KlientAplikacja.resources
+E:\komunikator\klientasyn\obj\Debug\Klient.NewUser.resources
+E:\komunikator\klientasyn\obj\Debug\Klient.Properties.Resources.resources
+E:\komunikator\klientasyn\obj\Debug\Klient.csproj.GenerateResource.cache
+E:\komunikator\klientasyn\obj\Debug\Klient.exe
+E:\komunikator\klientasyn\obj\Debug\Klient.pdb
+F:\pendrive\komunikator\klientasyn\bin\Debug\Klient.exe.config
+F:\pendrive\komunikator\klientasyn\bin\Debug\Klient.exe
+F:\pendrive\komunikator\klientasyn\bin\Debug\Klient.pdb
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csprojAssemblyReference.cache
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.KlientLogowanie.resources
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.KlientAplikacja.resources
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.NewUser.resources
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.Properties.Resources.resources
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csproj.GenerateResource.cache
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csproj.CoreCompileInputs.cache
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.exe
+F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.pdb
