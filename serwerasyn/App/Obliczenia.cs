@@ -135,18 +135,27 @@ namespace serwer
                 string wiadomość = temp.Substring(0, z);
                 string adresat = temp.Substring(z + 1);
 
-                FileStream plik = new FileStream(Path() + "\\dane\\wiadomości_" + adresat + ".txt", FileMode.OpenOrCreate);
+                FileStream plik = new FileStream(Path() + "\\dane\\wiadomości" + adresat + ".txt", FileMode.OpenOrCreate);
 
-                var sr = new StreamReader(plik);
-                string file_text = sr.ReadToEnd();
-
+                StreamReader sr = new StreamReader(plik);
+                sr.ReadToEnd();
 
                 StreamWriter f = new StreamWriter(plik);
                 f.WriteLine(login + "$" + wiadomość);
                 f.Close();
                 plik.Close();
 
-                return login + " do " + adresat + ": " + wiadomość;
+                string odp = "";
+                if(adresat == "")
+                {
+                    odp = login + ": " + wiadomość;
+                }
+                else
+                {
+                    odp =  login + " do " + adresat + ": " + wiadomość;
+                }
+
+                return odp;
             }
             else
             {
@@ -168,18 +177,23 @@ namespace serwer
         }
         public void ZapisKont()
         {
-            File.Delete(Path() + @"\\dane\\users.txt");
-
-            FileStream plik = new FileStream(Path() + @"\\dane\\users.txt", FileMode.CreateNew);
-            StreamWriter f = new StreamWriter(plik);
-
-            while (users.Count != 0)
+            if(users.Count != 0)
             {
-                f.WriteLine(users.First().RegisteredUser + "$" + users.First().Pasword);
-                users.RemoveAt(0);
-            }
+               File.Delete(Path() + @"\\dane\\users.txt");
 
-            f.Close();
+                FileStream plik = new FileStream(Path() + @"\\dane\\users.txt", FileMode.OpenOrCreate);
+
+                StreamWriter f = new StreamWriter(plik);
+
+                while (users.Count != 0)
+                {
+                    f.WriteLine(users.First().RegisteredUser + "$" + users.First().Pasword);
+                    users.RemoveAt(0);
+                }
+
+                f.Close();
+                plik.Close();
+            }   
         }
     }
 }

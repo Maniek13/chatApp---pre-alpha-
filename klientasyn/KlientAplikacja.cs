@@ -135,17 +135,24 @@ namespace Klient
         private void Wiadomość()
         {
             string login = KlientLogowanie.Osoba;
+            string wiadomość = wiadomosc.Text;
 
-            if (kontakty.SelectedIndex >= 0)
+            if(wiadomość != "")
             {
-                string osoba = kontakty.SelectedItem.ToString();
-
-                Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
-
-                string wiadomość = wiadomosc.Text;
                 KlientLogowanie.odebrano.Reset();
 
-                KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + temp.Kontakt;
+                if (kontakty.SelectedIndex >= 0)
+                {
+                    string osoba = kontakty.SelectedItem.ToString();
+
+                    Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
+                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + temp.Kontakt;
+                }
+                else
+                {
+                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%";
+                }
+
                 Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient));
                 wątek.IsBackground = true;
                 wątek.Start();
