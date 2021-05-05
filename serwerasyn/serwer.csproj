@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\AsynchronousSocketListener.cs" />
+    <Compile Include="App\StateObject.cs" />
+    <Compile Include="App\Obliczenia.cs" />
+    <Compile Include="App\Userspasword.cs" />
     <Compile Include="Serwer.cs">
       <SubType>Form</SubType>
     </Compile>

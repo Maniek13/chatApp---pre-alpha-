@@ -1,27 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Configuration;
-using System.Diagnostics;
 
 namespace Klient
 {
-
-
     public partial class KlientAplikacja : Form
     {
-
-       
         public static TcpClient tcpclient = new TcpClient();
         public static ManualResetEvent wyswietlono =
              new ManualResetEvent(false);
@@ -57,7 +42,6 @@ namespace Klient
             kontakty.Items.Add(nick);
             kontakty.EndUpdate();
         }
-
 
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -113,7 +97,6 @@ namespace Klient
                     wyswietlono.WaitOne(1000);                  
                 }
             }
-        
         }
         private void Wiadomości()
         { 
@@ -168,7 +151,6 @@ namespace Klient
                 wątek.Start();
                 KlientLogowanie.odebrano.WaitOne();
 
-
                 try
                 {
                     if (!this.IsDisposed)
@@ -183,9 +165,6 @@ namespace Klient
                 {
 
                 }
-
-
-
                 wiadomosc.Text = "";
             }
             
@@ -194,30 +173,11 @@ namespace Klient
         {
             NewUser konta = new NewUser(this);
             konta.Show();
-  
         }
 
-
-    
         private void kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
         }
     }
-    public class Konta
-    {
-        public string Kontakt { get; set; }
-        public string Nazwa { get; set; }
-        public Konta(string user, string nick)
-        {
-            Kontakt = user;
-
-            Nazwa = nick;
-
-        }
-    }
-
-
-
-    
+       
 }
