@@ -35,19 +35,8 @@ namespace Klient
  
                 if (komunikat.StartsWith("ok"))
                 {
-                    Osoba = Login.Text;
-
-                    string temp = komunikat.Substring(2);
-                    
-                    while(temp != "")
-                    {
-                    int index = temp.IndexOf("$");
-                    users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index))));
-                    temp = temp.Substring(index+1);
-
-                    }
+                    userList();
                  
-
                     KlientAplikacja nowy = new KlientAplikacja();
                     nowy.Show();
                     this.Hide();
@@ -78,8 +67,9 @@ namespace Klient
             wątek.Start();
             odebrano.WaitOne();
                   
-            if (komunikat == "Ok")
+            if (komunikat.StartsWith("ok"))
             {
+                userList();
                 KlientAplikacja nowy = new KlientAplikacja();
                 nowy.Show();
                 this.Hide();
@@ -95,6 +85,20 @@ namespace Klient
                 Login.Clear();
                 hasło.Clear();
                 textBox1.Text = komunikat;
+            }
+        }
+
+        private void userList()
+        {
+            Osoba = Login.Text;
+
+            string temp = komunikat.Substring(2);
+
+            while (temp != "")
+            {
+                int index = temp.IndexOf("$");
+                users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index))));
+                temp = temp.Substring(index + 1);
             }
         }
         

@@ -146,11 +146,11 @@ namespace Klient
                     string osoba = kontakty.SelectedItem.ToString();
 
                     Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
-                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + temp.Kontakt;
+                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + temp.Kontakt + "&" + DateTime.Now;
                 }
                 else
                 {
-                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%";
+                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
                 }
 
                 Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient));

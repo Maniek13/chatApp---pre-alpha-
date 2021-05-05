@@ -108,7 +108,18 @@ namespace serwer
                 {
                     users.Add(new Userspasword(login, password));
 
-                    return "Ok";
+                    
+
+                    string usser_list = "";
+                    foreach (Userspasword user in users)
+                    {
+                        if (user.RegisteredUser != login)
+                        {
+                            usser_list += user.RegisteredUser + '$';
+                        }
+                    }
+                    ZapisKont();
+                    return "ok" + usser_list;
                 }
             }
             else
@@ -123,17 +134,28 @@ namespace serwer
 
             if (msg.StartsWith("Wiadomosc od:"))
             {
-
+                string adresat = "";
                 string temp = msg.Substring(13);
-
                 int z = temp.IndexOf("#");
-
                 string login = temp.Substring(0, z);
 
                 temp = temp.Substring(z + 1);
+
                 z = temp.LastIndexOf("%");
                 string wiadomość = temp.Substring(0, z);
-                string adresat = temp.Substring(z + 1);
+                temp = temp.Substring(z + 1);
+
+                z = temp.LastIndexOf("&");
+                if(z != 0)
+                {
+                    adresat = temp.Substring(0, z);
+                }
+                else
+                {
+                    adresat = "";
+                }
+                
+                string czas = temp.Substring(z + 1);
 
                 FileStream plik = new FileStream(Path() + "\\dane\\wiadomości" + adresat + ".txt", FileMode.OpenOrCreate);
 
@@ -141,7 +163,7 @@ namespace serwer
                 sr.ReadToEnd();
 
                 StreamWriter f = new StreamWriter(plik);
-                f.WriteLine(login + "$" + wiadomość);
+                f.WriteLine(login + "$" + wiadomość + "&" + czas);
                 f.Close();
                 plik.Close();
 
