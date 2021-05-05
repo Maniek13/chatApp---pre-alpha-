@@ -167,17 +167,9 @@ namespace serwer
                 f.Close();
                 plik.Close();
 
-                string odp = "";
-                if(adresat == "")
-                {
-                    odp = login + ": " + wiadomość;
-                }
-                else
-                {
-                    odp =  login + " do " + adresat + ": " + wiadomość;
-                }
+                
 
-                return odp;
+                return "ok";
             }
             else
             {

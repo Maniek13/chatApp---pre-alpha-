@@ -139,6 +139,7 @@ namespace Klient
 
             if(wiadomość != "")
             {
+                string odp = "";
                 KlientLogowanie.odebrano.Reset();
 
                 if (kontakty.SelectedIndex >= 0)
@@ -147,10 +148,13 @@ namespace Klient
 
                     Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
                     KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + temp.Kontakt + "&" + DateTime.Now;
+                    odp = login + " do " + temp.Kontakt + ": " + wiadomość;
                 }
                 else
                 {
                     KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
+                    odp = login + ": " + wiadomość;
+
                 }
 
                 Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient));
@@ -164,7 +168,11 @@ namespace Klient
                     {
                         Invoke(new Action(() =>
                         {
-                            Komunikaty.AppendText(KlientLogowanie.komunikat + Environment.NewLine);
+                            if(KlientLogowanie.komunikat == "ok")
+                            {
+                                Komunikaty.AppendText(odp + Environment.NewLine);
+                            }
+                            
                         }));
                     }
                 }
