@@ -20,7 +20,7 @@ namespace Klient
         public static string Osoba = "";
         public static ManualResetEvent odebrano =
             new ManualResetEvent(false);
-
+        public static List<Konta> users = new List<Konta>();
 
         public string Logowanie()
         {
@@ -42,20 +42,38 @@ namespace Klient
             wątek.Start();
             odebrano.WaitOne();
  
-                if (komunikat == "Ok")
+                if (komunikat.StartsWith("ok"))
                 {
                     Osoba = Login.Text;
+
+                    string temp = komunikat.Substring(2);
+                    
+                    while(temp != "")
+                    {
+                    int index = temp.IndexOf("$");
+                    users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index))));
+                    temp = temp.Substring(index+1);
+
+                    }
+                 
+
                     KlientAplikacja nowy = new KlientAplikacja();
                     nowy.Show();
                     this.Hide();
+                }
+                else if (komunikat != "connection problem")
+                {
+                    Login.Clear();
+                    hasło.Clear();
+                    textBox1.Text = komunikat;
+
                 }
                 else
                 {
                     Login.Clear();
                     hasło.Clear();
+                    textBox1.Text = komunikat;
                 }
-            
-            textBox1.Text = komunikat;
         }
 
 
@@ -68,21 +86,27 @@ namespace Klient
             wątek.IsBackground = true;
             wątek.Start();
             odebrano.WaitOne();
-            
-         
+                  
             if (komunikat == "Ok")
             {
                 KlientAplikacja nowy = new KlientAplikacja();
                 nowy.Show();
                 this.Hide();
             }
+            else if(komunikat != "connection problem")
+            {
+                Login.Clear();
+                hasło.Clear();
+                textBox1.Text = komunikat;
+            }
             else
             {
                 Login.Clear();
                 hasło.Clear();
+                textBox1.Text = komunikat;
             }
         }
-
+        
         private void Button1_Click(object sender, EventArgs e)
         {
             KlientAplikacja nowy = new KlientAplikacja();
@@ -92,22 +116,18 @@ namespace Klient
 
         private void Login_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void hasło_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void KlientLogowanie_Load(object sender, EventArgs e)
         {
-
         }
     }
 
@@ -122,7 +142,6 @@ namespace Klient
 
     public class AsynchronousClient : KlientLogowanie
     {
-
         private const int port = 11000;
 
         private static ManualResetEvent connectDone =
@@ -147,19 +166,25 @@ namespace Klient
                 connectDone.Reset();
                 client.BeginConnect(remoteEP,
                     new AsyncCallback(ConnectCallback), client);
-                connectDone.WaitOne();
 
-                sendDone.Reset();
-                Send(client, komunikat);
-                sendDone.WaitOne();
 
-                receiveDone.Reset();
-                Receive(client);
-                receiveDone.WaitOne();
+                if(connectDone.WaitOne(500) == true)
+                {
+                    sendDone.Reset();
+                    Send(client, komunikat);
+                    sendDone.WaitOne();
 
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();
-               
+                    receiveDone.Reset();
+                    Receive(client);
+                    receiveDone.WaitOne();
+
+                    client.Shutdown(SocketShutdown.Both);
+                    client.Close();
+                }
+                else
+                {
+                    response = "connection problem";
+                }               
             }
             catch (Exception p)
             {
@@ -167,8 +192,7 @@ namespace Klient
             }
             komunikat = response;
             odebrano.Set();
-            Thread.CurrentThread.Abort();
-        
+            Thread.CurrentThread.Abort();      
         }
 
         private static void ConnectCallback(IAsyncResult ar)
@@ -205,7 +229,6 @@ namespace Klient
         {
             try
             {
-      
                 StateObject state = (StateObject)ar.AsyncState;
                 Socket client = state.workSocket;
                 int bytesRead = client.EndReceive(ar);

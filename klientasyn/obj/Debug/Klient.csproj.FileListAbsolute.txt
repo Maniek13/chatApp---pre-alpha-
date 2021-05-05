@@ -97,3 +97,15 @@ F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csproj.GenerateResource.cach
 F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.csproj.CoreCompileInputs.cache
 F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.exe
 F:\pendrive\komunikator\klientasyn\obj\Debug\Klient.pdb
+G:\Informatyka\komunikator\klientasyn\bin\Debug\Klient.exe.config
+G:\Informatyka\komunikator\klientasyn\bin\Debug\Klient.exe
+G:\Informatyka\komunikator\klientasyn\bin\Debug\Klient.pdb
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.csprojAssemblyReference.cache
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.KlientLogowanie.resources
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.KlientAplikacja.resources
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.NewUser.resources
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.Properties.Resources.resources
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.csproj.GenerateResource.cache
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.csproj.CoreCompileInputs.cache
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.exe
+G:\Informatyka\komunikator\klientasyn\obj\Debug\Klient.pdb

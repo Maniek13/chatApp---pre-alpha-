@@ -89,3 +89,13 @@ F:\pendrive\komunikator\serwerasyn\obj\Debug\serwer.csproj.GenerateResource.cach
 F:\pendrive\komunikator\serwerasyn\obj\Debug\serwer.csproj.CoreCompileInputs.cache
 F:\pendrive\komunikator\serwerasyn\obj\Debug\serwer.exe
 F:\pendrive\komunikator\serwerasyn\obj\Debug\serwer.pdb
+G:\Informatyka\komunikator\serwerasyn\bin\Debug\serwer.exe.config
+G:\Informatyka\komunikator\serwerasyn\bin\Debug\serwer.exe
+G:\Informatyka\komunikator\serwerasyn\bin\Debug\serwer.pdb
+G:\Informatyka\komunikator\serwerasyn\obj\Debug\serwer.csprojAssemblyReference.cache
+G:\Informatyka\komunikator\serwerasyn\obj\Debug\serwer.Serwer.resources
+G:\Informatyka\komunikator\serwerasyn\obj\Debug\serwer.Properties.Resources.resources
+G:\Informatyka\komunikator\serwerasyn\obj\Debug\serwer.csproj.GenerateResource.cache
+G:\Informatyka\komunikator\serwerasyn\obj\Debug\serwer.csproj.CoreCompileInputs.cache
+G:\Informatyka\komunikator\serwerasyn\obj\Debug\serwer.exe
+G:\Informatyka\komunikator\serwerasyn\obj\Debug\serwer.pdb

@@ -12,24 +12,20 @@ namespace Klient
 {
     public partial class NewUser : Form
     {
-
         private KlientAplikacja _client;
 
         public NewUser(KlientAplikacja client)
         {
             this._client = client;
-            InitializeComponent();
-        
+            InitializeComponent();      
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -39,11 +35,10 @@ namespace Klient
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            
         }
         public void Nowy()
         {
-            KlientAplikacja.users.Add(new Konta(textBox1.Text, textBox2.Text));
+          //  KlientLogowanie.users.Add(new Konta(textBox1.Text, textBox2.Text));
             this._client.DodajKontakt(textBox2.Text);
             this.Hide();
         }

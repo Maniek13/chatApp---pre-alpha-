@@ -21,25 +21,32 @@ namespace Klient
     public partial class KlientAplikacja : Form
     {
 
-        public static List<Konta> users = new List<Konta>();
+       
         public static TcpClient tcpclient = new TcpClient();
         public static ManualResetEvent wyswietlono =
              new ManualResetEvent(false);
 
-     
+     /* Dodawanie kont
+        private KlientLogowanie _client;
 
-
-        public KlientAplikacja()
+        public KlientAplikacja(KlientLogowanie client)
         {
+            this._client = client;
             InitializeComponent();
            
         }
+     */
+     
+        public KlientAplikacja()
+        {
+            InitializeComponent();
+        }
+
         private void WyświetlKontakty()
         {
-
-            foreach (var Konta in users)
+            foreach (Konta Konta in KlientLogowanie.users)
             {
-                kontakty.Items.Add(users.Last().Nazwa);
+                kontakty.Items.Add(Konta.Nazwa);
             }
             kontakty.EndUpdate();
         }
@@ -80,7 +87,8 @@ namespace Klient
             Thread msg = new Thread(new ThreadStart(WyświetlWiadomosći));
             msg.IsBackground = true;
             msg.Start();
-         
+            //dodawanie kont
+            Dodaj.Hide();
         }   
 
         private void Komunikaty_TextChanged(object sender, EventArgs e)
@@ -144,35 +152,43 @@ namespace Klient
         private void Wiadomość()
         {
             string login = KlientLogowanie.Osoba;
-            string osoba = kontakty.SelectedItem.ToString(); //jak nie zaznaczone
-            string wiadomość = wiadomosc.Text;
-            KlientLogowanie.odebrano.Reset();
 
-            KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + osoba;
-            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient));
-            wątek.IsBackground = true;
-            wątek.Start();
-            KlientLogowanie.odebrano.WaitOne();
-
-
-            try
+            if (kontakty.SelectedIndex >= 0)
             {
-                if (!this.IsDisposed)
+                string osoba = kontakty.SelectedItem.ToString();
+
+                Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
+
+                string wiadomość = wiadomosc.Text;
+                KlientLogowanie.odebrano.Reset();
+
+                KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + temp.Kontakt;
+                Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient));
+                wątek.IsBackground = true;
+                wątek.Start();
+                KlientLogowanie.odebrano.WaitOne();
+
+
+                try
                 {
-                    Invoke(new Action(() =>
+                    if (!this.IsDisposed)
+                    {
+                        Invoke(new Action(() =>
                         {
                             Komunikaty.AppendText(KlientLogowanie.komunikat + Environment.NewLine);
                         }));
+                    }
                 }
+                catch (InvalidOperationException)
+                {
+
+                }
+
+
+
+                wiadomosc.Text = "";
             }
-            catch (InvalidOperationException )
-            {
-                
-            }
-
-
-
-            wiadomosc.Text = "";
+            
         }
         private void Dodaj_Click(object sender, EventArgs e)
         {

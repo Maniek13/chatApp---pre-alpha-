@@ -21,40 +21,42 @@ namespace serwer
         public Serwer()
         {
             InitializeComponent();
-
         }
+
+        public Thread wątek;
 
         public void Start_Click(object sender, EventArgs e)
         {
-            Thread wątek = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening));
+            textBox1.Text = "Working...";
+            wątek = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening));
             wątek.IsBackground = true;
             wątek.Start();
-        
         }
 
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
         private void Stop_Click(object sender, EventArgs e)
         {
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.ZapisKont();
+            wątek.Abort();
+            textBox1.Text = "Stoped";
         }
+
+    
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
         }
       
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-
         }
     }
 
@@ -72,7 +74,7 @@ namespace serwer
 
     public class Obliczenia
     {
-        private static List<Userspasword> Users = new List<Userspasword>();
+        private static List<Userspasword> users = new List<Userspasword>();
 
         public string Start(string wiadomość)
         {
@@ -93,28 +95,33 @@ namespace serwer
                     }
                 }
             }
-
+            
             return z;
-
         }
+
+        private string Path()
+        {
+            string path = Application.StartupPath;
+            int x = path.IndexOf(@"\bin\Debug", 0, path.Length);
+            path = path.Remove(x).Replace(@"\", @"\\");
+            return path;
+        }
+
         public void WczytanieKont()
         {
-            string[] konta = File.ReadAllLines("F:\\pendrive\\komunikator\\serwerasyn\\dane\\users.txt"); //nazwa + $ + hasło
+            string[] konta = File.ReadAllLines(Path() + "\\dane\\users.txt"); //nazwa + $ + hasło
 
             foreach (string line in konta)
             {
                 int z = line.IndexOf("$");
                 string login = line.Substring(0, z);
                 string password = line.Substring(z + 1);
-                Users.Add(new Userspasword(login, password));
-
+                users.Add(new Userspasword(login, password));
             }
-
         }
         public void Wczytano()
         {
-
-            if (Users.Count() == 0)
+            if (users.Count() == 0)
             {
                 WczytanieKont();
             }
@@ -130,17 +137,22 @@ namespace serwer
                 string password = temp.Substring(t + 1);
                 string login = temp.Substring(0, t);
 
-                if (Users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
+                if (users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
                 {
-                    return "Ok";
-
+                    string usser_list = "";
+                    foreach( Userspasword user in users)
+                    {
+                        if(user.RegisteredUser != login)
+                        {
+                            usser_list += user.RegisteredUser + '$';
+                        }
+                    }
+                    return "ok" + usser_list;
                 }
                 else
                 {
                     return "Nie istnieje";
-
                 }
-
             }
             return "";
         }
@@ -154,25 +166,23 @@ namespace serwer
                 string password = temp.Substring(t + 1);
                 string login = temp.Substring(0, t);
 
-
-
-                if (Users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
+                if (users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
                 {
                     return "Istnieje";
                 }
                 else
                 {
-                    Users.Add(new Userspasword(login, password));
+                    users.Add(new Userspasword(login, password));
 
                     return "Ok";
                 }
-
             }
             else
             {
                 return "";
             }
         }
+
         public string Wiadomość(string msg)
         {
             //"Wiadomosc od:" + login + "#" + wiadomość + "%" + osoba;
@@ -191,34 +201,31 @@ namespace serwer
                 string wiadomość = temp.Substring(0, z);
                 string adresat = temp.Substring(z + 1);
 
+                FileStream plik = new FileStream(Path() + "\\dane\\wiadomości_" + adresat + ".txt", FileMode.OpenOrCreate);
 
-                FileStream plik = new FileStream("F:\\pendrive\\komunikator\\serwerasyn\\dane\\wiadomości_" + adresat + ".txt", FileMode.OpenOrCreate);
+                var sr = new StreamReader(plik);
+                string file_text = sr.ReadToEnd();
+
+
                 StreamWriter f = new StreamWriter(plik);
-
-                f.WriteLine(login + "$" + wiadomość);
+                f.WriteLine( login + "$" + wiadomość);
                 f.Close();
+                plik.Close();
 
                 return login + " do " + adresat + ": " + wiadomość;
-
             }
             else
             {
                 return "";
             }
-
-            
-          
-
         }
         public string Wiadomości(string msg)
         {
 
             if (msg.StartsWith("Wyswietl wiadomosci"))
             {
-
                 String data = DateTime.Now.ToString();
                 return "xxx: " + data;
-
             }
             else
             {
@@ -227,21 +234,18 @@ namespace serwer
         }
         public void ZapisKont()
         {
-            File.Delete(@"F:\\pendrive\\komunikator\\serwerasyn\\dane\\users.txt");
+            File.Delete(Path() +  @"\\dane\\users.txt");
 
-            FileStream plik = new FileStream(@"F:\\pendrive\\komunikator\\serwerasyn\\dane\\users.txt", FileMode.CreateNew);
+            FileStream plik = new FileStream(Path() + @"\\dane\\users.txt", FileMode.CreateNew);
             StreamWriter f = new StreamWriter(plik);
 
-            while (Users.Count != 0)
+            while (users.Count != 0)
             {
-                f.WriteLine(Users.First().RegisteredUser + "$" + Users.First().Pasword);
-                Users.RemoveAt(0);
+                f.WriteLine(users.First().RegisteredUser + "$" + users.First().Pasword);
+                users.RemoveAt(0);
             }
 
             f.Close();
-
-
-
         }
     }
 
@@ -250,8 +254,7 @@ namespace serwer
         public Socket workSocket = null;
         public const int BufferSize = 1024;
         public byte[] buffer = new byte[BufferSize];
-        public StringBuilder sb = new StringBuilder();
-        
+        public StringBuilder sb = new StringBuilder();    
     }
 
 
@@ -259,15 +262,16 @@ namespace serwer
     {
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
-        public AsynchronousSocketListener()
-        {
-        }
-
         public static void StartListening()
         {
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+         // IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());  nie działa
+
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("127.0.0.1");
+
+
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
+
 
             Socket listener = new Socket(ipAddress.AddressFamily,
                 SocketType.Stream, ProtocolType.Tcp);
@@ -287,7 +291,6 @@ namespace serwer
                         listener);
                     allDone.WaitOne();
                 }
-
             }
             catch (Exception p)
             {
@@ -299,7 +302,7 @@ namespace serwer
         {
             allDone.Set();
             
-             Socket listener = (Socket)ar.AsyncState;
+            Socket listener = (Socket)ar.AsyncState;
             Socket handler = listener.EndAccept(ar);
             StateObject state = new StateObject();
             state.workSocket = handler;
@@ -327,7 +330,6 @@ namespace serwer
                 content = obliczenia.Start(content);
 
                 Send(handler, content);
-
             }
         }
 
@@ -347,7 +349,6 @@ namespace serwer
                 int bytesSent = handler.EndSend(ar);
                 handler.Shutdown(SocketShutdown.Both);
                 handler.Close();
-
             }
             catch (Exception p)
             {
