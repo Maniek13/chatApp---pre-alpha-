@@ -27,7 +27,6 @@ namespace serwer
         private void Stop_Click(object sender, EventArgs e)
         {
             Obliczenia obliczenia = new Obliczenia();
-            obliczenia.ZapisKont();
             wątek.Abort();
             textBox1.Text = "Stoped";
         }
