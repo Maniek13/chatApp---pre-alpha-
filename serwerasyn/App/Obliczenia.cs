@@ -167,8 +167,6 @@ namespace serwer
                 f.Close();
                 plik.Close();
 
-                
-
                 return "ok";
             }
             else
