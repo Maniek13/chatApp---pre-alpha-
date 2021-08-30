@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using Klient.App.Objects;
+using Klient.App;
 
 namespace Klient
 {

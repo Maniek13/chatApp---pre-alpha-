@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using Klient.App.Objects;
 
-namespace Klient
+namespace Klient.App
 {
     public class AsynchronousClient : KlientLogowanie
     {
@@ -37,7 +35,7 @@ namespace Klient
                 client.BeginConnect(remoteEP,
                     new AsyncCallback(ConnectCallback), client);
 
-               
+
 
                 if (connectDone.WaitOne(500) == true)
                 {

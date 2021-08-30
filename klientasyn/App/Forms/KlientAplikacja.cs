@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Threading;
 using Klient.App.Objects;
+using Klient.App;
 
 namespace Klient
 {
@@ -176,5 +177,4 @@ namespace Klient
             }
         }
     }
-
 }

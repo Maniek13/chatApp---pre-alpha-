@@ -68,24 +68,32 @@ namespace Klient.App.Objects
 
         public string Wiadomość(string contact, string wiadomosc)
         {
-        
+            string odp;
             string osoba = "";
             if (contact != "")
             {
                 osoba = contact;
             }
 
-            Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
-
+            Konta temp = Accounts.users.Find(x => x.Nazwa == osoba);
+            
+            if(temp != null)
+            {
+                odp = SendMsg(temp.Kontakt, wiadomosc, false);
+            }
+            else
+            {
+                odp = SendMsg("", wiadomosc, false);
+            }
            
-            string odp = SendMsg(temp.Kontakt, wiadomosc, false);
+            
 
             return odp;
         }
 
         public string Wiadomość(string contact, string wiadomość, bool priv)
         {
-            return SendMsg(contact, wiadomość, true);
+            return SendMsg(contact, wiadomość, priv);
         }
     }
 }

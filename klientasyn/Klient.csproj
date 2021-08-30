@@ -83,22 +83,22 @@
     <Compile Include="App\Objects\MessagesController.cs" />
     <Compile Include="App\Objects\Responde.cs" />
     <Compile Include="App\Objects\StateObject.cs" />
-    <Compile Include="KlientLogowanie.cs">
+    <Compile Include="App\Forms\KlientLogowanie.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KlientLogowanie.Designer.cs">
+    <Compile Include="App\Forms\KlientLogowanie.Designer.cs">
       <DependentUpon>KlientLogowanie.cs</DependentUpon>
     </Compile>
-    <Compile Include="KlientAplikacja.cs">
+    <Compile Include="App\Forms\KlientAplikacja.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KlientAplikacja.Designer.cs">
+    <Compile Include="App\Forms\KlientAplikacja.Designer.cs">
       <DependentUpon>KlientAplikacja.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageBox.cs">
+    <Compile Include="App\Forms\MessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MessageBox.Designer.cs">
+    <Compile Include="App\Forms\MessageBox.Designer.cs">
       <DependentUpon>MessageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="NewUser.cs">
@@ -112,13 +112,13 @@
     <EmbeddedResource Include="App\AsynchronousClient.resx">
       <DependentUpon>AsynchronousClient.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="KlientLogowanie.resx">
+    <EmbeddedResource Include="App\Forms\KlientLogowanie.resx">
       <DependentUpon>KlientLogowanie.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="KlientAplikacja.resx">
+    <EmbeddedResource Include="App\Forms\KlientAplikacja.resx">
       <DependentUpon>KlientAplikacja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageBox.resx">
+    <EmbeddedResource Include="App\Forms\MessageBox.resx">
       <DependentUpon>MessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewUser.resx">
@@ -159,8 +159,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Objects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

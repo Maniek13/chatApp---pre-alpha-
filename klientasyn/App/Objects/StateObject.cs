@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 
-namespace Klient
+namespace Klient.App.Objects
 {
     public class StateObject
     {
