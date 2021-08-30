@@ -171,15 +171,7 @@ namespace Klient
 
         private void Kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            if (Kontakty.SelectedItem != null)
-            {
-                string osoba = Kontakty.SelectedItem.ToString();
-                Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
-
-                MessageBox messageBox = new MessageBox(temp.Kontakt);
-
-                messageBox.Show();
-            }
+           
         }
 
         private string SendMsg(string contact, string wiadomość, bool priv)
@@ -250,6 +242,19 @@ namespace Klient
             else
             {
                 return "error";
+            }
+        }
+
+        private void Kontakty_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (Kontakty.SelectedItem != null)
+            {
+                string osoba = Kontakty.SelectedItem.ToString();
+                Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
+
+                MessageBox messageBox = new MessageBox(temp.Kontakt);
+
+                messageBox.Show();
             }
         }
     }

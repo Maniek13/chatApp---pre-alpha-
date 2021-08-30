@@ -82,6 +82,7 @@
             this.Kontakty.Size = new System.Drawing.Size(146, 329);
             this.Kontakty.TabIndex = 9;
             this.Kontakty.SelectedIndexChanged += new System.EventHandler(this.Kontakty_SelectedIndexChanged_1);
+            this.Kontakty.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Kontakty_MouseDoubleClick);
             // 
             // KlientAplikacja
             // 

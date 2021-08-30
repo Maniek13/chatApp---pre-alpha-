@@ -32,6 +32,7 @@ namespace Klient
             this.Send = new System.Windows.Forms.Button();
             this.TextToSend = new System.Windows.Forms.TextBox();
             this.ChatWindow = new System.Windows.Forms.TextBox();
+            this.ContactName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Send
@@ -61,11 +62,22 @@ namespace Klient
             this.ChatWindow.TabIndex = 2;
             this.ChatWindow.TextChanged += new System.EventHandler(this.ChatWindow_TextChanged);
             // 
+            // ContactName
+            // 
+            this.ContactName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ContactName.Location = new System.Drawing.Point(51, 20);
+            this.ContactName.Name = "ContactName";
+            this.ContactName.Size = new System.Drawing.Size(557, 23);
+            this.ContactName.TabIndex = 3;
+            this.ContactName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ContactName.Click += new System.EventHandler(this.ContactName_Click);
+            // 
             // MessageBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(663, 450);
+            this.Controls.Add(this.ContactName);
             this.Controls.Add(this.ChatWindow);
             this.Controls.Add(this.TextToSend);
             this.Controls.Add(this.Send);
@@ -82,5 +94,6 @@ namespace Klient
         private System.Windows.Forms.Button Send;
         private System.Windows.Forms.TextBox TextToSend;
         private System.Windows.Forms.TextBox ChatWindow;
+        private System.Windows.Forms.Label ContactName;
     }
 }

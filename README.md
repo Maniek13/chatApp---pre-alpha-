@@ -21,4 +21,3 @@ ________In progres
 
 
 -private responde
--double click on list elements evt

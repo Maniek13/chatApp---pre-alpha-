@@ -5,7 +5,7 @@ namespace Klient
 {
     public partial class NewUser : Form
     {
-        private KlientAplikacja _client;
+        private readonly KlientAplikacja _client;
 
         public NewUser(KlientAplikacja client)
         {

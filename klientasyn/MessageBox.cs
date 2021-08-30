@@ -16,6 +16,7 @@ namespace Klient
         public MessageBox(string name)
         {
             this.name = name;
+            
             InitializeComponent();
         }
 
@@ -36,7 +37,7 @@ namespace Klient
 
         private void MessageBox_Load(object sender, EventArgs e)
         {
-
+            ContactName.Text = this.name;
         }
 
         private void TextToSend_TextChanged(object sender, EventArgs e)
@@ -45,6 +46,11 @@ namespace Klient
         }
 
         private void ChatWindow_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ContactName_Click(object sender, EventArgs e)
         {
 
         }
