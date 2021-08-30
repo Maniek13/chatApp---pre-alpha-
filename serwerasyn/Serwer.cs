@@ -37,11 +37,16 @@ namespace serwer
         {
             bool temp = true;
 
+            Obliczenia obl = new Obliczenia();
+            obl.DeleteOldMessages();
+            deleted.WaitOne();
+            deleted.Reset();
+            deleted.WaitOne(1000);
+
             while (temp == true)
             {
                 if (DateTime.Now.Second % 10 == 0)
                 {
-                    Obliczenia obl = new Obliczenia();
                     obl.DeleteOldMessages();
                     deleted.WaitOne();
                     deleted.Reset();
