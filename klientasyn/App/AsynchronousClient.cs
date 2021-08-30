@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Klient.App.Objects;
 
 namespace Klient
 {
@@ -40,7 +40,7 @@ namespace Klient
                 if (connectDone.WaitOne(500) == true)
                 {
                     sendDone.Reset();
-                    Send(client, komunikat);
+                    Send(client, Responde.komunikat);
                     sendDone.WaitOne();
 
                     receiveDone.Reset();
@@ -59,8 +59,8 @@ namespace Klient
             {
                 Console.WriteLine("Error..... " + p.StackTrace);
             }
-            komunikat = response;
-            odebrano.Set();
+            Responde.komunikat = response;
+            Responde.odebrano.Set();
             Thread.CurrentThread.Abort();
         }
 

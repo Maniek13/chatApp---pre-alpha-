@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
+using Klient.App.Objects;
 
 namespace Klient
 {
     public partial class KlientLogowanie : Form
     {
-        public static String komunikat = "";
+       
         public static string Osoba = "";
-        public static ManualResetEvent odebrano =
-            new ManualResetEvent(false);
-        public static List<Konta> users = new List<Konta>();
 
         public string Logowanie()
         {
@@ -25,17 +23,17 @@ namespace Klient
 
         private void Zaloguj_Click(object sender, EventArgs e)
         {    
-            komunikat = "LOG" + Login.Text + "$" + hasło.Text;
+            Responde.komunikat = "LOG" + Login.Text + "$" + hasło.Text;
 
-            odebrano.Reset();
+            Responde.odebrano.Reset();
             Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
             {
                 IsBackground = true
             };
             wątek.Start();
-            odebrano.WaitOne();
+            Responde.odebrano.WaitOne();
  
-                if (komunikat.StartsWith("ok"))
+                if (Responde.komunikat.StartsWith("ok"))
                 {
                     UserList();
                  
@@ -43,52 +41,52 @@ namespace Klient
                     nowy.Show();
                     this.Hide();
                 }
-                else if (komunikat != "connection problem")
+                else if (Responde.komunikat != "connection problem")
                 {
                     Login.Clear();
                     hasło.Clear();
-                    textBox1.Text = komunikat;
+                    textBox1.Text = Responde.komunikat;
 
                 }
                 else
                 {
                     Login.Clear();
                     hasło.Clear();
-                    textBox1.Text = komunikat;
+                    textBox1.Text = Responde.komunikat;
                 }
         }
 
 
         private void Zarejestruj_Click(object sender, EventArgs e)
         {
-            odebrano.Reset();
-            komunikat = "REJ" + Login.Text + "$" + hasło.Text;
+            Responde.odebrano.Reset();
+            Responde.komunikat = "REJ" + Login.Text + "$" + hasło.Text;
 
             Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
             {
                 IsBackground = true
             };
             wątek.Start();
-            odebrano.WaitOne();
+            Responde.odebrano.WaitOne();
                   
-            if (komunikat.StartsWith("ok"))
+            if (Responde.komunikat.StartsWith("ok"))
             {
                 UserList();
                 KlientAplikacja nowy = new KlientAplikacja();
                 nowy.Show();
                 this.Hide();
             }
-            else if(komunikat != "connection problem")
+            else if(Responde.komunikat != "connection problem")
             {
                 Login.Clear();
                 hasło.Clear();
-                textBox1.Text = komunikat;
+                textBox1.Text = Responde.komunikat;
             }
             else
             {
                 Login.Clear();
                 hasło.Clear();
-                textBox1.Text = komunikat;
+                textBox1.Text = Responde.komunikat;
             }
         }
 
@@ -96,12 +94,12 @@ namespace Klient
         {
             Osoba = Login.Text;
 
-            string temp = komunikat.Substring(2);
+            string temp = Responde.komunikat.Substring(2);
 
             while (temp != "")
             {
                 int index = temp.IndexOf("$");
-                users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index))));
+                Accounts.users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index))));
                 temp = temp.Substring(index + 1);
             }
         }

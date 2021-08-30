@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Klient.App.Objects;
+using System;
 using System.Windows.Forms;
 
 namespace Klient
@@ -31,7 +32,7 @@ namespace Klient
         }
         public void Nowy()
         {
-            KlientLogowanie.users.Add(new Konta(textBox1.Text, textBox2.Text));
+            Accounts.users.Add(new Konta(textBox1.Text, textBox2.Text));
             this._client.DodajKontakt(textBox2.Text);
             this.Hide();
         }

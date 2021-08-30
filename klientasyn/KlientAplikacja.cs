@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Threading;
+using Klient.App.Objects;
 
 namespace Klient
 {
@@ -29,7 +30,7 @@ namespace Klient
 
         private void WyświetlKontakty()
         {
-            foreach (Konta Konta in KlientLogowanie.users)
+            foreach (Konta Konta in Accounts.users)
             {
                 Kontakty.Items.Add(Konta.Nazwa);
             }
@@ -50,9 +51,8 @@ namespace Klient
 
         private void Wyślij_Click(object sender, EventArgs e)
         {
-            Wiadomosc.Text = "";
             Wiadomość();
-
+            Wiadomosc.Text = "";
         }
 
         private void Kontakty_SelectedIndexChanged(object sender, EventArgs e)
@@ -95,7 +95,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 2 == 0)
                 {
-                    KlientLogowanie.komunikat = "Wyswietl wiadomosci";
+                    Responde.komunikat = "Wyswietl wiadomosci";
                     Wiadomości();
                     wyswietlono.WaitOne();
                     wyswietlono.Reset();
@@ -104,8 +104,8 @@ namespace Klient
             }
         }
         private void Wiadomości()
-        {            
-            KlientLogowanie.odebrano.Reset();
+        {
+            Responde.odebrano.Reset();
 
             Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
             {
@@ -113,7 +113,7 @@ namespace Klient
             };
             wątek.Start();
 
-            KlientLogowanie.odebrano.WaitOne();
+            Responde.odebrano.WaitOne();
 
             try
             {
@@ -121,9 +121,9 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (KlientLogowanie.komunikat != "ok")
+                        if (Responde.komunikat != "ok")
                         {
-                            Komunikaty.AppendText(KlientLogowanie.komunikat);
+                            Komunikaty.AppendText(Responde.komunikat);
                         }
                     }));
                 }
@@ -148,7 +148,7 @@ namespace Klient
                 osoba = Kontakty.SelectedItem.ToString();
             }
            
-            Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
+            Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
 
             string odp = SendMsg(temp.Kontakt, wiadomość, false);
 
@@ -183,20 +183,20 @@ namespace Klient
             {
                 string odp = "";
                 bool error = false;
-                KlientLogowanie.odebrano.Reset();
+                Responde.odebrano.Reset();
 
                 if (priv == true)
                 {
-                    KlientLogowanie.komunikat = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
+                    Responde.komunikat = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
                     odp = login + " do " + contact + ": " + wiadomość;
                 }
                 else if (Kontakty.SelectedIndex >= 0)
                 {
-                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
+                    Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
                 }
                 else
                 {
-                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
+                    Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
                 }
 
                 Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
@@ -204,7 +204,7 @@ namespace Klient
                     IsBackground = true
                 };
                 wątek.Start();
-                KlientLogowanie.odebrano.WaitOne();
+                Responde.odebrano.WaitOne();
 
                 try
                 {
@@ -214,10 +214,10 @@ namespace Klient
                         {
                             Invoke(new Action(() =>
                             {
-                                if (KlientLogowanie.komunikat != "ok")
+                                if (Responde.komunikat != "ok")
                                 {
                                     error = true;
-                                    odp = KlientLogowanie.komunikat;
+                                    odp = Responde.komunikat;
                                 }
 
                             }));
@@ -251,7 +251,7 @@ namespace Klient
             if (Kontakty.SelectedItem != null)
             {
                 string osoba = Kontakty.SelectedItem.ToString();
-                Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
+                Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
 
                 MessageBox messageBox = new MessageBox(temp.Kontakt);
 
