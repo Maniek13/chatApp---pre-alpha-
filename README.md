@@ -19,7 +19,8 @@ ________Working
 
 ________In progres
 
-
+-shows who's active
+-refresh usser list when new one added or disactivated
 -private responde
 -del public.txt / store public msg in list
 
