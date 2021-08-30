@@ -21,3 +21,5 @@ ________In progres
 
 
 -private responde
+-del public.txt / store public msg in list
+
