@@ -8,18 +8,15 @@ namespace Klient
 {
     public partial class KlientAplikacja : Form
     {
-        public static TcpClient tcpclient = new TcpClient();
-        public static ManualResetEvent wyswietlono =
-             new ManualResetEvent(false);
+        //public static TcpClient tcpclient = new TcpClient();
+        public static ManualResetEvent wyswietlono = new ManualResetEvent(false);
 
         /* Dodawanie kont
            private KlientLogowanie _client;
-
            public KlientAplikacja(KlientLogowanie client)
            {
                this._client = client;
                InitializeComponent();
-
            }
         */
 
@@ -51,7 +48,22 @@ namespace Klient
 
         private void Wyślij_Click(object sender, EventArgs e)
         {
-            Wiadomość();
+            string contact = "";
+            if (Kontakty.SelectedItem != null)
+            {
+                contact = Kontakty.SelectedItem.ToString();
+            }
+
+            string wiadomość = Wiadomosc.Text;
+
+            MessagesController messagesController= new MessagesController();
+            string odp = messagesController.Wiadomość(contact, wiadomość);
+
+            if (odp != "ok")
+            {
+                Komunikaty.AppendText(odp);
+            }
+
             Wiadomosc.Text = "";
         }
 
@@ -69,6 +81,7 @@ namespace Klient
         private void Form2_Load(object sender, EventArgs e)
         {
             WyświetlKontakty();
+            MessagesController messagesController = new MessagesController();
             Thread msg = new Thread(new ThreadStart(WyświetlWiadomosći))
             {
                 IsBackground = true
@@ -87,22 +100,31 @@ namespace Klient
         {
 
         }
-        private void WyświetlWiadomosći()
-        {
-            bool temp = true;
 
-            while (temp == true)
+        private void Dodaj_Click(object sender, EventArgs e)
+        {
+            NewUser konta = new NewUser(this);
+            konta.Show();
+        }
+
+        private void Kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Kontakty_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (Kontakty.SelectedItem != null)
             {
-                if (DateTime.Now.Second % 2 == 0)
-                {
-                    Responde.komunikat = "Wyswietl wiadomosci";
-                    Wiadomości();
-                    wyswietlono.WaitOne();
-                    wyswietlono.Reset();
-                    wyswietlono.WaitOne(1000);
-                }
+                string osoba = Kontakty.SelectedItem.ToString();
+                Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
+
+                MessageBox messageBox = new MessageBox(temp.Kontakt);
+
+                messageBox.Show();
             }
         }
+
         private void Wiadomości()
         {
             Responde.odebrano.Reset();
@@ -139,125 +161,22 @@ namespace Klient
             wyswietlono.Set();
         }
 
-        private void Wiadomość()
+        public void WyświetlWiadomosći()
         {
-            string wiadomość = Wiadomosc.Text;
-            string osoba = "";
-            if (Kontakty.SelectedItem != null)
+            bool temp = true;
+
+            while (temp == true)
             {
-                osoba = Kontakty.SelectedItem.ToString();
-            }
-           
-            Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
-
-            string odp = SendMsg(temp.Kontakt, wiadomość, false);
-
-
-           if(odp != "ok")
-           {
-                Komunikaty.AppendText(odp);
-           }
-        }
-
-        public string Wiadomość(string contact, string wiadomość, bool priv)
-        {
-            return SendMsg(contact, wiadomość, priv);
-        }
-
-        private void Dodaj_Click(object sender, EventArgs e)
-        {
-            NewUser konta = new NewUser(this);
-            konta.Show();
-        }
-
-        private void Kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-           
-        }
-
-        private string SendMsg(string contact, string wiadomość, bool priv)
-        {
-            string login = KlientLogowanie.Osoba;
-
-            if (wiadomość != "")
-            {
-                string odp = "";
-                bool error = false;
-                Responde.odebrano.Reset();
-
-                if (priv == true)
+                if (DateTime.Now.Second % 2 == 0)
                 {
-                    Responde.komunikat = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
-                    odp = login + " do " + contact + ": " + wiadomość;
+                    Responde.komunikat = "Wyswietl wiadomosci";
+                    Wiadomości();
+                    wyswietlono.WaitOne();
+                    wyswietlono.Reset();
+                    wyswietlono.WaitOne(1000);
                 }
-                else if (Kontakty.SelectedIndex >= 0)
-                {
-                    Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
-                }
-                else
-                {
-                    Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
-                }
-
-                Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
-                {
-                    IsBackground = true
-                };
-                wątek.Start();
-                Responde.odebrano.WaitOne();
-
-                try
-                {
-                    if(priv != true)
-                    {
-                        if (!this.IsDisposed)
-                        {
-                            Invoke(new Action(() =>
-                            {
-                                if (Responde.komunikat != "ok")
-                                {
-                                    error = true;
-                                    odp = Responde.komunikat;
-                                }
-
-                            }));
-                        }
-                    }
-                   
-                }
-                catch (InvalidOperationException)
-                {
-                    return "error";
-                }
-
-                if (error != true)
-                {
-                    return odp;
-                }
-                else
-                {
-                    return "error";
-                }
-
-            }
-            else
-            {
-                return "error";
-            }
-        }
-
-        private void Kontakty_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (Kontakty.SelectedItem != null)
-            {
-                string osoba = Kontakty.SelectedItem.ToString();
-                Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
-
-                MessageBox messageBox = new MessageBox(temp.Kontakt);
-
-                messageBox.Show();
             }
         }
     }
-       
+
 }

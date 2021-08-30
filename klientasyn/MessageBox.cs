@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Klient.App.Objects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 
@@ -16,7 +18,7 @@ namespace Klient
         public MessageBox(string name)
         {
             this.name = name;
-            
+
             InitializeComponent();
         }
 
@@ -24,15 +26,13 @@ namespace Klient
         {
             this.message = TextToSend.Text;
 
-            if(this.message != "")
+            if (this.message != "")
             {
-                KlientAplikacja klient = new KlientAplikacja();
-                string res = klient.Wiadomość(this.name, this.message, true);
+                MessagesController messagesController = new MessagesController();
+                string res = messagesController.Wiadomość(this.name, this.message, true);
                 ChatWindow.AppendText(res + Environment.NewLine);
                 TextToSend.Text = "";
             }
-
-
         }
 
         private void MessageBox_Load(object sender, EventArgs e)

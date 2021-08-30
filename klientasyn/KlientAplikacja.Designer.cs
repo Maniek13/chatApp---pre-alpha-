@@ -105,8 +105,8 @@
         #endregion
         private System.Windows.Forms.TextBox Wiadomosc;
         private System.Windows.Forms.Button Wyślij;
-        private System.Windows.Forms.TextBox Komunikaty;
         private System.Windows.Forms.Button Dodaj;
         private System.Windows.Forms.ListBox Kontakty;
+        public System.Windows.Forms.TextBox Komunikaty;
     }
 }

@@ -77,8 +77,10 @@
     <Compile Include="App\AsynchronousClient.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="App\Objects\Account.cs" />
     <Compile Include="App\Objects\Accounts.cs" />
     <Compile Include="App\Objects\Konta.cs" />
+    <Compile Include="App\Objects\MessagesController.cs" />
     <Compile Include="App\Objects\Responde.cs" />
     <Compile Include="App\Objects\StateObject.cs" />
     <Compile Include="KlientLogowanie.cs">

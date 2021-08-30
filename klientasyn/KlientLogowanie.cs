@@ -8,21 +8,18 @@ namespace Klient
 {
     public partial class KlientLogowanie : Form
     {
-       
-        public static string Osoba = "";
-
         public string Logowanie()
         {
             return Login.Text;
         }
-     
+
         public KlientLogowanie()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void Zaloguj_Click(object sender, EventArgs e)
-        {    
+        {
             Responde.komunikat = "LOG" + Login.Text + "$" + hasło.Text;
 
             Responde.odebrano.Reset();
@@ -32,28 +29,28 @@ namespace Klient
             };
             wątek.Start();
             Responde.odebrano.WaitOne();
- 
-                if (Responde.komunikat.StartsWith("ok"))
-                {
-                    UserList();
-                 
-                    KlientAplikacja nowy = new KlientAplikacja();
-                    nowy.Show();
-                    this.Hide();
-                }
-                else if (Responde.komunikat != "connection problem")
-                {
-                    Login.Clear();
-                    hasło.Clear();
-                    textBox1.Text = Responde.komunikat;
 
-                }
-                else
-                {
-                    Login.Clear();
-                    hasło.Clear();
-                    textBox1.Text = Responde.komunikat;
-                }
+            if (Responde.komunikat.StartsWith("ok"))
+            {
+                UserList();
+
+                KlientAplikacja nowy = new KlientAplikacja();
+                nowy.Show();
+                this.Hide();
+            }
+            else if (Responde.komunikat != "connection problem")
+            {
+                Login.Clear();
+                hasło.Clear();
+                textBox1.Text = Responde.komunikat;
+
+            }
+            else
+            {
+                Login.Clear();
+                hasło.Clear();
+                textBox1.Text = Responde.komunikat;
+            }
         }
 
 
@@ -68,7 +65,7 @@ namespace Klient
             };
             wątek.Start();
             Responde.odebrano.WaitOne();
-                  
+
             if (Responde.komunikat.StartsWith("ok"))
             {
                 UserList();
@@ -76,7 +73,7 @@ namespace Klient
                 nowy.Show();
                 this.Hide();
             }
-            else if(Responde.komunikat != "connection problem")
+            else if (Responde.komunikat != "connection problem")
             {
                 Login.Clear();
                 hasło.Clear();
@@ -92,7 +89,7 @@ namespace Klient
 
         private void UserList()
         {
-            Osoba = Login.Text;
+            Account.usser = Login.Text;
 
             string temp = Responde.komunikat.Substring(2);
 
@@ -103,7 +100,7 @@ namespace Klient
                 temp = temp.Substring(index + 1);
             }
         }
-        
+
         private void Button1_Click(object sender, EventArgs e)
         {
             KlientAplikacja nowy = new KlientAplikacja();
