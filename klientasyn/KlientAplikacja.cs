@@ -142,7 +142,12 @@ namespace Klient
         private void Wiadomość()
         {
             string wiadomość = Wiadomosc.Text;
-            string osoba = Kontakty.SelectedItem.ToString();
+            string osoba = "";
+            if (Kontakty.SelectedItem != null)
+            {
+                osoba = Kontakty.SelectedItem.ToString();
+            }
+           
 
             Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
 
@@ -152,9 +157,9 @@ namespace Klient
 
         }
 
-        public string Wiadomość(string contact, string wiadomość)
+        public string Wiadomość(string contact, string wiadomość, bool priv)
         {
-            return SendMsg(contact, wiadomość, true);
+            return SendMsg(contact, wiadomość, priv);
         }
 
         private void Dodaj_Click(object sender, EventArgs e)
@@ -165,15 +170,14 @@ namespace Klient
 
         private void Kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            string osoba = Kontakty.SelectedItem.ToString();
-            if (osoba != "")
+            if (Kontakty.SelectedItem != null)
             {
+                string osoba = Kontakty.SelectedItem.ToString();
                 Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
 
                 MessageBox messageBox = new MessageBox(temp.Kontakt);
 
                 messageBox.Show();
-
             }
         }
 
@@ -189,7 +193,7 @@ namespace Klient
 
                 if (priv == true)
                 {
-                    KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
+                    KlientLogowanie.komunikat = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
                     odp = login + " do " + contact + ": " + wiadomość;
                 }
                 else if (Kontakty.SelectedIndex >= 0)

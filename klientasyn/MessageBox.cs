@@ -26,7 +26,7 @@ namespace Klient
             if(this.message != "")
             {
                 KlientAplikacja klient = new KlientAplikacja();
-                string res = klient.Wiadomość(this.name, this.message);
+                string res = klient.Wiadomość(this.name, this.message, true);
                 ChatWindow.AppendText(res + Environment.NewLine);
                 TextToSend.Text = "";
             }

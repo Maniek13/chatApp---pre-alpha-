@@ -43,7 +43,7 @@ namespace serwer
 
         public void WczytanieKont()
         {
-            string[] konta = File.ReadAllLines(Path() + "\\dane\\users.txt"); //nazwa + $ + hasło
+            string[] konta = File.ReadAllLines(Path() + "\\dane\\ussers\\ussers.txt"); //nazwa + $ + hasło
 
             foreach (string line in konta)
             {
@@ -131,11 +131,22 @@ namespace serwer
         public string Wiadomość(string msg)
         {
             //"Wiadomosc od:" + login + "#" + wiadomość + "%" + osoba;
-
+            bool priv = false;
             if (msg.StartsWith("Wiadomosc od:"))
             {
+                string temp;
+                if(msg.StartsWith("Wiadomosc od:Priv"))
+                {
+                    temp = msg.Substring(17);
+                    priv = true;
+                }
+                else
+                {
+                    temp = msg.Substring(13);
+                }
+
                 string adresat = "";
-                string temp = msg.Substring(13);
+              
                 int z = temp.IndexOf("#");
                 string login = temp.Substring(0, z);
 
@@ -157,13 +168,21 @@ namespace serwer
                 
                 string czas = temp.Substring(z + 1);
 
-                FileStream plik = new FileStream(Path() + "\\dane\\wiadomości" + adresat + ".txt", FileMode.OpenOrCreate);
+                FileStream plik;
+                if (priv != true)
+                {
+                    plik = new FileStream(Path() + "\\dane\\messages\\public.txt", FileMode.OpenOrCreate);
+                }
+                else
+                {
+                    plik = new FileStream(Path() + "\\dane\\messages\\" + adresat + ".txt", FileMode.OpenOrCreate);
+                }
 
                 StreamReader sr = new StreamReader(plik);
                 sr.ReadToEnd();
 
                 StreamWriter f = new StreamWriter(plik);
-                f.WriteLine(login + "$" + wiadomość + "&" + czas);
+                f.WriteLine(login + "$" + adresat + "#" + wiadomość + "&" + czas);
                 f.Close();
                 plik.Close();
 
@@ -191,9 +210,9 @@ namespace serwer
         {
             if(users.Count != 0)
             {
-               File.Delete(Path() + @"\\dane\\users.txt");
+               File.Delete(Path() + @"\\dane\\ussers\\ussers.txt");
 
-                FileStream plik = new FileStream(Path() + @"\\dane\\users.txt", FileMode.OpenOrCreate);
+                FileStream plik = new FileStream(Path() + @"\\dane\\ussers\\ussers.txt", FileMode.OpenOrCreate);
 
                 StreamWriter f = new StreamWriter(plik);
 
