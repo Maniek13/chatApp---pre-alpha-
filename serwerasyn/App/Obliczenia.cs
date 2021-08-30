@@ -195,11 +195,53 @@ namespace serwer
         }
         public string Wiadomości(string msg)
         {
+            string odp = "";
 
             if (msg.StartsWith("Wyswietl wiadomosci"))
             {
-                String data = DateTime.Now.ToString();
-                return "not implement: " + data;
+                String date = DateTime.Now.ToString();
+                if (msg.StartsWith("Wyswietl wiadomosciFirst"))
+                {
+                    return "not implement jet";
+                }
+                else
+                {
+                    string[] msgs = File.ReadAllLines(Path() + "\\dane\\messages\\public.txt");
+
+                    foreach(string line in msgs)
+                    {
+                        int dateIndex = line.LastIndexOf("&");
+                        string msgDate = line.Substring(dateIndex + 1);
+                        DateTime temp = Convert.ToDateTime(msgDate);
+                        int lenght;
+
+                        if(temp.AddSeconds(3) > Convert.ToDateTime(date))
+                        {
+                            int dateIndexLast = line.LastIndexOf("#");
+                            lenght = dateIndex - dateIndexLast;
+                            string msgOne = line.Substring(dateIndexLast + 1, lenght-1);
+                            int toIndex = line.LastIndexOf("$");
+                            lenght = dateIndexLast - toIndex;
+                            string to = line.Substring(toIndex + 1, lenght-1);
+                            string from = line.Substring(0, toIndex);
+
+                            string oneMsg;
+                            if (to != "")
+                            {
+                                oneMsg = from + " do " + to + ": ";
+                            }
+                            else
+                            {
+                                oneMsg = from + ": ";
+                            }
+
+                            oneMsg += msgOne;
+                            odp += temp.ToString("d/M/yy H:ss") + " "+ oneMsg + Environment.NewLine;
+                        }
+                    }
+                    
+                    return odp;
+                }
             }
             else
             {

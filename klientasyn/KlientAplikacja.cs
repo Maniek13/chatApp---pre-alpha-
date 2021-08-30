@@ -88,23 +88,22 @@ namespace Klient
         }
         private void WyświetlWiadomosći()
         {
-            /*bool temp = false;
+            bool temp = true;
+
             while (temp == true)
             {
-                if (DateTime.Now.Second % 3 == 0)
+                if (DateTime.Now.Second % 2 == 0)
                 {
+                    KlientLogowanie.komunikat = "Wyswietl wiadomosci";
                     Wiadomości();
                     wyswietlono.WaitOne();
                     wyswietlono.Reset();
                     wyswietlono.WaitOne(1000);
                 }
-            }*/
-
-            Wiadomości();
+            }
         }
         private void Wiadomości()
-        {
-            KlientLogowanie.komunikat = "Wyswietl wiadomosci";
+        {            
             KlientLogowanie.odebrano.Reset();
 
             Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
@@ -121,9 +120,9 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (KlientLogowanie.komunikat != "")
+                        if (KlientLogowanie.komunikat != "ok")
                         {
-                            Komunikaty.AppendText(KlientLogowanie.komunikat + Environment.NewLine);
+                            Komunikaty.AppendText(KlientLogowanie.komunikat);
                         }
                     }));
                 }
@@ -148,13 +147,15 @@ namespace Klient
                 osoba = Kontakty.SelectedItem.ToString();
             }
            
-
             Konta temp = KlientLogowanie.users.Find(x => x.Nazwa.Contains(osoba));
 
             string odp = SendMsg(temp.Kontakt, wiadomość, false);
 
-            Komunikaty.AppendText(odp + Environment.NewLine);
 
+           if(odp != "ok")
+           {
+                Komunikaty.AppendText(odp);
+           }
         }
 
         public string Wiadomość(string contact, string wiadomość, bool priv)
@@ -199,13 +200,10 @@ namespace Klient
                 else if (Kontakty.SelectedIndex >= 0)
                 {
                     KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
-                    odp = login + " do " + contact + ": " + wiadomość;
                 }
                 else
                 {
                     KlientLogowanie.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
-                    odp = login + ": " + wiadomość;
-
                 }
 
                 Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))

@@ -14,9 +14,10 @@ ________Working
 -save sended msg on server
 -save private msg on server
 -show sended msg
+-responde public msg
 
 
 ________In progres
 
 
--review responde
+-private responde
