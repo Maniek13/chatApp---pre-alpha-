@@ -28,21 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.wiadomosc = new System.Windows.Forms.TextBox();
+            this.Wiadomosc = new System.Windows.Forms.TextBox();
             this.Wyślij = new System.Windows.Forms.Button();
             this.Komunikaty = new System.Windows.Forms.TextBox();
             this.Dodaj = new System.Windows.Forms.Button();
-            this.kontakty = new System.Windows.Forms.ListBox();
+            this.Kontakty = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // wiadomosc
+            // Wiadomosc
             // 
-            this.wiadomosc.Location = new System.Drawing.Point(1, 343);
-            this.wiadomosc.Multiline = true;
-            this.wiadomosc.Name = "wiadomosc";
-            this.wiadomosc.Size = new System.Drawing.Size(548, 29);
-            this.wiadomosc.TabIndex = 3;
-            this.wiadomosc.TextChanged += new System.EventHandler(this.wiadomosc_TextChanged);
+            this.Wiadomosc.Location = new System.Drawing.Point(1, 343);
+            this.Wiadomosc.Multiline = true;
+            this.Wiadomosc.Name = "Wiadomosc";
+            this.Wiadomosc.Size = new System.Drawing.Size(548, 29);
+            this.Wiadomosc.TabIndex = 3;
+            this.Wiadomosc.TextChanged += new System.EventHandler(this.Wiadomosc_TextChanged);
             // 
             // Wyślij
             // 
@@ -74,25 +74,25 @@
             this.Dodaj.UseVisualStyleBackColor = true;
             this.Dodaj.Click += new System.EventHandler(this.Dodaj_Click);
             // 
-            // kontakty
+            // Kontakty
             // 
-            this.kontakty.FormattingEnabled = true;
-            this.kontakty.Location = new System.Drawing.Point(654, 8);
-            this.kontakty.Name = "kontakty";
-            this.kontakty.Size = new System.Drawing.Size(146, 329);
-            this.kontakty.TabIndex = 9;
-            this.kontakty.SelectedIndexChanged += new System.EventHandler(this.kontakty_SelectedIndexChanged_1);
+            this.Kontakty.FormattingEnabled = true;
+            this.Kontakty.Location = new System.Drawing.Point(654, 8);
+            this.Kontakty.Name = "Kontakty";
+            this.Kontakty.Size = new System.Drawing.Size(146, 329);
+            this.Kontakty.TabIndex = 9;
+            this.Kontakty.SelectedIndexChanged += new System.EventHandler(this.Kontakty_SelectedIndexChanged_1);
             // 
             // KlientAplikacja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.kontakty);
+            this.Controls.Add(this.Kontakty);
             this.Controls.Add(this.Dodaj);
             this.Controls.Add(this.Komunikaty);
             this.Controls.Add(this.Wyślij);
-            this.Controls.Add(this.wiadomosc);
+            this.Controls.Add(this.Wiadomosc);
             this.Name = "KlientAplikacja";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
@@ -102,10 +102,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox wiadomosc;
+        private System.Windows.Forms.TextBox Wiadomosc;
         private System.Windows.Forms.Button Wyślij;
         private System.Windows.Forms.TextBox Komunikaty;
         private System.Windows.Forms.Button Dodaj;
-        private System.Windows.Forms.ListBox kontakty;
+        private System.Windows.Forms.ListBox Kontakty;
     }
 }

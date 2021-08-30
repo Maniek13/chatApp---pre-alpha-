@@ -180,7 +180,7 @@ namespace serwer
             if (msg.StartsWith("Wyswietl wiadomosci"))
             {
                 String data = DateTime.Now.ToString();
-                return "xxx: " + data;
+                return "not implement: " + data;
             }
             else
             {

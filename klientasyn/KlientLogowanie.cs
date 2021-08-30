@@ -28,14 +28,16 @@ namespace Klient
             komunikat = "LOG" + Login.Text + "$" + hasło.Text;
 
             odebrano.Reset();
-            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient));
-            wątek.IsBackground = true;
+            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
+            {
+                IsBackground = true
+            };
             wątek.Start();
             odebrano.WaitOne();
  
                 if (komunikat.StartsWith("ok"))
                 {
-                    userList();
+                    UserList();
                  
                     KlientAplikacja nowy = new KlientAplikacja();
                     nowy.Show();
@@ -62,14 +64,16 @@ namespace Klient
             odebrano.Reset();
             komunikat = "REJ" + Login.Text + "$" + hasło.Text;
 
-            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient));
-            wątek.IsBackground = true;
+            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
+            {
+                IsBackground = true
+            };
             wątek.Start();
             odebrano.WaitOne();
                   
             if (komunikat.StartsWith("ok"))
             {
-                userList();
+                UserList();
                 KlientAplikacja nowy = new KlientAplikacja();
                 nowy.Show();
                 this.Hide();
@@ -88,7 +92,7 @@ namespace Klient
             }
         }
 
-        private void userList()
+        private void UserList()
         {
             Osoba = Login.Text;
 

@@ -7,7 +7,6 @@
         public Konta(string user, string nick)
         {
             Kontakt = user;
-
             Nazwa = nick;
         }
     }

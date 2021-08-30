@@ -13,11 +13,11 @@ namespace Klient
     {
         private const int port = 11000;
 
-        private static ManualResetEvent connectDone =
+        private static readonly ManualResetEvent connectDone =
             new ManualResetEvent(false);
-        private static ManualResetEvent sendDone =
+        private static readonly ManualResetEvent sendDone =
             new ManualResetEvent(false);
-        private static ManualResetEvent receiveDone =
+        private static readonly ManualResetEvent receiveDone =
             new ManualResetEvent(false);
 
         private static String response = "";
@@ -82,8 +82,10 @@ namespace Klient
         {
             try
             {
-                StateObject state = new StateObject();
-                state.workSocket = client;
+                StateObject state = new StateObject
+                {
+                    workSocket = client
+                };
 
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
