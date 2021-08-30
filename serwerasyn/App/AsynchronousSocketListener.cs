@@ -15,9 +15,9 @@ namespace serwer
 
         public static void StartListening()
         {
-            // IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());  nie działa
+             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
 
-            IPHostEntry ipHostInfo = Dns.GetHostEntry("127.0.0.1");
+          //  IPHostEntry ipHostInfo = Dns.GetHostEntry("127.0.0.1");
 
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
