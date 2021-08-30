@@ -24,6 +24,7 @@ namespace Klient
 
         public static void StartClient()
         {
+
             try
             {
                 IPHostEntry ipHostInfo = Dns.GetHostEntry("127.0.0.1");
@@ -36,6 +37,7 @@ namespace Klient
                 client.BeginConnect(remoteEP,
                     new AsyncCallback(ConnectCallback), client);
 
+               
 
                 if (connectDone.WaitOne(500) == true)
                 {

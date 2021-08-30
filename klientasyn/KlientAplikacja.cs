@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Net.Sockets;
 using System.Threading;
 using Klient.App.Objects;
 
@@ -8,7 +7,6 @@ namespace Klient
 {
     public partial class KlientAplikacja : Form
     {
-        //public static TcpClient tcpclient = new TcpClient();
         public static ManualResetEvent wyswietlono = new ManualResetEvent(false);
 
         /* Dodawanie kont
@@ -56,7 +54,7 @@ namespace Klient
 
             string wiadomość = Wiadomosc.Text;
 
-            MessagesController messagesController= new MessagesController();
+            MessagesController messagesController = new MessagesController();
             string odp = messagesController.Wiadomość(contact, wiadomość);
 
             if (odp != "ok")
