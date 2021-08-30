@@ -54,8 +54,10 @@ namespace serwer
 
             Socket listener = (Socket)ar.AsyncState;
             Socket handler = listener.EndAccept(ar);
-            StateObject state = new StateObject();
-            state.workSocket = handler;
+            StateObject state = new StateObject
+            {
+                workSocket = handler
+            };
             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                 new AsyncCallback(ReadCallback), state);
         }

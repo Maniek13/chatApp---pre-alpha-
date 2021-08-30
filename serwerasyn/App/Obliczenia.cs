@@ -108,7 +108,7 @@ namespace serwer
                 {
                     users.Add(new Userspasword(login, password));
 
-                    
+
 
                     string usser_list = "";
                     foreach (Userspasword user in users)
@@ -135,7 +135,7 @@ namespace serwer
             if (msg.StartsWith("Wiadomosc od:"))
             {
                 string temp;
-                if(msg.StartsWith("Wiadomosc od:Priv"))
+                if (msg.StartsWith("Wiadomosc od:Priv"))
                 {
                     temp = msg.Substring(17);
                     priv = true;
@@ -146,7 +146,7 @@ namespace serwer
                 }
 
                 string adresat = "";
-              
+
                 int z = temp.IndexOf("#");
                 string login = temp.Substring(0, z);
 
@@ -157,7 +157,7 @@ namespace serwer
                 temp = temp.Substring(z + 1);
 
                 z = temp.LastIndexOf("&");
-                if(z != 0)
+                if (z != 0)
                 {
                     adresat = temp.Substring(0, z);
                 }
@@ -165,7 +165,7 @@ namespace serwer
                 {
                     adresat = "";
                 }
-                
+
                 string czas = temp.Substring(z + 1);
 
                 FileStream plik;
@@ -208,21 +208,21 @@ namespace serwer
                 {
                     string[] msgs = File.ReadAllLines(Path() + "\\dane\\messages\\public.txt");
 
-                    foreach(string line in msgs)
+                    foreach (string line in msgs)
                     {
                         int dateIndex = line.LastIndexOf("&");
                         string msgDate = line.Substring(dateIndex + 1);
                         DateTime temp = Convert.ToDateTime(msgDate);
                         int lenght;
 
-                        if(temp.AddSeconds(3) > Convert.ToDateTime(date))
+                        if (temp.AddSeconds(3) > Convert.ToDateTime(date))
                         {
                             int dateIndexLast = line.LastIndexOf("#");
                             lenght = dateIndex - dateIndexLast;
-                            string msgOne = line.Substring(dateIndexLast + 1, lenght-1);
+                            string msgOne = line.Substring(dateIndexLast + 1, lenght - 1);
                             int toIndex = line.LastIndexOf("$");
                             lenght = dateIndexLast - toIndex;
-                            string to = line.Substring(toIndex + 1, lenght-1);
+                            string to = line.Substring(toIndex + 1, lenght - 1);
                             string from = line.Substring(0, toIndex);
 
                             string oneMsg;
@@ -236,10 +236,10 @@ namespace serwer
                             }
 
                             oneMsg += msgOne;
-                            odp += temp.ToString("d/M/yy H:ss") + " "+ oneMsg + Environment.NewLine;
+                            odp += temp.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
                         }
                     }
-                    
+
                     return odp;
                 }
             }
@@ -250,9 +250,9 @@ namespace serwer
         }
         public void ZapisKont()
         {
-            if(users.Count != 0)
+            if (users.Count != 0)
             {
-               File.Delete(Path() + @"\\dane\\ussers\\ussers.txt");
+                File.Delete(Path() + @"\\dane\\ussers\\ussers.txt");
 
                 FileStream plik = new FileStream(Path() + @"\\dane\\ussers\\ussers.txt", FileMode.OpenOrCreate);
 
@@ -266,7 +266,36 @@ namespace serwer
 
                 f.Close();
                 plik.Close();
-            }   
+            }
+        }
+
+        public void DeleteOldMessages()
+        {
+            var path = Path() + "\\dane\\messages\\public.txt";
+            string[] msgs = File.ReadAllLines(path);
+            String date = DateTime.Now.ToString();
+            File.Delete(path);
+
+            FileStream plik = new FileStream(path, FileMode.OpenOrCreate);
+            StreamWriter newFile = new StreamWriter(plik);
+
+            foreach (string line in msgs)
+            {
+                int dateIndex = line.LastIndexOf("&");
+                string msgDate = line.Substring(dateIndex + 1);
+                DateTime temp = Convert.ToDateTime(msgDate);
+
+                if (temp.AddSeconds(-10) > Convert.ToDateTime(date))
+                {
+                    newFile.WriteLine(line);
+                }
+
+            }
+
+            newFile.Close();
+            plik.Close();
+
+            Serwer.deleted.Set();
         }
     }
 }

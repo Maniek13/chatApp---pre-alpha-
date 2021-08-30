@@ -50,6 +50,7 @@ namespace Klient
 
         private void Wyślij_Click(object sender, EventArgs e)
         {
+            Wiadomosc.Text = "";
             Wiadomość();
 
         }
