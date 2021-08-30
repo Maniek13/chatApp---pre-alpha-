@@ -60,7 +60,7 @@ namespace serwer
         }
         private void Stop_Click(object sender, EventArgs e)
         {
-            Obliczenia obliczenia = new Obliczenia();
+            _ = new Obliczenia();
             wątek.Abort();
             delete.Abort();
             textBox1.Text = "Stoped";

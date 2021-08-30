@@ -64,7 +64,7 @@ namespace serwer
 
         public static void ReadCallback(IAsyncResult ar)
         {
-            String content = String.Empty;
+            String content;
 
             StateObject state = (StateObject)ar.AsyncState;
             Socket handler = state.workSocket;

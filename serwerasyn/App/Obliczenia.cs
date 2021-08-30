@@ -8,13 +8,13 @@ namespace serwer
 {
     public class Obliczenia
     {
-        private static List<Userspasword> users = new List<Userspasword>();
+        private static readonly List<Userspasword> users = new List<Userspasword>();
 
         public string Start(string wiadomość)
         {
             Wczytano();
 
-            string z = "";
+            string z;
 
             z = Wiadomość(wiadomość);
             if (z == "")
@@ -145,7 +145,7 @@ namespace serwer
                     temp = msg.Substring(13);
                 }
 
-                string adresat = "";
+                string adresat;
 
                 int z = temp.IndexOf("#");
                 string login = temp.Substring(0, z);
