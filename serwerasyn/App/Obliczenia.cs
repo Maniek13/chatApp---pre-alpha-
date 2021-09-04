@@ -11,6 +11,7 @@ namespace serwer
     {
         private static readonly List<Userspasword> users = new List<Userspasword>();
         private static readonly List<Usser> activeUsers = new List<Usser>();
+        private static readonly List<UsserMessage> usserMessages = new List<UsserMessage>();
 
         public string Start(string wiadomość)
         {
@@ -83,6 +84,7 @@ namespace serwer
                     if(!activeUsers.Exists(el => el.Name == login))
                     {
                         activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
+                        usserMessages.Add(new UsserMessage { Name = login, Time = DateTime.Now });
                     }
 
                     foreach (Userspasword user in users)
@@ -123,6 +125,7 @@ namespace serwer
                     if (!activeUsers.Exists(el => el.Name == login))
                     {
                         activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
+                        usserMessages.Add(new UsserMessage { Name = login, Time = DateTime.Now });
                     }
 
                     string usser_list = "";
@@ -259,6 +262,11 @@ namespace serwer
                 }
                 else
                 {
+                    string login = msg.Substring(19);
+                    var usserMessage = usserMessages.Find(el => el.Name == login);
+                    var dt = usserMessage.Time;
+
+
                     string[] msgs = File.ReadAllLines(Path() + "\\dane\\messages\\public.txt");
 
                     foreach (string line in msgs)
@@ -268,7 +276,7 @@ namespace serwer
                         DateTime temp = Convert.ToDateTime(msgDate);
                         int lenght;
 
-                        if (temp.AddSeconds(3.5) > Convert.ToDateTime(date))
+                        if (temp > dt)
                         {
                             int dateIndexLast = line.LastIndexOf("#");
                             lenght = dateIndex - dateIndexLast;
@@ -292,6 +300,10 @@ namespace serwer
                             odp += temp.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
                         }
                     }
+
+
+                    usserMessages.Find(el => el.Name == login).Time = DateTime.Now;
+
 
                     return odp;
                 }

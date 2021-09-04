@@ -17,3 +17,5 @@ $
 sdsad$dasd
 nowy1$12345
 zebra$12345
+ze$1
+213$312

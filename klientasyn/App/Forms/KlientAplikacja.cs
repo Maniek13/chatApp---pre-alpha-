@@ -62,7 +62,7 @@ namespace Klient
 
             if (odp != "ok")
             {
-                Komunikaty.AppendText(odp);
+                Komunikaty.AppendText(odp + Environment.NewLine);
             }
 
             Wiadomosc.Text = "";
@@ -176,7 +176,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 2 == 0)
                 {
-                   Responde.komunikat = "Wyswietl wiadomosci";
+                    Responde.komunikat = "Wyswietl wiadomosci"+ Account.usser;
                     Wiadomości();
                     wyswietlono.WaitOne();
                     wyswietlono.Reset();
