@@ -87,7 +87,7 @@ namespace Klient
             };
             msg.Start();
             //dodawanie kont
-            Dodaj.Hide();
+            //Dodaj.Hide();
         }
 
         private void Komunikaty_TextChanged(object sender, EventArgs e)

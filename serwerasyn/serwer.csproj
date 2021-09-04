@@ -50,6 +50,7 @@
     <Compile Include="App\StateObject.cs" />
     <Compile Include="App\Obliczenia.cs" />
     <Compile Include="App\Userspasword.cs" />
+    <Compile Include="App\Usser.cs" />
     <Compile Include="Serwer.cs">
       <SubType>Form</SubType>
     </Compile>

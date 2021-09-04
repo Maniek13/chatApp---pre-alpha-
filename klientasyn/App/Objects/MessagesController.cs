@@ -95,5 +95,6 @@ namespace Klient.App.Objects
         {
             return SendMsg(contact, wiadomość, priv);
         }
+
     }
 }

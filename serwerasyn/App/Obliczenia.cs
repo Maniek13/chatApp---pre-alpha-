@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using serwer.App;
 
 namespace serwer
 {
     public class Obliczenia
     {
         private static readonly List<Userspasword> users = new List<Userspasword>();
+        private static readonly List<Usser> activeUsers = new List<Usser>();
 
         public string Start(string wiadomość)
         {
@@ -74,6 +76,11 @@ namespace serwer
                 if (users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
                 {
                     string usser_list = "";
+                    if(!activeUsers.Exists(el => el.Name == login))
+                    {
+                        activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
+                    }
+
                     foreach (Userspasword user in users)
                     {
                         if (user.RegisteredUser != login)
@@ -81,6 +88,7 @@ namespace serwer
                             usser_list += user.RegisteredUser + '$';
                         }
                     }
+
                     return "ok" + usser_list;
                 }
                 else
@@ -108,7 +116,10 @@ namespace serwer
                 {
                     users.Add(new Userspasword(login, password));
 
-
+                    if (!activeUsers.Exists(el => el.Name == login))
+                    {
+                        activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
+                    }
 
                     string usser_list = "";
                     foreach (Userspasword user in users)
@@ -126,6 +137,35 @@ namespace serwer
             {
                 return "";
             }
+        }
+
+        public string ActiveUssers(string msg)
+        {
+            //"Active ussersLOGIN";
+            string login = msg.Substring(13);
+
+            string usser_list = "";
+
+            Usser who = activeUsers.Find(el => el.Name == login);
+            who.Time = DateTime.Now;
+
+
+            foreach (Usser usser in activeUsers)
+            {
+                if (usser.Name != login)
+                {
+                    if(usser.Time < DateTime.Now.AddSeconds(-30))
+                    {
+                        activeUsers.Remove(usser);
+                    }
+                    else
+                    {
+                        usser_list += usser.Name + '$';
+                    }
+                }
+            }
+
+            return usser_list;
         }
 
         public string Wiadomość(string msg)

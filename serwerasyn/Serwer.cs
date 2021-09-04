@@ -11,6 +11,7 @@ namespace serwer
         public static ManualResetEvent deleted =
         new ManualResetEvent(false);
 
+
         public Serwer()
         {
             InitializeComponent();

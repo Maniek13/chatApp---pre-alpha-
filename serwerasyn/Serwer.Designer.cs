@@ -35,22 +35,27 @@
             // 
             // Start
             // 
+            this.Start.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Start.FlatAppearance.BorderSize = 0;
+            this.Start.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Start.Location = new System.Drawing.Point(220, 118);
             this.Start.Name = "Start";
-            this.Start.Size = new System.Drawing.Size(75, 23);
+            this.Start.Size = new System.Drawing.Size(75, 20);
             this.Start.TabIndex = 0;
             this.Start.Text = "Start";
-            this.Start.UseVisualStyleBackColor = true;
+            this.Start.UseVisualStyleBackColor = false;
             this.Start.Click += new System.EventHandler(this.Start_Click);
             // 
             // Stop
             // 
+            this.Stop.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Stop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Stop.Location = new System.Drawing.Point(488, 118);
             this.Stop.Name = "Stop";
-            this.Stop.Size = new System.Drawing.Size(75, 23);
+            this.Stop.Size = new System.Drawing.Size(75, 20);
             this.Stop.TabIndex = 1;
             this.Stop.Text = "Stop";
-            this.Stop.UseVisualStyleBackColor = true;
+            this.Stop.UseVisualStyleBackColor = false;
             this.Stop.Click += new System.EventHandler(this.Stop_Click);
             // 
             // textBox1
@@ -65,6 +70,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.DarkOliveGreen;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.Stop);
