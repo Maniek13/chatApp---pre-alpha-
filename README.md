@@ -20,7 +20,7 @@ ________Working
 
 ________In progres
 - add function to uncheck contact in list
-- handle messages with people(sometimes does not send or display twice)
+- handle messages with people(sometimes does not send or display twice, or no display)
 - error when client start first (reset server)
 - private responde
 
