@@ -73,12 +73,15 @@ namespace Klient
             // 
             // ChatWindow
             // 
+            this.ChatWindow.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ChatWindow.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ChatWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ChatWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ChatWindow.ForeColor = System.Drawing.Color.Black;
             this.ChatWindow.Location = new System.Drawing.Point(51, 34);
             this.ChatWindow.Multiline = true;
             this.ChatWindow.Name = "ChatWindow";
             this.ChatWindow.ReadOnly = true;
+            this.ChatWindow.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ChatWindow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ChatWindow.Size = new System.Drawing.Size(557, 345);
             this.ChatWindow.TabIndex = 2;

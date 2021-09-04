@@ -9,6 +9,8 @@ namespace Klient
     public partial class KlientAplikacja : Form
     {
         public static ManualResetEvent wyswietlono = new ManualResetEvent(false);
+        public static ManualResetEvent showsContacts = new ManualResetEvent(false);
+        
 
         /* Dodawanie kont
            private KlientLogowanie _client;
@@ -86,6 +88,12 @@ namespace Klient
                 IsBackground = true
             };
             msg.Start();
+
+            Thread contacts = new Thread(new ThreadStart(ShowContacts))
+            {
+                IsBackground = true
+            };
+            contacts.Start();
             //dodawanie kont
             //Dodaj.Hide();
         }
@@ -127,8 +135,8 @@ namespace Klient
         private void Wiadomości()
         {
             Responde.odebrano.Reset();
-
-            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
+            AsynchronousClient asynchronousClient = new AsynchronousClient();
+            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {
                 IsBackground = true
             };
@@ -142,9 +150,9 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (Responde.komunikat != "ok")
+                        if (!Responde.komunikat.StartsWith("ok"))
                         {
-                            Komunikaty.AppendText(Responde.komunikat);
+                           Komunikaty.AppendText(Responde.komunikat);
                         }
                     }));
                 }
@@ -157,6 +165,7 @@ namespace Klient
             {
 
             }
+            wątek.Abort();
             wyswietlono.Set();
         }
 
@@ -175,6 +184,107 @@ namespace Klient
                     wyswietlono.WaitOne(1000);
                 }
             }
+        }
+
+        public void ShowContacts()
+        {
+            bool temp = true;
+
+            while (temp == true)
+            {
+                if (DateTime.Now.Second % 5 == 0)
+                {
+                    Responde.komunikat = "Active ussers" + Account.usser;
+                    Contacts();
+                    showsContacts.WaitOne();
+                    showsContacts.Reset();
+                    showsContacts.WaitOne(1000);
+                }
+            }
+        }
+
+        private void Contacts()
+        {
+            Responde.odebrano.Reset();
+            AsynchronousClient asynchronousClient = new AsynchronousClient();
+            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
+            {
+                IsBackground = true
+            };
+            wątek.Start();
+
+            Responde.odebrano.WaitOne();
+
+            try
+            {
+                if (!this.IsDisposed)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        if (Responde.komunikat != "ok" && Responde.komunikat != "connection problem" )
+                        {
+                            string temp = Responde.komunikat.Substring(2);
+
+
+                            while (temp != "")
+                            {
+                                int index = temp.IndexOf("$");
+
+                                var konto = new Konta(temp.Substring(0, index), temp.Substring(0, index), true);
+
+                                if (Accounts.users.Exists(el => el.Nazwa == konto.Nazwa))
+                                {
+                                    bool status = Accounts.users.Find(el => el.Nazwa == konto.Nazwa).Status;
+                                    if (status == false)
+                                    {
+                                        Accounts.users.Find(el => el.Nazwa == konto.Nazwa).Status = true;
+
+                                    }
+                                }
+                                else
+                                {
+                                    Accounts.users.Add(konto);
+                                }
+
+                                temp = temp.Substring(index + 1);
+                            }
+
+                            Accounts.users.ForEach(delegate (Konta el) {
+
+
+                                if (Kontakty.Items.Contains(el.Nazwa))
+                                {
+                                    if (el.Status == true)
+                                    {
+                                        Kontakty.Items.Remove(el.Nazwa);
+                                        Kontakty.Items.Add(el.Nazwa + " online");
+                                    }
+                                }
+                                else if (Kontakty.Items.Contains(el.Nazwa + " online"))
+                                {
+                                    if (el.Status == false)
+                                    {
+                                        Kontakty.Items.Remove(el.Nazwa + " online");
+                                        Kontakty.Items.Add(el.Nazwa);
+                                    }
+                                }
+
+                            });
+                        }
+                    }));
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+
+            wątek.Abort();
+            showsContacts.Set();
         }
     }
 }

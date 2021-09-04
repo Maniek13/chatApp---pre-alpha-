@@ -64,8 +64,10 @@
             // 
             // Komunikaty
             // 
+            this.Komunikaty.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.Komunikaty.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Komunikaty.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Komunikaty.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Komunikaty.ForeColor = System.Drawing.Color.Black;
             this.Komunikaty.Location = new System.Drawing.Point(1, 1);
             this.Komunikaty.Multiline = true;
             this.Komunikaty.Name = "Komunikaty";

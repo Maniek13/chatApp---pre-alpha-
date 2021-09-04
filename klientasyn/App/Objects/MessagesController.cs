@@ -30,8 +30,8 @@ namespace Klient.App.Objects
                     Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
                     odp = "ok";
                 }
-
-                Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
+                AsynchronousClient asynchronousClient = new AsynchronousClient();
+                Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
                 {
                     IsBackground = true
                 };

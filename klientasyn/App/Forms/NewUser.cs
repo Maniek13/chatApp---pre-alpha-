@@ -32,7 +32,7 @@ namespace Klient
         }
         public void Nowy()
         {
-            Accounts.users.Add(new Konta(textBox1.Text, textBox2.Text));
+            Accounts.users.Add(new Konta(textBox1.Text, textBox2.Text, false));
             this._client.DodajKontakt(textBox2.Text);
             this.Hide();
         }

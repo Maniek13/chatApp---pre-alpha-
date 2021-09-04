@@ -20,7 +20,7 @@ namespace Klient.App
 
         private static String response = "";
 
-        public static void StartClient()
+        public void StartClient()
         {
 
             try
@@ -64,7 +64,7 @@ namespace Klient.App
             Thread.CurrentThread.Abort();
         }
 
-        private static void ConnectCallback(IAsyncResult ar)
+        private void ConnectCallback(IAsyncResult ar)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Klient.App
             }
         }
 
-        private static void Receive(Socket client)
+        private void Receive(Socket client)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Klient.App
             }
         }
 
-        private static void ReceiveCallback(IAsyncResult ar)
+        private void ReceiveCallback(IAsyncResult ar)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Klient.App
             }
         }
 
-        private static void Send(Socket client, String data)
+        private void Send(Socket client, String data)
         {
 
             byte[] byteData = Encoding.ASCII.GetBytes(data);
@@ -132,7 +132,7 @@ namespace Klient.App
                 new AsyncCallback(SendCallback), client);
         }
 
-        private static void SendCallback(IAsyncResult ar)
+        private void SendCallback(IAsyncResult ar)
         {
             try
             {
@@ -147,6 +147,26 @@ namespace Klient.App
         }
 
         private void AsynchronousClient_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // AsynchronousClient
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "AsynchronousClient";
+            this.Load += new System.EventHandler(this.AsynchronousClient_Load_1);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        private void AsynchronousClient_Load_1(object sender, EventArgs e)
         {
 
         }

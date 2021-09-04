@@ -24,10 +24,14 @@ namespace serwer
                 z = Wiadomości(wiadomość);
                 if (z == "")
                 {
-                    z = Logowanie(wiadomość);
+                    z = ActiveUssers(wiadomość);
                     if (z == "")
                     {
-                        z = Rejestracja(wiadomość);
+                        z = Logowanie(wiadomość);
+                        if (z == "")
+                        {
+                            z = Rejestracja(wiadomość);
+                        }
                     }
                 }
             }
@@ -142,30 +146,39 @@ namespace serwer
         public string ActiveUssers(string msg)
         {
             //"Active ussersLOGIN";
-            string login = msg.Substring(13);
 
-            string usser_list = "";
-
-            Usser who = activeUsers.Find(el => el.Name == login);
-            who.Time = DateTime.Now;
-
-
-            foreach (Usser usser in activeUsers)
+            if (msg.StartsWith("Active ussers"))
             {
-                if (usser.Name != login)
+                string login = msg.Substring(13);
+
+                string usser_list = "";
+
+                Usser who = activeUsers.Find(el => el.Name == login);
+                who.Time = DateTime.Now;
+
+
+                foreach (Usser usser in activeUsers)
                 {
-                    if(usser.Time < DateTime.Now.AddSeconds(-30))
+                    if (usser.Name != login)
                     {
-                        activeUsers.Remove(usser);
-                    }
-                    else
-                    {
-                        usser_list += usser.Name + '$';
+                        if (usser.Time < DateTime.Now.AddSeconds(-30))
+                        {
+                            activeUsers.Remove(usser);
+                        }
+                        else
+                        {
+                            usser_list += usser.Name + '$';
+                        }
                     }
                 }
+
+                return "ok" + usser_list;
+            }
+            else
+            {
+                return "";
             }
 
-            return usser_list;
         }
 
         public string Wiadomość(string msg)

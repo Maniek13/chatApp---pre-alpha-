@@ -23,7 +23,8 @@ namespace Klient
             Responde.komunikat = "LOG" + Login.Text + "$" + hasło.Text;
 
             Responde.odebrano.Reset();
-            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
+            AsynchronousClient asynchronousClient = new AsynchronousClient();
+            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {
                 IsBackground = true
             };
@@ -59,7 +60,8 @@ namespace Klient
             Responde.odebrano.Reset();
             Responde.komunikat = "REJ" + Login.Text + "$" + hasło.Text;
 
-            Thread wątek = new Thread(new ThreadStart(AsynchronousClient.StartClient))
+            AsynchronousClient asynchronousClient = new AsynchronousClient();
+            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {
                 IsBackground = true
             };
@@ -96,7 +98,7 @@ namespace Klient
             while (temp != "")
             {
                 int index = temp.IndexOf("$");
-                Accounts.users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index))));
+                Accounts.users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index), false)));
                 temp = temp.Substring(index + 1);
             }
         }
