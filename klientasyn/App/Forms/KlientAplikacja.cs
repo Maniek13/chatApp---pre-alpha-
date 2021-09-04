@@ -60,11 +60,12 @@ namespace Klient
             MessagesController messagesController = new MessagesController();
             string odp = messagesController.Wiadomość(contact, wiadomość);
 
+            /*
             if (odp != "ok")
             {
                 Komunikaty.AppendText(odp + Environment.NewLine);
             }
-
+            */
             Wiadomosc.Text = "";
         }
 

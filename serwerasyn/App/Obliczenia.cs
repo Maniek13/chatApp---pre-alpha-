@@ -266,7 +266,6 @@ namespace serwer
                     var usserMessage = usserMessages.Find(el => el.Name == login);
                     var dt = usserMessage.Time;
 
-
                     string[] msgs = File.ReadAllLines(Path() + "\\dane\\messages\\public.txt");
 
                     foreach (string line in msgs)
@@ -276,7 +275,7 @@ namespace serwer
                         DateTime temp = Convert.ToDateTime(msgDate);
                         int lenght;
 
-                        if (temp > dt)
+                        if (temp.AddSeconds(1) > dt)
                         {
                             int dateIndexLast = line.LastIndexOf("#");
                             lenght = dateIndex - dateIndexLast;
