@@ -268,7 +268,7 @@ namespace serwer
                         DateTime temp = Convert.ToDateTime(msgDate);
                         int lenght;
 
-                        if (temp.AddSeconds(3) > Convert.ToDateTime(date))
+                        if (temp.AddSeconds(3.5) > Convert.ToDateTime(date))
                         {
                             int dateIndexLast = line.LastIndexOf("#");
                             lenght = dateIndex - dateIndexLast;

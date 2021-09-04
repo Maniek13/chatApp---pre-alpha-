@@ -30,6 +30,7 @@ namespace Klient.App.Objects
                     Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
                     odp = "ok";
                 }
+
                 AsynchronousClient asynchronousClient = new AsynchronousClient();
                 Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
                 {

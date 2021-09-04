@@ -19,6 +19,17 @@ namespace Klient.App
             new ManualResetEvent(false);
 
         private static String response = "";
+        private readonly bool _isContacts;
+
+        public AsynchronousClient(bool isContacts)
+        {
+            _isContacts = isContacts;
+        }
+
+        public AsynchronousClient()
+        {
+            _isContacts = false;
+        }
 
         public void StartClient()
         {
@@ -40,7 +51,16 @@ namespace Klient.App
                 if (connectDone.WaitOne(500) == true)
                 {
                     sendDone.Reset();
-                    Send(client, Responde.komunikat);
+
+                    if (_isContacts)
+                    {
+                        Send(client, Responde.contactsKomunikat);
+                    }
+                    else
+                    {
+                        Send(client, Responde.komunikat);
+                    }
+
                     sendDone.WaitOne();
 
                     receiveDone.Reset();
@@ -59,8 +79,19 @@ namespace Klient.App
             {
                 Console.WriteLine("Error..... " + p.StackTrace);
             }
-            Responde.komunikat = response;
-            Responde.odebrano.Set();
+           
+
+            if (_isContacts)
+            {
+                Responde.contactsKomunikat = response;
+                Responde.contacts.Set();
+            }
+            else
+            {
+                Responde.komunikat = response;
+                Responde.odebrano.Set();
+            }
+            
             Thread.CurrentThread.Abort();
         }
 

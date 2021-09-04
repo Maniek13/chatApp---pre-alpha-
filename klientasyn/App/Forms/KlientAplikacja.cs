@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using Klient.App.Objects;
 using Klient.App;
+using System.Linq;
 
 namespace Klient
 {
@@ -10,7 +11,6 @@ namespace Klient
     {
         public static ManualResetEvent wyswietlono = new ManualResetEvent(false);
         public static ManualResetEvent showsContacts = new ManualResetEvent(false);
-        
 
         /* Dodawanie kont
            private KlientLogowanie _client;
@@ -116,7 +116,6 @@ namespace Klient
 
         private void Kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
         }
 
         private void Kontakty_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -177,7 +176,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 2 == 0)
                 {
-                    Responde.komunikat = "Wyswietl wiadomosci";
+                   Responde.komunikat = "Wyswietl wiadomosci";
                     Wiadomości();
                     wyswietlono.WaitOne();
                     wyswietlono.Reset();
@@ -194,7 +193,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 5 == 0)
                 {
-                    Responde.komunikat = "Active ussers" + Account.usser;
+                    Responde.contactsKomunikat = "Active ussers" + Account.usser;
                     Contacts();
                     showsContacts.WaitOne();
                     showsContacts.Reset();
@@ -205,15 +204,16 @@ namespace Klient
 
         private void Contacts()
         {
-            Responde.odebrano.Reset();
-            AsynchronousClient asynchronousClient = new AsynchronousClient();
+            Responde.contacts.Reset();
+
+            AsynchronousClient asynchronousClient = new AsynchronousClient(true);
             Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {
                 IsBackground = true
             };
             wątek.Start();
 
-            Responde.odebrano.WaitOne();
+            Responde.contacts.WaitOne();
 
             try
             {
@@ -221,9 +221,9 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (Responde.komunikat != "ok" && Responde.komunikat != "connection problem" )
+                        if (Responde.contactsKomunikat != "ok" && Responde.contactsKomunikat != "connection problem" )
                         {
-                            string temp = Responde.komunikat.Substring(2);
+                            string temp = Responde.contactsKomunikat.Substring(2);
 
 
                             while (temp != "")
