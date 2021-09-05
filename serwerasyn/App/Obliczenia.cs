@@ -222,10 +222,10 @@ namespace serwer
 
                 string czas = temp.Substring(z + 1);
 
-                FileStream plik;
+                
                 if (priv != true)
                 {
-                  //  plik = new FileStream(Path() + "\\dane\\messages\\public.txt", FileMode.OpenOrCreate);
+                    //plik = new FileStream(Path() + "\\dane\\messages\\public.txt", FileMode.OpenOrCreate);
 
                     activeUsers.ForEach(delegate(Usser us){
                         messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = us.Name, Date = Convert.ToDateTime(czas) });
@@ -234,6 +234,7 @@ namespace serwer
                 }
                 else
                 {
+                    FileStream plik;
                     plik = new FileStream(Path() + "\\dane\\messages\\" + adresat + ".txt", FileMode.OpenOrCreate);
                     StreamReader sr = new StreamReader(plik);
                     sr.ReadToEnd();
@@ -327,9 +328,9 @@ namespace serwer
                             odp += temp.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
                         }
                     }
-
                     usserMessages.Find(el => el.Name == login).Time = DateTime.Now;
-*/
+                    */
+
                     return odp;
                 }
             }
@@ -380,9 +381,7 @@ namespace serwer
                 {
                     newFile.WriteLine(line);
                 }
-
             }
-
             newFile.Close();
             plik.Close();
             */
