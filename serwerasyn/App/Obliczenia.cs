@@ -267,13 +267,9 @@ namespace serwer
                 else
                 {
                     string login = msg.Substring(19);
-              
 
                     var temp2 = messages.FindAll(el => el.Login == login);
-
                    
-
-
                     temp2.ForEach(delegate (Messages message)
                     {
                         if(message.Showed == false)
@@ -332,10 +328,8 @@ namespace serwer
                         }
                     }
 
-
                     usserMessages.Find(el => el.Name == login).Time = DateTime.Now;
 */
-
                     return odp;
                 }
             }
