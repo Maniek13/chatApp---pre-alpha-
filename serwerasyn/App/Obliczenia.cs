@@ -11,7 +11,7 @@ namespace serwer
     {
         private static readonly List<Userspasword> users = new List<Userspasword>();
         private static readonly List<Usser> activeUsers = new List<Usser>();
-        private static readonly List<UsserMessage> usserMessages = new List<UsserMessage>();
+        private static readonly List<Messages> messages = new List<Messages>();
 
         public string Start(string wiadomość)
         {
@@ -84,7 +84,6 @@ namespace serwer
                     if(!activeUsers.Exists(el => el.Name == login))
                     {
                         activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
-                        usserMessages.Add(new UsserMessage { Name = login, Time = DateTime.Now });
                     }
 
                     foreach (Userspasword user in users)
@@ -125,7 +124,6 @@ namespace serwer
                     if (!activeUsers.Exists(el => el.Name == login))
                     {
                         activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
-                        usserMessages.Add(new UsserMessage { Name = login, Time = DateTime.Now });
                     }
 
                     string usser_list = "";
@@ -227,20 +225,26 @@ namespace serwer
                 FileStream plik;
                 if (priv != true)
                 {
-                    plik = new FileStream(Path() + "\\dane\\messages\\public.txt", FileMode.OpenOrCreate);
+                  //  plik = new FileStream(Path() + "\\dane\\messages\\public.txt", FileMode.OpenOrCreate);
+
+                    activeUsers.ForEach(delegate(Usser us){
+                        messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = us.Name, Date = Convert.ToDateTime(czas) });
+                    });
+                    
                 }
                 else
                 {
                     plik = new FileStream(Path() + "\\dane\\messages\\" + adresat + ".txt", FileMode.OpenOrCreate);
+                    StreamReader sr = new StreamReader(plik);
+                    sr.ReadToEnd();
+
+                    StreamWriter f = new StreamWriter(plik);
+                    f.WriteLine(login + "$" + adresat + "#" + wiadomość + "&" + czas);
+                    f.Close();
+                    plik.Close();
                 }
 
-                StreamReader sr = new StreamReader(plik);
-                sr.ReadToEnd();
-
-                StreamWriter f = new StreamWriter(plik);
-                f.WriteLine(login + "$" + adresat + "#" + wiadomość + "&" + czas);
-                f.Close();
-                plik.Close();
+               
 
                 return "ok";
             }
@@ -263,6 +267,34 @@ namespace serwer
                 else
                 {
                     string login = msg.Substring(19);
+              
+
+                    var temp2 = messages.FindAll(el => el.Login == login);
+
+                   
+
+
+                    temp2.ForEach(delegate (Messages message)
+                    {
+                        if(message.Showed == false)
+                        {
+                            string oneMsg;
+                            if (message.To != "")
+                            {
+                                oneMsg = message.From + " do " + message.To + ": ";
+                            }
+                            else
+                            {
+                                oneMsg = message.From + ": ";
+                            }
+
+                            oneMsg += message.Text;
+                            odp += message.Date.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
+                            message.Showed = true;
+                        }
+                    });
+
+                    /*
                     var usserMessage = usserMessages.Find(el => el.Name == login);
                     var dt = usserMessage.Time;
 
@@ -302,7 +334,7 @@ namespace serwer
 
 
                     usserMessages.Find(el => el.Name == login).Time = DateTime.Now;
-
+*/
 
                     return odp;
                 }
@@ -335,6 +367,7 @@ namespace serwer
 
         public void DeleteOldMessages()
         {
+            /*
             var path = Path() + "\\dane\\messages\\public.txt";
             string[] msgs = File.ReadAllLines(path);
             String date = DateTime.Now.ToString();
@@ -349,7 +382,7 @@ namespace serwer
                 string msgDate = line.Substring(dateIndex + 1);
                 DateTime temp = Convert.ToDateTime(msgDate);
 
-                if (temp.AddSeconds(-10) > Convert.ToDateTime(date))
+                if (temp.AddSeconds(-30) > Convert.ToDateTime(date))
                 {
                     newFile.WriteLine(line);
                 }
@@ -358,7 +391,9 @@ namespace serwer
 
             newFile.Close();
             plik.Close();
+            */
 
+            messages.RemoveAll(el => el.Showed == true);
             Serwer.deleted.Set();
         }
     }

@@ -20,7 +20,6 @@ ________Working
 
 ________In progres
 - add function to uncheck contact in list
-- handle messages with people(sometimes does't display)
 - error when client start first (reset server)
 - private responde
 
