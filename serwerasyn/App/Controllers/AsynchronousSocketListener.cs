@@ -3,8 +3,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using serwer.App.Objects;
 
-namespace serwer
+namespace serwer.App.Controllers
 {
     public class AsynchronousSocketListener
     {

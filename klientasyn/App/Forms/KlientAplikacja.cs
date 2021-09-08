@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using Klient.App.Objects;
 using Klient.App;
-using System.Linq;
+using Klient.App.Controllers;
 
 namespace Klient
 {
@@ -58,7 +58,8 @@ namespace Klient
             string wiadomość = Wiadomosc.Text;
 
             MessagesController messagesController = new MessagesController();
-            string odp = messagesController.Wiadomość(contact, wiadomość);
+            //odp
+            messagesController.Wiadomość(contact, wiadomość);
 
             /*
             if (odp != "ok")

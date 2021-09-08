@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace serwer.App
+namespace serwer.App.Objects
 {
     class Messages
     {

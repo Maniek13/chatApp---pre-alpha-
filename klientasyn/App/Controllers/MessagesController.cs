@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
+using Klient.App.Objects;
 
-namespace Klient.App.Objects
+namespace Klient.App.Controllers
 {
     class MessagesController
     {

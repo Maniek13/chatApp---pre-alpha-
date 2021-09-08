@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 
-namespace serwer
+namespace serwer.App.Objects
 {
     public class StateObject
     {

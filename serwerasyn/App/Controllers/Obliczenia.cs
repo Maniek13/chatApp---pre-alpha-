@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using serwer.App;
+using serwer.App.Objects;
 
-namespace serwer
+namespace serwer.App.Controllers
 {
     public class Obliczenia
     {
