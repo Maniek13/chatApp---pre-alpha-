@@ -52,7 +52,7 @@ namespace Klient
             string contact = "";
             if (Kontakty.SelectedItem != null)
             {
-                contact = Kontakty.SelectedItem.ToString();
+                contact = SelectedContactName();
             }
 
             string wiadomość = Wiadomosc.Text;
@@ -68,6 +68,22 @@ namespace Klient
             }
             */
             Wiadomosc.Text = "";
+        }
+
+        private string SelectedContactName()
+        {
+            string contact = "";
+            string str = Kontakty.SelectedItem.ToString();
+            if (str.Contains("online"))
+            {
+                contact = str.Substring(0, str.Length - 7);
+            }
+            else
+            {
+                contact = str;
+            }
+
+            return contact;
         }
 
         private void Kontakty_SelectedIndexChanged(object sender, EventArgs e)
@@ -124,7 +140,7 @@ namespace Klient
         {
             if (Kontakty.SelectedItem != null)
             {
-                string osoba = Kontakty.SelectedItem.ToString();
+                string osoba = SelectedContactName();
                 Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
 
                 MessageBox messageBox = new MessageBox(temp.Kontakt);

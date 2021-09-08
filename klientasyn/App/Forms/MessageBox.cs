@@ -1,6 +1,7 @@
 ﻿using Klient.App.Objects;
 using System;
 using System.Windows.Forms;
+using Klient.App.Controllers;
 
 namespace Klient
 {
