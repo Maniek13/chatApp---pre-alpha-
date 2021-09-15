@@ -1,6 +1,14 @@
 # chatApp---pre-alpha-
 
-Copy and use 
+Server:
+1. Copy files
+2. Run add-migration init
+3. Run update-database
+4. Run server and click start
+
+Client
+1. Copy and run
+
 
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using serwer.App.Objects;
 
@@ -13,9 +14,8 @@ namespace serwer.App.Controllers
         private static readonly List<Usser> activeUsers = new List<Usser>();
         private static readonly List<Messages> messages = new List<Messages>();
 
-        public string Start(string wiadomość)
+        public async Task<string> Start(string wiadomość)
         {
-            Wczytano();
 
             string z;
 
@@ -31,7 +31,7 @@ namespace serwer.App.Controllers
                         z = Logowanie(wiadomość);
                         if (z == "")
                         {
-                            z = Rejestracja(wiadomość);
+                            z = await Rejestracja(wiadomość);
                         }
                     }
                 }
@@ -50,6 +50,7 @@ namespace serwer.App.Controllers
 
         public void WczytanieKont()
         {
+            /* dodawanie do pliku
             string[] konta = File.ReadAllLines(Path() + "\\dane\\ussers\\ussers.txt"); //nazwa + $ + hasło
 
             foreach (string line in konta)
@@ -59,15 +60,17 @@ namespace serwer.App.Controllers
                 string password = line.Substring(z + 1);
                 users.Add(new Userspasword(login, password));
             }
-        }
-        public void Wczytano()
-        {
-            if (users.Count() == 0)
-            {
-                WczytanieKont();
-            }
 
+            */
+            UsserController usserController = new UsserController();
+            List<Models.Usser> ussers = usserController.FindUsser();
+
+            ussers.ForEach(delegate (Models.Usser el)
+            {
+                users.Add(new Userspasword(el.Name, el.Password));
+            });
         }
+
         public string Logowanie(string msg)
         {
             //"LOG"+ Login.Text + "$" + hasło.Text;
@@ -80,6 +83,7 @@ namespace serwer.App.Controllers
 
                 if (users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
                 {
+
                     string usser_list = "";
                     if(!activeUsers.Exists(el => el.Name == login))
                     {
@@ -103,7 +107,7 @@ namespace serwer.App.Controllers
             }
             return "";
         }
-        public string Rejestracja(string msg)
+        public async Task<string> Rejestracja(string msg)
         {
             //"REJ"Login.Text + "$" + hasło.Text;
             if (msg.StartsWith("REJ"))
@@ -119,23 +123,37 @@ namespace serwer.App.Controllers
                 }
                 else
                 {
-                    users.Add(new Userspasword(login, password));
+                    UsserController usr = new UsserController();
+                    int ok = await usr.AddUsser(new Models.Usser{Name = login, Password = password });
 
-                    if (!activeUsers.Exists(el => el.Name == login))
+                    if(ok == 1)
                     {
-                        activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
-                    }
+                        users.Add(new Userspasword(login, password));
 
-                    string usser_list = "";
-                    foreach (Userspasword user in users)
-                    {
-                        if (user.RegisteredUser != login)
+                        if (!activeUsers.Exists(el => el.Name == login))
                         {
-                            usser_list += user.RegisteredUser + '$';
+                            activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
                         }
+
+                        string usser_list = "";
+                        foreach (Userspasword user in users)
+                        {
+                            if (user.RegisteredUser != login)
+                            {
+                                usser_list += user.RegisteredUser + '$';
+                            }
+                        }
+
+
+                        //   ZapisKont();  save data to file
+
+                        return "ok" + usser_list;
                     }
-                    ZapisKont();
-                    return "ok" + usser_list;
+                    else
+                    {
+                        return "";
+                    }
+                   
                 }
             }
             else
@@ -291,7 +309,7 @@ namespace serwer.App.Controllers
                         }
                     });
 
-                    /*
+                    /* save public msgs
                     var usserMessage = usserMessages.Find(el => el.Name == login);
                     var dt = usserMessage.Time;
 
@@ -339,6 +357,7 @@ namespace serwer.App.Controllers
                 return "";
             }
         }
+        
         public void ZapisKont()
         {
             if (users.Count != 0)
@@ -359,10 +378,11 @@ namespace serwer.App.Controllers
                 plik.Close();
             }
         }
+        
 
         public void DeleteOldMessages()
         {
-            /*
+            /* delete from public textfile
             var path = Path() + "\\dane\\messages\\public.txt";
             string[] msgs = File.ReadAllLines(path);
             String date = DateTime.Now.ToString();

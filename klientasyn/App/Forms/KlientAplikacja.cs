@@ -285,6 +285,11 @@ namespace Klient
                                         Kontakty.Items.Remove(el.Nazwa + " online");
                                         Kontakty.Items.Add(el.Nazwa);
                                     }
+                                    
+                                }
+                                else
+                                {
+                                    Kontakty.Items.Add(el.Nazwa + " online");
                                 }
 
                             });

@@ -60,7 +60,7 @@ namespace serwer.App.Controllers
                 new AsyncCallback(ReadCallback), state);
         }
 
-        public static void ReadCallback(IAsyncResult ar)
+        public async static void ReadCallback(IAsyncResult ar)
         {
             String content;
 
@@ -77,7 +77,7 @@ namespace serwer.App.Controllers
                 content = state.sb.ToString();
 
                 Obliczenia obliczenia = new Obliczenia();
-                content = obliczenia.Start(content);
+                content = await obliczenia.Start(content);
 
                 Send(handler, content);
             }

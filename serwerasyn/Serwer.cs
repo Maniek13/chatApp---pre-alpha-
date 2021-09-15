@@ -20,6 +20,9 @@ namespace serwer
 
         public void Start_Click(object sender, EventArgs e)
         {
+            Obliczenia obliczenia = new Obliczenia();
+            obliczenia.WczytanieKont();
+
             textBox1.Text = "Working...";
             wątek = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening))
             {
