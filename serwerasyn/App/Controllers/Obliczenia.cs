@@ -13,6 +13,7 @@ namespace serwer.App.Controllers
         private static readonly List<Userspasword> users = new List<Userspasword>();
         private static readonly List<Usser> activeUsers = new List<Usser>();
         private static readonly List<Messages> messages = new List<Messages>();
+        private static readonly List<PrivateMessages> privateMessages = new List<PrivateMessages>();
 
         public void Reset()
         {
@@ -260,7 +261,15 @@ namespace serwer.App.Controllers
                 else
                 {
                     FileStream plik;
-                    plik = new FileStream(Path() + "\\dane\\messages\\" + adresat + ".txt", FileMode.OpenOrCreate);
+                    List<string> ussers = new List<string> { adresat, login };
+
+                    ussers.Sort(delegate (string x, string y)
+                    {
+                        return x.CompareTo(y);
+                    });
+
+
+                    plik = new FileStream(Path() + "\\dane\\messages\\" + ussers[0] + ussers[1] + ".txt", FileMode.OpenOrCreate);
                     StreamReader sr = new StreamReader(plik);
                     sr.ReadToEnd();
 
@@ -268,9 +277,15 @@ namespace serwer.App.Controllers
                     f.WriteLine(login + "$" + adresat + "#" + wiadomość + "&" + czas);
                     f.Close();
                     plik.Close();
+
+                    if (!privateMessages.Exists(el => el.Name == ussers[0] + ussers[1]))
+                    {
+                        privateMessages.Add(new PrivateMessages { Name = ussers[0] + ussers[1] });
+                    }
+
+                    privateMessages.Find(el => el.Name == ussers[0] + ussers[1]).messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Date = Convert.ToDateTime(czas) });
                 }
 
-               
 
                 return "ok";
             }
@@ -286,35 +301,66 @@ namespace serwer.App.Controllers
             if (msg.StartsWith("Wyswietl wiadomosci"))
             {
                 String date = DateTime.Now.ToString();
+
                 if (msg.StartsWith("Wyswietl wiadomosciFirst"))
                 {
-                    return "not implement jet";
+                    string FileName = msg.Substring(24);
+
+                    if(File.Exists(Path() + "\\dane\\messages\\" + FileName + ".txt"))
+                    {
+                        string[] msgs = File.ReadAllLines(Path() + "\\dane\\messages\\" + FileName + ".txt");
+
+                        privateMessages.Add(new PrivateMessages { Name = FileName });
+
+                        foreach (string line in msgs)
+                        {
+                            int dateIndex = line.LastIndexOf("&");
+                            string msgDate = line.Substring(dateIndex + 1);
+                            DateTime temp = Convert.ToDateTime(msgDate);
+                            int lenght;
+
+                            int dateIndexLast = line.LastIndexOf("#");
+                            lenght = dateIndex - dateIndexLast;
+                            string msgOne = line.Substring(dateIndexLast + 1, lenght - 1);
+                            int toIndex = line.LastIndexOf("$");
+                            lenght = dateIndexLast - toIndex;
+                            string to = line.Substring(toIndex + 1, lenght - 1);
+                            string from = line.Substring(0, toIndex);
+
+                            string oneMsg;
+                            if (to != "")
+                            {
+                                oneMsg = from + " do " + to + ": ";
+                            }
+                            else
+                            {
+                                oneMsg = from + ": ";
+                            }
+
+                            oneMsg += msgOne;
+                            odp += temp.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
+
+                            privateMessages.Find(el => el.Name == FileName).messages.Add(new Messages { Showed = true, Text = msgOne, From = from, To = to, Date = temp });
+                        }
+                        return odp;
+                    }
+                    else
+                    {
+                        return "-1";
+                    }
+                    
+                }
+                else if (msg.StartsWith("Wyswietl wiadomosci#"))
+                {
+                    string FileName = msg.Substring(20);
+                    var msgs = privateMessages.Find(el => el.Name == FileName).messages;
+                    return MessagesToString(msgs);
                 }
                 else
                 {
                     string login = msg.Substring(19);
-
-                    var temp2 = messages.FindAll(el => el.Login == login);
-                   
-                    temp2.ForEach(delegate (Messages message)
-                    {
-                        if(message.Showed == false)
-                        {
-                            string oneMsg;
-                            if (message.To != "")
-                            {
-                                oneMsg = message.From + " do " + message.To + ": ";
-                            }
-                            else
-                            {
-                                oneMsg = message.From + ": ";
-                            }
-
-                            oneMsg += message.Text;
-                            odp += message.Date.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
-                            message.Showed = true;
-                        }
-                    });
+                    var msgs = messages.FindAll(el => el.Login == login);
+                    return MessagesToString(msgs);
 
                     /* save public msgs
                     var usserMessage = usserMessages.Find(el => el.Name == login);
@@ -354,15 +400,41 @@ namespace serwer.App.Controllers
                         }
                     }
                     usserMessages.Find(el => el.Name == login).Time = DateTime.Now;
-                    */
+                    
 
                     return odp;
+                    */
                 }
             }
             else
             {
                 return "";
             }
+        }
+
+        private static string MessagesToString(List<Messages> messages)
+        {
+            string odp = "";
+            messages.ForEach(delegate (Messages message)
+            {
+                if (message.Showed == false)
+                {
+                    string oneMsg;
+                    if (message.To != "")
+                    {
+                        oneMsg = message.From + " do " + message.To + ": ";
+                    }
+                    else
+                    {
+                        oneMsg = message.From + ": ";
+                    }
+
+                    oneMsg += message.Text;
+                    odp += message.Date.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
+                    message.Showed = true;
+                }
+            });
+            return odp;
         }
         
         public void ZapisKont()

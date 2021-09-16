@@ -6,30 +6,27 @@ namespace Klient.App.Controllers
 {
     class MessagesController
     {
-        public string SendMsg(string contact, string wiadomość, bool priv)
+        private readonly string login = Account.usser;
+
+        public void SendMsg(string contact, string wiadomość, bool priv)
         {
-            string login = Account.usser;
 
             if (wiadomość != "")
             {
-                string odp = "";
-                bool error = false;
                 Responde.odebrano.Reset();
 
                 if (priv == true)
                 {
-                    Responde.komunikat = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
-                    odp = login + " do " + contact + ": " + wiadomość;
+                    Responde.msg = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
+
                 }
                 else if (contact != "")
                 {
-                    Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
-                    odp = "ok";
+                    Responde.msg = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
                 }
                 else
                 {
-                    Responde.komunikat = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
-                    odp = "ok";
+                    Responde.msg = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
                 }
 
                 AsynchronousClient asynchronousClient = new AsynchronousClient();
@@ -40,62 +37,58 @@ namespace Klient.App.Controllers
                 wątek.Start();
                 Responde.odebrano.WaitOne();
 
-             
-                if (priv != true)
-                {
-                    if (Responde.komunikat != "ok")
-                    {
-                        error = true;
-                        odp = Responde.komunikat;
-                    }
-                }
 
-            
-
-                if (error != true)
-                {
-                    return odp;
-                }
-                else
-                {
-                    return "error";
-                }
-
-            }
-            else
-            {
-                return "error";
             }
         }
 
-        public string Wiadomość(string contact, string wiadomosc)
+        public void Wiadomość(string contact, string wiadomosc)
         {
-            string odp;
-            string osoba = "";
-            if (contact != "")
-            {
-                osoba = contact;
-            }
-
-            Konta temp = Accounts.users.Find(x => x.Nazwa == osoba);
+        
+            Konta temp = Accounts.users.Find(x => x.Nazwa == contact);
             
             if(temp != null)
             {
-                odp = SendMsg(temp.Kontakt, wiadomosc, false);
+                SendMsg(temp.Kontakt, wiadomosc, false);
             }
             else
             {
-                odp = SendMsg("", wiadomosc, false);
+                SendMsg("", wiadomosc, false);
             }
            
-            
-
-            return odp;
         }
 
-        public string Wiadomość(string contact, string wiadomość, bool priv)
+        public void Wiadomość(string contact, string wiadomość, bool priv)
         {
-            return SendMsg(contact, wiadomość, priv);
+            SendMsg(contact, wiadomość, priv);
+        }
+
+        public string ShowMsgs(string contact)
+        {
+            Responde.odebrano.Reset();
+            Responde.msg = "Wyswietl wiadomosciFirst" + contact;
+
+            return GetData();
+        }
+
+        public string ShowNewMsgs(string contact)
+        {
+            Responde.odebrano.Reset();
+            Responde.msg = "Wyswietl wiadomosci#" + contact;
+
+            return GetData();
+        }
+
+        public static string GetData()
+        {
+            AsynchronousClient asynchronousClient = new AsynchronousClient();
+            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
+            {
+                IsBackground = true
+            };
+            wątek.Start();
+            Responde.odebrano.WaitOne();
+
+            return Responde.msg;
         }
 
     }

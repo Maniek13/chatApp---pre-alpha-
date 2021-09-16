@@ -19,7 +19,7 @@ namespace Klient.App
             new ManualResetEvent(false);
 
         private static String response = "";
-        private readonly bool _isContacts;
+        private readonly bool? _isContacts;
 
         public AsynchronousClient(bool isContacts)
         {
@@ -28,7 +28,7 @@ namespace Klient.App
 
         public AsynchronousClient()
         {
-            _isContacts = false;
+            _isContacts = null;
         }
 
         public void StartClient()
@@ -52,13 +52,17 @@ namespace Klient.App
                 {
                     sendDone.Reset();
 
-                    if (_isContacts)
+                    if (_isContacts == true)
                     {
-                        Send(client, Responde.contactsKomunikat);
+                        Send(client, Responde.contactsMsg);
+                    }
+                    else if(_isContacts == false)
+                    {
+                        Send(client, Responde.comunicatsMsg);
                     }
                     else
                     {
-                        Send(client, Responde.komunikat);
+                        Send(client, Responde.msg);
                     }
 
                     sendDone.WaitOne();
@@ -79,18 +83,9 @@ namespace Klient.App
             {
                 Console.WriteLine("Error..... " + p.StackTrace);
             }
-           
 
-            if (_isContacts)
-            {
-                Responde.contactsKomunikat = response;
-                Responde.contacts.Set();
-            }
-            else
-            {
-                Responde.komunikat = response;
-                Responde.odebrano.Set();
-            }
+            
+           
             
             Thread.CurrentThread.Abort();
         }
@@ -140,7 +135,25 @@ namespace Klient.App
                     state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
                     client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
+
                     response = state.sb.ToString();
+
+                    if (_isContacts == true)
+                    {
+                        Responde.contactsMsg = response;
+                        Responde.contacts.Set();
+                    }
+                    else if (_isContacts == false)
+                    {
+                        Responde.comunicatsMsg = response;
+                        Responde.comunicats.Set();
+                    }
+                    else
+                    {
+                        Responde.msg = response;
+                        Responde.odebrano.Set();
+                    }
+
                     receiveDone.Set();
                 }
                 else

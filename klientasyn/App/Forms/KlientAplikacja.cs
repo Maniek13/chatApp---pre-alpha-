@@ -4,6 +4,7 @@ using System.Threading;
 using Klient.App.Objects;
 using Klient.App;
 using Klient.App.Controllers;
+using System.Threading.Tasks;
 
 namespace Klient
 {
@@ -11,6 +12,7 @@ namespace Klient
     {
         public static ManualResetEvent wyswietlono = new ManualResetEvent(false);
         public static ManualResetEvent showsContacts = new ManualResetEvent(false);
+        public CancellationTokenSource source = new CancellationTokenSource();
 
         /* Dodawanie kont
            private KlientLogowanie _client;
@@ -72,7 +74,7 @@ namespace Klient
 
         private string SelectedContactName()
         {
-            string contact = "";
+            string contact;
             string str = Kontakty.SelectedItem.ToString();
             if (str.Contains("online"))
             {
@@ -101,6 +103,15 @@ namespace Klient
         {
             WyświetlKontakty();
             MessagesController messagesController = new MessagesController();
+
+
+            CancellationToken token = source.Token;
+            TaskFactory factory = new TaskFactory(token);
+
+            factory.StartNew(WyświetlWiadomosći);
+            factory.StartNew(ShowContacts);
+            
+            /*
             Thread msg = new Thread(new ThreadStart(WyświetlWiadomosći))
             {
                 IsBackground = true
@@ -111,7 +122,9 @@ namespace Klient
             {
                 IsBackground = true
             };
+            
             contacts.Start();
+            */
             //dodawanie kont
             //Dodaj.Hide();
         }
@@ -144,22 +157,22 @@ namespace Klient
                 Konta temp = Accounts.users.Find(x => x.Nazwa.Contains(osoba));
 
                 MessageBox messageBox = new MessageBox(temp.Kontakt);
-
                 messageBox.Show();
             }
         }
 
         private void Wiadomości()
         {
-            Responde.odebrano.Reset();
-            AsynchronousClient asynchronousClient = new AsynchronousClient();
+            Responde.comunicats.Reset();
+            AsynchronousClient asynchronousClient = new AsynchronousClient(false);
             Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {
                 IsBackground = true
             };
             wątek.Start();
 
-            Responde.odebrano.WaitOne();
+            Responde.comunicats.WaitOne();
+            wątek.Abort();
 
             try
             {
@@ -167,9 +180,9 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (!Responde.komunikat.StartsWith("ok"))
+                        if (!Responde.comunicatsMsg.StartsWith("ok"))
                         {
-                           Komunikaty.AppendText(Responde.komunikat);
+                           Komunikaty.AppendText(Responde.comunicatsMsg);
                         }
                     }));
                 }
@@ -182,7 +195,6 @@ namespace Klient
             {
 
             }
-            wątek.Abort();
             wyswietlono.Set();
         }
 
@@ -194,7 +206,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 2 == 0)
                 {
-                    Responde.komunikat = "Wyswietl wiadomosci"+ Account.usser;
+                    Responde.comunicatsMsg = "Wyswietl wiadomosci"+ Account.usser;
                     Wiadomości();
                     wyswietlono.WaitOne();
                     wyswietlono.Reset();
@@ -211,7 +223,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 5 == 0)
                 {
-                    Responde.contactsKomunikat = "Active ussers" + Account.usser;
+                    Responde.contactsMsg = "Active ussers" + Account.usser;
                     Contacts();
                     showsContacts.WaitOne();
                     showsContacts.Reset();
@@ -223,7 +235,6 @@ namespace Klient
         private void Contacts()
         {
             Responde.contacts.Reset();
-
             AsynchronousClient asynchronousClient = new AsynchronousClient(true);
             Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {
@@ -232,6 +243,7 @@ namespace Klient
             wątek.Start();
 
             Responde.contacts.WaitOne();
+            wątek.Abort();
 
             try
             {
@@ -239,9 +251,9 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (Responde.contactsKomunikat != "ok" && Responde.contactsKomunikat != "connection problem" )
+                        if (Responde.contactsMsg != "ok" && Responde.contactsMsg != "connection problem" )
                         {
-                            string temp = Responde.contactsKomunikat.Substring(2);
+                            string temp = Responde.contactsMsg.Substring(2);
 
 
                             while (temp != "")
@@ -305,8 +317,6 @@ namespace Klient
             {
 
             }
-
-            wątek.Abort();
             showsContacts.Set();
         }
     }

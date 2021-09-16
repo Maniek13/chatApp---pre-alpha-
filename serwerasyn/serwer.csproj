@@ -61,6 +61,7 @@
     <Compile Include="App\Controllers\UsserController.cs" />
     <Compile Include="App\Models\Usser.cs" />
     <Compile Include="App\Objects\Messages.cs" />
+    <Compile Include="App\Objects\PrivateMessages.cs" />
     <Compile Include="App\Objects\StateObject.cs" />
     <Compile Include="App\Controllers\Obliczenia.cs" />
     <Compile Include="App\Objects\Userspasword.cs" />

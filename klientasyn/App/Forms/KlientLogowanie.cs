@@ -20,7 +20,7 @@ namespace Klient
 
         private void Zaloguj_Click(object sender, EventArgs e)
         {
-            Responde.komunikat = "LOG" + Login.Text + "$" + hasło.Text;
+            Responde.msg = "LOG" + Login.Text + "$" + hasło.Text;
 
             Responde.odebrano.Reset();
             AsynchronousClient asynchronousClient = new AsynchronousClient();
@@ -30,8 +30,9 @@ namespace Klient
             };
             wątek.Start();
             Responde.odebrano.WaitOne();
+            wątek.Abort();
 
-            if (Responde.komunikat.StartsWith("ok"))
+            if (Responde.msg.StartsWith("ok"))
             {
                 UserList();
 
@@ -39,18 +40,18 @@ namespace Klient
                 nowy.Show();
                 this.Hide();
             }
-            else if (Responde.komunikat != "connection problem")
+            else if (Responde.msg != "connection problem")
             {
                 Login.Clear();
                 hasło.Clear();
-                textBox1.Text = Responde.komunikat;
+                textBox1.Text = Responde.msg;
 
             }
             else
             {
                 Login.Clear();
                 hasło.Clear();
-                textBox1.Text = Responde.komunikat;
+                textBox1.Text = Responde.msg;
             }
         }
 
@@ -58,7 +59,7 @@ namespace Klient
         private void Zarejestruj_Click(object sender, EventArgs e)
         {
             Responde.odebrano.Reset();
-            Responde.komunikat = "REJ" + Login.Text + "$" + hasło.Text;
+            Responde.msg = "REJ" + Login.Text + "$" + hasło.Text;
 
             AsynchronousClient asynchronousClient = new AsynchronousClient();
             Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
@@ -67,25 +68,26 @@ namespace Klient
             };
             wątek.Start();
             Responde.odebrano.WaitOne();
+            wątek.Abort();
 
-            if (Responde.komunikat.StartsWith("ok"))
+            if (Responde.msg.StartsWith("ok"))
             {
                 UserList();
                 KlientAplikacja nowy = new KlientAplikacja();
                 nowy.Show();
                 this.Hide();
             }
-            else if (Responde.komunikat != "connection problem")
+            else if (Responde.msg != "connection problem")
             {
                 Login.Clear();
                 hasło.Clear();
-                textBox1.Text = Responde.komunikat;
+                textBox1.Text = Responde.msg;
             }
             else
             {
                 Login.Clear();
                 hasło.Clear();
-                textBox1.Text = Responde.komunikat;
+                textBox1.Text = Responde.msg;
             }
         }
 
@@ -93,7 +95,7 @@ namespace Klient
         {
             Account.usser = Login.Text;
 
-            string temp = Responde.komunikat.Substring(2);
+            string temp = Responde.msg.Substring(2);
 
             while (temp != "")
             {

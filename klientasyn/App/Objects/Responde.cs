@@ -5,11 +5,14 @@ namespace Klient.App.Objects
 {
     class Responde
     {
-        public static String komunikat = "";
-        public static String contactsKomunikat = "";
+        public static String msg = "";
+        public static String contactsMsg = "";
+        public static String comunicatsMsg = "";
         public static ManualResetEvent odebrano =
             new ManualResetEvent(false);
         public static ManualResetEvent contacts =
             new ManualResetEvent(false);
+        public static ManualResetEvent comunicats =
+           new ManualResetEvent(false);
     }
 }
