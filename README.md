@@ -22,6 +22,7 @@ ________Working
 -save sended msg on server
 -save private msg on server
 -show sended msg
+-show priv msgs when open window
 -responde public msg
 -refresh usser list when new one added or disactivated
 
@@ -29,7 +30,7 @@ ________Working
 ________In progres
 - add function to uncheck contact in list
 - error when client start first (reset server)
-- private responde
+- show private msgs when send 
 
 
 
