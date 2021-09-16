@@ -2,16 +2,19 @@
 using System.Windows.Forms;
 using System.Threading;
 using serwer.App.Controllers;
+using System.Threading.Tasks;
 
 namespace serwer
 {
     public partial class Serwer : Form
     {
-        public Thread wątek;
-        public Thread delete;
+        //public Thread wątek;
+        //public Thread delete;
         public static ManualResetEvent deleted =
         new ManualResetEvent(false);
 
+        public CancellationTokenSource source = new CancellationTokenSource();
+        
 
         public Serwer()
         {
@@ -23,7 +26,15 @@ namespace serwer
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.WczytanieKont();
 
+            CancellationToken token = source.Token;
+            TaskFactory factory = new TaskFactory(token);
+
+            factory.StartNew(AsynchronousSocketListener.StartListening, token);
+            factory.StartNew(DeleteOldData, token);
+            
+
             textBox1.Text = "Working...";
+            /*
             wątek = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening))
             {
                 IsBackground = true
@@ -36,7 +47,7 @@ namespace serwer
                 IsBackground = true
             };
             delete.Start();
-
+            */
         }
         private void DeleteOldData()
         {
@@ -65,9 +76,11 @@ namespace serwer
         }
         private void Stop_Click(object sender, EventArgs e)
         {
-            _ = new Obliczenia();
-            wątek.Abort();
-            delete.Abort();
+           // wątek.Abort();
+          //  delete.Abort();
+            source.Cancel();
+            Obliczenia obliczenia = new Obliczenia();
+            obliczenia.Reset();
             textBox1.Text = "Stoped";
         }
 

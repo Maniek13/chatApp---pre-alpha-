@@ -14,6 +14,13 @@ namespace serwer.App.Controllers
         private static readonly List<Usser> activeUsers = new List<Usser>();
         private static readonly List<Messages> messages = new List<Messages>();
 
+        public void Reset()
+        {
+            users.Clear();
+            activeUsers.Clear();
+            messages.Clear();
+        }
+
         public async Task<string> Start(string wiadomość)
         {
 
