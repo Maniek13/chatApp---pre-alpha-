@@ -10,10 +10,10 @@ namespace serwer.App.Controllers
 {
     public class Obliczenia
     {
-        private static readonly List<Userspasword> users = new List<Userspasword>();
-        private static readonly List<Usser> activeUsers = new List<Usser>();
-        private static readonly List<Messages> messages = new List<Messages>();
-        private static readonly List<PrivateMessages> privateMessages = new List<PrivateMessages>();
+        private static readonly HashSet<Userspasword> users = new HashSet<Userspasword>();
+        private static readonly HashSet<Usser> activeUsers = new HashSet<Usser>();
+        private static readonly HashSet<Messages> messages = new HashSet<Messages>();
+        private static readonly HashSet<PrivateMessages> privateMessages = new HashSet<PrivateMessages>();
 
         public void Reset()
         {
@@ -71,7 +71,7 @@ namespace serwer.App.Controllers
 
             */
             UsserController usserController = new UsserController();
-            List<Models.Usser> ussers = usserController.FindUsser();
+            List<Models.Usser> ussers = usserController.FindAllUssers();
 
             ussers.ForEach(delegate (Models.Usser el)
             {
@@ -89,11 +89,11 @@ namespace serwer.App.Controllers
                 string password = temp.Substring(t + 1);
                 string login = temp.Substring(0, t);
 
-                if (users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
+                if (users.FirstOrDefault(x => x.RegisteredUser == login && x.Pasword == password) != null)
                 {
 
                     string usser_list = "";
-                    if(!activeUsers.Exists(el => el.Name == login))
+                    if(activeUsers.FirstOrDefault(el => el.Name == login) == null)
                     {
                         activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
                     }
@@ -125,7 +125,7 @@ namespace serwer.App.Controllers
                 string password = temp.Substring(t + 1);
                 string login = temp.Substring(0, t);
 
-                if (users.Exists(x => x.RegisteredUser == login && x.Pasword == password))
+                if (users.FirstOrDefault(x => x.RegisteredUser == login && x.Pasword == password) != null)
                 {
                     return "Istnieje";
                 }
@@ -138,7 +138,7 @@ namespace serwer.App.Controllers
                     {
                         users.Add(new Userspasword(login, password));
 
-                        if (!activeUsers.Exists(el => el.Name == login))
+                        if (activeUsers.FirstOrDefault(el => el.Name == login) == null)
                         {
                             activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
                         }
@@ -180,7 +180,7 @@ namespace serwer.App.Controllers
 
                 string usser_list = "";
 
-                Usser who = activeUsers.Find(el => el.Name == login);
+                Usser who = activeUsers.FirstOrDefault(el => el.Name == login);
                 who.Time = DateTime.Now;
 
 
@@ -253,9 +253,10 @@ namespace serwer.App.Controllers
                 {
                     //plik = new FileStream(Path() + "\\dane\\messages\\public.txt", FileMode.OpenOrCreate);
 
-                    activeUsers.ForEach(delegate(Usser us){
+                    foreach(Usser us in activeUsers)
+                    {
                         messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = us.Name, Date = Convert.ToDateTime(czas) });
-                    });
+                    }
                     
                 }
                 else
@@ -278,12 +279,12 @@ namespace serwer.App.Controllers
                     f.Close();
                     plik.Close();
 
-                    if (!privateMessages.Exists(el => el.Name == ussers[0] + ussers[1]))
+                    if (privateMessages.FirstOrDefault(el => el.Name == ussers[0] + ussers[1]) == null)
                     {
                         privateMessages.Add(new PrivateMessages { Name = ussers[0] + ussers[1] });
                     }
 
-                    privateMessages.Find(el => el.Name == ussers[0] + ussers[1]).messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Date = Convert.ToDateTime(czas) });
+                    privateMessages.FirstOrDefault(el => el.Name == ussers[0] + ussers[1]).Messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Date = Convert.ToDateTime(czas) });
                 }
 
 
@@ -340,7 +341,7 @@ namespace serwer.App.Controllers
                             oneMsg += msgOne;
                             odp += temp.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
 
-                            privateMessages.Find(el => el.Name == FileName).messages.Add(new Messages { Showed = true, Text = msgOne, From = from, To = to, Date = temp });
+                            privateMessages.FirstOrDefault(el => el.Name == FileName).Messages.Add(new Messages { Showed = true, Text = msgOne, From = from, To = to, Date = temp });
                         }
                         return odp;
                     }
@@ -353,13 +354,13 @@ namespace serwer.App.Controllers
                 else if (msg.StartsWith("Wyswietl wiadomosci#"))
                 {
                     string FileName = msg.Substring(20);
-                    var msgs = privateMessages.Find(el => el.Name == FileName).messages;
+                    var msgs = privateMessages.FirstOrDefault(el => el.Name == FileName).Messages;
                     return MessagesToString(msgs);
                 }
                 else
                 {
                     string login = msg.Substring(19);
-                    var msgs = messages.FindAll(el => el.Login == login);
+                    var msgs = messages.Where(el => el.Login == login).ToHashSet<Messages>();
                     return MessagesToString(msgs);
 
                     /* save public msgs
@@ -412,10 +413,11 @@ namespace serwer.App.Controllers
             }
         }
 
-        private static string MessagesToString(List<Messages> messages)
+        private static string MessagesToString(HashSet<Messages> messages)
         {
             string odp = "";
-            messages.ForEach(delegate (Messages message)
+
+            foreach(Messages message in messages)
             {
                 if (message.Showed == false)
                 {
@@ -433,8 +435,8 @@ namespace serwer.App.Controllers
                     odp += message.Date.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
                     message.Showed = true;
                 }
-            });
-            return odp;
+            }
+            return odp == "" ? "0" : odp;
         }
         
         public void ZapisKont()
@@ -450,7 +452,7 @@ namespace serwer.App.Controllers
                 while (users.Count != 0)
                 {
                     f.WriteLine(users.First().RegisteredUser + "$" + users.First().Pasword);
-                    users.RemoveAt(0);
+                    users.Remove(users.First());
                 }
 
                 f.Close();
@@ -485,7 +487,7 @@ namespace serwer.App.Controllers
             plik.Close();
             */
 
-            messages.RemoveAll(el => el.Showed == true);
+            messages.RemoveWhere(el => el.Showed == true);
             Serwer.deleted.Set();
         }
     }

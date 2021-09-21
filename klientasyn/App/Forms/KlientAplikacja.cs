@@ -180,7 +180,7 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (!Responde.comunicatsMsg.StartsWith("ok"))
+                        if (!Responde.comunicatsMsg.StartsWith("ok") && Responde.comunicatsMsg != "0")
                         {
                            Komunikaty.AppendText(Responde.comunicatsMsg);
                         }

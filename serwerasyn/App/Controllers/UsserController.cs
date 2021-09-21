@@ -49,7 +49,7 @@ namespace serwer.App.Controllers
             }
         }
 
-        public List<Usser> FindUsser()
+        public List<Usser> FindAllUssers()
         {
             try
             {

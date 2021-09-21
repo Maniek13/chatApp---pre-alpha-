@@ -5,6 +5,6 @@ namespace serwer.App.Objects
     class PrivateMessages
     {
         public string Name{ get; set;}
-        public List<Messages> messages { get; set; } = new List<Messages>();
+        public HashSet<Messages> Messages { get; set; } = new HashSet<Messages>();
     }
 }
