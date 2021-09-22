@@ -80,13 +80,14 @@ namespace Klient
         {
             while (stop == false)
             {
-                if (DateTime.Now.Second % 3 == 0)
+                if (DateTime.Now.Second % 2 == 0)
                 {
                     var msg = PrivChatEVT.chatEVTDatas.Find(el => el.Name == filename);
                     msg.Msg = "Wyswietl wiadomosci#" + filename + "%" + Account.usser;
                     Wiadomości();
                     msg.msgsShowed.WaitOne();
                     msg.msgsShowed.Reset();
+                    msg.msgsShowed.WaitOne(1000);
                 }
             }
         }
