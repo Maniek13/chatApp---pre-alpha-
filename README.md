@@ -1,4 +1,4 @@
-# chatApp---pre-alpha-
+# chatApp--alpha-
 
 Server:
 1. Copy files
