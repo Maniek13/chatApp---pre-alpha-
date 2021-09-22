@@ -57,15 +57,15 @@ namespace Klient.App
                 {
                     sendDone.Reset();
 
-                    if (_isContacts == true && _FileName == "")
+                    if (_isContacts == true)
                     {
                         Send(client, Responde.contactsMsg);
                     }
-                    else if(_isContacts == false && _FileName == "")
+                    else if(_isContacts == false)
                     {
                         Send(client, Responde.comunicatsMsg);
                     }
-                    else if(_FileName != "" && _isContacts == null)
+                    else if(_FileName != "")
                     {
                         string msgToSend = PrivChatEVT.chatEVTDatas.Find(el => el.Name == _FileName).Msg;
                         Send(client, msgToSend);
@@ -207,17 +207,17 @@ namespace Klient.App
 
         private void RespondeStatusAndMsg()
         {
-            if (_isContacts == true && _FileName == "")
+            if (_isContacts == true)
             {
                 Responde.contactsMsg = response;
                 Responde.contacts.Set();
             }
-            else if (_isContacts == false && _FileName == "")
+            else if (_isContacts == false)
             {
                 Responde.comunicatsMsg = response;
                 Responde.comunicats.Set();
             }
-            else if (_FileName != "" && _isContacts == null)
+            else if (_FileName != "")
             {
                 var resp = PrivChatEVT.chatEVTDatas.Find(el => el.Name == _FileName);
                 resp.Msg = response;
