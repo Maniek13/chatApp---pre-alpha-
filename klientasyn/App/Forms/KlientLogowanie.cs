@@ -15,6 +15,7 @@ namespace Klient
 
         public KlientLogowanie()
         {
+            this.FormClosed += Close;
             InitializeComponent();
         }
 
@@ -31,6 +32,7 @@ namespace Klient
             wątek.Start();
             Responde.odebrano.WaitOne();
             wątek.Abort();
+            wątek.Join();
 
             if (Responde.msg.StartsWith("ok"))
             {
@@ -69,6 +71,7 @@ namespace Klient
             wątek.Start();
             Responde.odebrano.WaitOne();
             wątek.Abort();
+            wątek.Join();
 
             if (Responde.msg.StartsWith("ok"))
             {
@@ -126,6 +129,11 @@ namespace Klient
 
         private void KlientLogowanie_Load(object sender, EventArgs e)
         {
+        }
+
+        private void Close(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

@@ -18,8 +18,9 @@ namespace Klient.App
         private static readonly ManualResetEvent receiveDone =
             new ManualResetEvent(false);
 
-        private static String response = "";
+        private String response = "";
         private readonly bool? _isContacts;
+        private readonly string _FileName = "";
 
         public AsynchronousClient(bool isContacts)
         {
@@ -29,6 +30,12 @@ namespace Klient.App
         public AsynchronousClient()
         {
             _isContacts = null;
+        }
+
+        public AsynchronousClient(string FileName)
+        {
+            _isContacts = null;
+            _FileName = FileName;
         }
 
         public void StartClient()
@@ -46,19 +53,22 @@ namespace Klient.App
                 client.BeginConnect(remoteEP,
                     new AsyncCallback(ConnectCallback), client);
 
-
-
                 if (connectDone.WaitOne(500) == true)
                 {
                     sendDone.Reset();
 
-                    if (_isContacts == true)
+                    if (_isContacts == true && _FileName == "")
                     {
                         Send(client, Responde.contactsMsg);
                     }
-                    else if(_isContacts == false)
+                    else if(_isContacts == false && _FileName == "")
                     {
                         Send(client, Responde.comunicatsMsg);
+                    }
+                    else if(_FileName != "" && _isContacts == null)
+                    {
+                        string msgToSend = PrivChatEVT.chatEVTDatas.Find(el => el.Name == _FileName).Msg;
+                        Send(client, msgToSend);
                     }
                     else
                     {
@@ -78,15 +88,15 @@ namespace Klient.App
                 {
                     response = "connection problem";
                 }
+
+                RespondeStatusAndMsg();
+
             }
             catch (Exception p)
             {
                 Console.WriteLine("Error..... " + p.StackTrace);
             }
 
-            
-           
-            
             Thread.CurrentThread.Abort();
         }
 
@@ -137,29 +147,9 @@ namespace Klient.App
                     new AsyncCallback(ReceiveCallback), state);
 
                     response = state.sb.ToString();
-
-                    if (_isContacts == true)
-                    {
-                        Responde.contactsMsg = response;
-                        Responde.contacts.Set();
-                    }
-                    else if (_isContacts == false)
-                    {
-                        Responde.comunicatsMsg = response;
-                        Responde.comunicats.Set();
-                    }
-                    else
-                    {
-                        Responde.msg = response;
-                        Responde.odebrano.Set();
-                    }
-
-                    receiveDone.Set();
                 }
-                else
-                {
 
-                }
+                receiveDone.Set();
             }
             catch (Exception p)
             {
@@ -213,6 +203,31 @@ namespace Klient.App
         private void AsynchronousClient_Load_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void RespondeStatusAndMsg()
+        {
+            if (_isContacts == true && _FileName == "")
+            {
+                Responde.contactsMsg = response;
+                Responde.contacts.Set();
+            }
+            else if (_isContacts == false && _FileName == "")
+            {
+                Responde.comunicatsMsg = response;
+                Responde.comunicats.Set();
+            }
+            else if (_FileName != "" && _isContacts == null)
+            {
+                var resp = PrivChatEVT.chatEVTDatas.Find(el => el.Name == _FileName);
+                resp.Msg = response;
+                resp.Set.Set();
+            }
+            else
+            {
+                Responde.msg = response;
+                Responde.odebrano.Set();
+            }
         }
     }
 }

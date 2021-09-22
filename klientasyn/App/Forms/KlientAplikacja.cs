@@ -13,6 +13,7 @@ namespace Klient
         public static ManualResetEvent wyswietlono = new ManualResetEvent(false);
         public static ManualResetEvent showsContacts = new ManualResetEvent(false);
         public CancellationTokenSource source = new CancellationTokenSource();
+        private static bool stop = false;
 
         /* Dodawanie kont
            private KlientLogowanie _client;
@@ -25,6 +26,7 @@ namespace Klient
 
         public KlientAplikacja()
         {
+            this.FormClosed += Close;
             InitializeComponent();
         }
 
@@ -90,13 +92,10 @@ namespace Klient
 
         private void Kontakty_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
         }
 
         private void Komunikaty_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -104,12 +103,11 @@ namespace Klient
             WyświetlKontakty();
             MessagesController messagesController = new MessagesController();
 
-
             CancellationToken token = source.Token;
             TaskFactory factory = new TaskFactory(token);
 
-            factory.StartNew(WyświetlWiadomosći);
-            factory.StartNew(ShowContacts);
+            factory.StartNew(WyświetlWiadomosći, token);
+            factory.StartNew(ShowContacts, token);
             
             /*
             Thread msg = new Thread(new ThreadStart(WyświetlWiadomosći))
@@ -161,48 +159,9 @@ namespace Klient
             }
         }
 
-        private void Wiadomości()
-        {
-            Responde.comunicats.Reset();
-            AsynchronousClient asynchronousClient = new AsynchronousClient(false);
-            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
-            {
-                IsBackground = true
-            };
-            wątek.Start();
-
-            Responde.comunicats.WaitOne();
-            wątek.Abort();
-
-            try
-            {
-                if (!this.IsDisposed)
-                {
-                    Invoke(new Action(() =>
-                    {
-                        if (!Responde.comunicatsMsg.StartsWith("ok") && Responde.comunicatsMsg != "0")
-                        {
-                           Komunikaty.AppendText(Responde.comunicatsMsg);
-                        }
-                    }));
-                }
-                else
-                {
-                    Environment.Exit(0);
-                }
-            }
-            catch (InvalidOperationException)
-            {
-
-            }
-            wyswietlono.Set();
-        }
-
         public void WyświetlWiadomosći()
         {
-            bool temp = true;
-
-            while (temp == true)
+            while (stop == false)
             {
                 if (DateTime.Now.Second % 2 == 0)
                 {
@@ -217,9 +176,7 @@ namespace Klient
 
         public void ShowContacts()
         {
-            bool temp = true;
-
-            while (temp == true)
+            while (stop == false)
             {
                 if (DateTime.Now.Second % 5 == 0)
                 {
@@ -230,6 +187,41 @@ namespace Klient
                     showsContacts.WaitOne(1000);
                 }
             }
+        }
+
+        private void Wiadomości()
+        {
+            Responde.comunicats.Reset();
+            AsynchronousClient asynchronousClient = new AsynchronousClient(false);
+            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
+            {
+                IsBackground = true
+            };
+            wątek.Start();
+
+            Responde.comunicats.WaitOne();
+            wątek.Abort();
+            wątek.Join();
+
+            try
+            {
+                if (!this.IsDisposed)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        if (!Responde.comunicatsMsg.StartsWith("ok") && Responde.comunicatsMsg != "0" && Responde.comunicatsMsg != "connection problem" && Responde.comunicatsMsg != "")
+                        {
+                            Komunikaty.AppendText(Responde.comunicatsMsg);
+                        }
+                    }));
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                wyswietlono.Set();
+            }
+
+            wyswietlono.Set();
         }
 
         private void Contacts()
@@ -244,6 +236,7 @@ namespace Klient
 
             Responde.contacts.WaitOne();
             wątek.Abort();
+            wątek.Join();
 
             try
             {
@@ -251,10 +244,9 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (Responde.contactsMsg != "ok" && Responde.contactsMsg != "connection problem" )
+                        if (Responde.contactsMsg != "ok" && Responde.contactsMsg != "0" && Responde.contactsMsg != "connection problem" && Responde.contactsMsg != "")
                         {
                             string temp = Responde.contactsMsg.Substring(2);
-
 
                             while (temp != "")
                             {
@@ -308,16 +300,22 @@ namespace Klient
                         }
                     }));
                 }
-                else
-                {
-                    Environment.Exit(0);
-                }
             }
             catch (InvalidOperationException)
             {
-
+                showsContacts.Set();
             }
+
             showsContacts.Set();
+        }
+
+
+        private void Close(object sender, EventArgs e)
+        {
+            stop = true;
+            source.Cancel();
+            source.Dispose();
+            Environment.Exit(0);
         }
     }
 }

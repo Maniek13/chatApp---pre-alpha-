@@ -9,29 +9,16 @@ Server:
 Client
 1. Copy and run
 
-
-
-
-
-
 ________Working
-
--add usser
--login
--show ussers 
--save sended msg on server
--save private msg on server
--show sended msg
--show priv msgs when open window
--responde public msg
--refresh usser list when new one added or disactivated
-
+- add usser
+- chat (priv and public)
 
 ________In progres
+- sometimes freezing and don't show msgs
+- need optimization
 - add function to uncheck contact in list
 - error when client start first (reset server)
-- show private msgs when send 
-
+- add more functions
 
 
 ![image](https://user-images.githubusercontent.com/47826375/132100518-96ed1cf8-b993-42e2-a3be-c8b11de61d3c.png)

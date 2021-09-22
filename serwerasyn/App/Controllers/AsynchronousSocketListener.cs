@@ -48,39 +48,56 @@ namespace serwer.App.Controllers
 
         public static void AcceptCallback(IAsyncResult ar)
         {
-            allDone.Set();
-
-            Socket listener = (Socket)ar.AsyncState;
-            Socket handler = listener.EndAccept(ar);
-            StateObject state = new StateObject
+            try
             {
-                workSocket = handler
-            };
-            handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                new AsyncCallback(ReadCallback), state);
+                allDone.Set();
+
+                Socket listener = (Socket)ar.AsyncState;
+                Socket handler = listener.EndAccept(ar);
+                StateObject state = new StateObject
+                {
+                    workSocket = handler
+                };
+                handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                    new AsyncCallback(ReadCallback), state);
+            }
+            catch (Exception p)
+            {
+                Console.WriteLine("Error..... " + p.StackTrace);
+                allDone.Set();
+            }
+            
         }
 
         public async static void ReadCallback(IAsyncResult ar)
         {
-            String content;
-
-            StateObject state = (StateObject)ar.AsyncState;
-            Socket handler = state.workSocket;
-
-            int bytesRead = handler.EndReceive(ar);
-
-            if (bytesRead > 0)
+            try
             {
-                state.sb.Append(Encoding.ASCII.GetString(
-                    state.buffer, 0, bytesRead));
+                String content;
 
-                content = state.sb.ToString();
+                StateObject state = (StateObject)ar.AsyncState;
+                Socket handler = state.workSocket;
 
-                Obliczenia obliczenia = new Obliczenia();
-                content = await obliczenia.Start(content);
+                int bytesRead = handler.EndReceive(ar);
 
-                Send(handler, content);
+                if (bytesRead > 0)
+                {
+                    state.sb.Append(Encoding.ASCII.GetString(
+                        state.buffer, 0, bytesRead));
+
+                    content = state.sb.ToString();
+
+                    Obliczenia obliczenia = new Obliczenia();
+                    content = await obliczenia.Start(content);
+
+                    Send(handler, content);
+                }
             }
+            catch (Exception p)
+            {
+                Console.WriteLine("Error..... " + p.StackTrace);
+            }
+            
         }
 
         private static void Send(Socket handler, String data)

@@ -79,8 +79,10 @@
     </Compile>
     <Compile Include="App\Objects\Account.cs" />
     <Compile Include="App\Objects\Accounts.cs" />
+    <Compile Include="App\Objects\ChatEVTData.cs" />
     <Compile Include="App\Objects\Konta.cs" />
     <Compile Include="App\Controllers\MessagesController.cs" />
+    <Compile Include="App\Objects\PrivChatEVT.cs" />
     <Compile Include="App\Objects\Responde.cs" />
     <Compile Include="App\Objects\StateObject.cs" />
     <Compile Include="App\Forms\KlientLogowanie.cs">

@@ -58,18 +58,6 @@ namespace serwer.App.Controllers
 
         public void WczytanieKont()
         {
-            /* dodawanie do pliku
-            string[] konta = File.ReadAllLines(Path() + "\\dane\\ussers\\ussers.txt"); //nazwa + $ + hasło
-
-            foreach (string line in konta)
-            {
-                int z = line.IndexOf("$");
-                string login = line.Substring(0, z);
-                string password = line.Substring(z + 1);
-                users.Add(new Userspasword(login, password));
-            }
-
-            */
             UsserController usserController = new UsserController();
             List<Models.Usser> ussers = usserController.FindAllUssers();
 
@@ -251,8 +239,6 @@ namespace serwer.App.Controllers
                 
                 if (priv != true)
                 {
-                    //plik = new FileStream(Path() + "\\dane\\messages\\public.txt", FileMode.OpenOrCreate);
-
                     foreach(Usser us in activeUsers)
                     {
                         messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = us.Name, Date = Convert.ToDateTime(czas) });
@@ -284,7 +270,8 @@ namespace serwer.App.Controllers
                         privateMessages.Add(new PrivateMessages { Name = ussers[0] + ussers[1] });
                     }
 
-                    privateMessages.FirstOrDefault(el => el.Name == ussers[0] + ussers[1]).Messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Date = Convert.ToDateTime(czas) });
+                    privateMessages.FirstOrDefault(el => el.Name == ussers[0] + ussers[1]).Messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = login, Date = Convert.ToDateTime(czas) });
+                    privateMessages.FirstOrDefault(el => el.Name == ussers[0] + ussers[1]).Messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = adresat, Date = Convert.ToDateTime(czas) });
                 }
 
 
@@ -297,114 +284,31 @@ namespace serwer.App.Controllers
         }
         public string Wiadomości(string msg)
         {
-            string odp = "";
-
             if (msg.StartsWith("Wyswietl wiadomosci"))
             {
                 String date = DateTime.Now.ToString();
 
-                if (msg.StartsWith("Wyswietl wiadomosciFirst"))
+                if (msg.StartsWith("Wyswietl wiadomosci#")) //Wyswietl wiadomosci#filename%login
                 {
-                    string FileName = msg.Substring(24);
+                    string temp = msg.Substring(20);
+                    int indexOfPercent = temp.IndexOf("%");
 
-                    if(File.Exists(Path() + "\\dane\\messages\\" + FileName + ".txt"))
+                    string FileName = temp.Substring(0, indexOfPercent);
+                    string Login = temp.Substring(indexOfPercent + 1);
+
+                    var msgs = privateMessages.FirstOrDefault(el => el.Name == FileName);
+
+                    if(msgs == null)
                     {
-                        string[] msgs = File.ReadAllLines(Path() + "\\dane\\messages\\" + FileName + ".txt");
-
-                        privateMessages.Add(new PrivateMessages { Name = FileName });
-
-                        foreach (string line in msgs)
-                        {
-                            int dateIndex = line.LastIndexOf("&");
-                            string msgDate = line.Substring(dateIndex + 1);
-                            DateTime temp = Convert.ToDateTime(msgDate);
-                            int lenght;
-
-                            int dateIndexLast = line.LastIndexOf("#");
-                            lenght = dateIndex - dateIndexLast;
-                            string msgOne = line.Substring(dateIndexLast + 1, lenght - 1);
-                            int toIndex = line.LastIndexOf("$");
-                            lenght = dateIndexLast - toIndex;
-                            string to = line.Substring(toIndex + 1, lenght - 1);
-                            string from = line.Substring(0, toIndex);
-
-                            string oneMsg;
-                            if (to != "")
-                            {
-                                oneMsg = from + " do " + to + ": ";
-                            }
-                            else
-                            {
-                                oneMsg = from + ": ";
-                            }
-
-                            oneMsg += msgOne;
-                            odp += temp.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
-
-                            privateMessages.FirstOrDefault(el => el.Name == FileName).Messages.Add(new Messages { Showed = true, Text = msgOne, From = from, To = to, Date = temp });
-                        }
-                        return odp;
+                        return "0";
                     }
-                    else
-                    {
-                        return "-1";
-                    }
-                    
-                }
-                else if (msg.StartsWith("Wyswietl wiadomosci#"))
-                {
-                    string FileName = msg.Substring(20);
-                    var msgs = privateMessages.FirstOrDefault(el => el.Name == FileName).Messages;
-                    return MessagesToString(msgs);
+                    return MessagesToString(msgs.Messages.Where(m => m.Login == Login).ToHashSet());
                 }
                 else
                 {
                     string login = msg.Substring(19);
                     var msgs = messages.Where(el => el.Login == login).ToHashSet<Messages>();
                     return MessagesToString(msgs);
-
-                    /* save public msgs
-                    var usserMessage = usserMessages.Find(el => el.Name == login);
-                    var dt = usserMessage.Time;
-
-                    string[] msgs = File.ReadAllLines(Path() + "\\dane\\messages\\public.txt");
-
-                    foreach (string line in msgs)
-                    {
-                        int dateIndex = line.LastIndexOf("&");
-                        string msgDate = line.Substring(dateIndex + 1);
-                        DateTime temp = Convert.ToDateTime(msgDate);
-                        int lenght;
-
-                        if (temp.AddSeconds(1) > dt)
-                        {
-                            int dateIndexLast = line.LastIndexOf("#");
-                            lenght = dateIndex - dateIndexLast;
-                            string msgOne = line.Substring(dateIndexLast + 1, lenght - 1);
-                            int toIndex = line.LastIndexOf("$");
-                            lenght = dateIndexLast - toIndex;
-                            string to = line.Substring(toIndex + 1, lenght - 1);
-                            string from = line.Substring(0, toIndex);
-
-                            string oneMsg;
-                            if (to != "")
-                            {
-                                oneMsg = from + " do " + to + ": ";
-                            }
-                            else
-                            {
-                                oneMsg = from + ": ";
-                            }
-
-                            oneMsg += msgOne;
-                            odp += temp.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
-                        }
-                    }
-                    usserMessages.Find(el => el.Name == login).Time = DateTime.Now;
-                    
-
-                    return odp;
-                    */
                 }
             }
             else
@@ -432,7 +336,7 @@ namespace serwer.App.Controllers
                     }
 
                     oneMsg += message.Text;
-                    odp += message.Date.ToString("d/M/yy H:ss") + " " + oneMsg + Environment.NewLine;
+                    odp += message.Date.ToString("d/M/yy H:mm") + " " + oneMsg + Environment.NewLine;
                     message.Showed = true;
                 }
             }
@@ -463,32 +367,46 @@ namespace serwer.App.Controllers
 
         public void DeleteOldMessages()
         {
-            /* delete from public textfile
-            var path = Path() + "\\dane\\messages\\public.txt";
-            string[] msgs = File.ReadAllLines(path);
-            String date = DateTime.Now.ToString();
-            File.Delete(path);
-
-            FileStream plik = new FileStream(path, FileMode.OpenOrCreate);
-            StreamWriter newFile = new StreamWriter(plik);
-
-            foreach (string line in msgs)
-            {
-                int dateIndex = line.LastIndexOf("&");
-                string msgDate = line.Substring(dateIndex + 1);
-                DateTime temp = Convert.ToDateTime(msgDate);
-
-                if (temp.AddSeconds(-30) > Convert.ToDateTime(date))
-                {
-                    newFile.WriteLine(line);
-                }
-            }
-            newFile.Close();
-            plik.Close();
-            */
-
             messages.RemoveWhere(el => el.Showed == true);
             Serwer.deleted.Set();
         }
+
+        public void LoadMsgs()
+        {
+            var path = Path() + "\\dane\\messages\\";
+            Directory.GetFiles(path);
+            List<string> files = Directory.GetFiles(path).ToList<string>();
+
+            foreach (string file in files)
+            {
+                int index = file.LastIndexOf("\\");
+                int nameLenght = file.Length - 5 - index;
+                string fileName = file.Substring(index+1, nameLenght);
+                string[] msgs = File.ReadAllLines(file);
+                privateMessages.Add(new PrivateMessages { Name = fileName });
+
+                foreach (string line in msgs)
+                {
+                    int dateIndex = line.LastIndexOf("&");
+                    string msgDate = line.Substring(dateIndex + 1);
+                    DateTime temp = Convert.ToDateTime(msgDate);
+                    int lenght;
+
+                    int dateIndexLast = line.LastIndexOf("#");
+                    lenght = dateIndex - dateIndexLast;
+                    string msgOne = line.Substring(dateIndexLast + 1, lenght - 1);
+                    int toIndex = line.LastIndexOf("$");
+                    lenght = dateIndexLast - toIndex;
+                    string to = line.Substring(toIndex + 1, lenght - 1);
+                    string from = line.Substring(0, toIndex);
+               
+
+                    privateMessages.FirstOrDefault(el => el.Name == fileName).Messages.Add(new Messages { Showed = false, Text = msgOne, From = from, To = to, Login = from, Date = temp });
+                    privateMessages.FirstOrDefault(el => el.Name == fileName).Messages.Add(new Messages { Showed = false, Text = msgOne, From = from, To = to, Login = to, Date = temp });
+                }
+
+            }
+        }
+
     }
 }

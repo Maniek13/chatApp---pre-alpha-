@@ -62,14 +62,6 @@ namespace Klient.App.Controllers
             SendMsg(contact, wiadomość, priv);
         }
 
-        public string ShowMsgs(string contact)
-        {
-            Responde.odebrano.Reset();
-            Responde.msg = "Wyswietl wiadomosciFirst" + contact;
-
-            return GetData();
-        }
-
         public string ShowNewMsgs(string contact)
         {
             Responde.odebrano.Reset();

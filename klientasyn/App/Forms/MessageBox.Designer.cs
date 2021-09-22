@@ -78,6 +78,7 @@ namespace Klient
             this.ChatWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ChatWindow.ForeColor = System.Drawing.Color.Black;
             this.ChatWindow.Location = new System.Drawing.Point(51, 34);
+            this.ChatWindow.MaxLength = 0;
             this.ChatWindow.Multiline = true;
             this.ChatWindow.Name = "ChatWindow";
             this.ChatWindow.ReadOnly = true;

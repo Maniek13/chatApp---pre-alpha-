@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Klient.App.Objects
@@ -14,5 +15,6 @@ namespace Klient.App.Objects
             new ManualResetEvent(false);
         public static ManualResetEvent comunicats =
            new ManualResetEvent(false);
+        public static List<PrivChatEVT> privChat = new List<PrivChatEVT>();
     }
 }
