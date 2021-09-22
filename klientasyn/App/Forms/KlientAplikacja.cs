@@ -163,7 +163,7 @@ namespace Klient
         {
             while (stop == false)
             {
-                if (DateTime.Now.Second % 2 == 0)
+                if (DateTime.Now.Second % 3 == 0)
                 {
                     Responde.comunicatsMsg = "Wyswietl wiadomosci"+ Account.usser;
                     Wiadomości();
