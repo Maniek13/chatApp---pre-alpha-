@@ -65,7 +65,7 @@ namespace Klient.App
                     {
                         Send(client, Responde.comunicatsMsg);
                     }
-                    else if(_FileName != "")
+                    else if(String.Compare(_FileName, "") != 0)
                     {
                         string msgToSend = PrivChatEVT.chatEVTDatas.Find(el => el.Name == _FileName).Msg;
                         Send(client, msgToSend);
@@ -217,7 +217,7 @@ namespace Klient.App
                 Responde.comunicatsMsg = response;
                 Responde.comunicats.Set();
             }
-            else if (_FileName != "")
+            else if (String.Compare(_FileName, "") != 0)
             {
                 var resp = PrivChatEVT.chatEVTDatas.Find(el => el.Name == _FileName);
                 resp.Msg = response;

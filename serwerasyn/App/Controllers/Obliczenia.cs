@@ -24,7 +24,6 @@ namespace serwer.App.Controllers
 
         public async Task<string> Start(string wiadomość)
         {
-
             string z;
 
             z = Wiadomość(wiadomość);
@@ -162,7 +161,7 @@ namespace serwer.App.Controllers
 
                 foreach (Usser usser in activeUsers)
                 {
-                    if (usser.Name != login)
+                    if (String.Compare(usser.Name, login) != 0)
                     {
                         if (usser.Time < DateTime.Now.AddSeconds(-30))
                         {
@@ -314,7 +313,7 @@ namespace serwer.App.Controllers
                 if (message.Showed == false)
                 {
                     string oneMsg;
-                    if (message.To != "")
+                    if (String.Compare(message.To, "") != 0)
                     {
                         oneMsg = message.From + " do " + message.To + ": ";
                     }

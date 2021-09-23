@@ -52,7 +52,7 @@ namespace Klient
                 nowy.Show();
                 this.Hide();
             }
-            else if (Responde.msg != "connection problem")
+            else if (String.Compare(Responde.msg, "connection problem") != 0)
             {
                 Login.Clear();
                 hasło.Clear();

@@ -210,7 +210,7 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (!Responde.comunicatsMsg.StartsWith("ok") && Responde.comunicatsMsg != "0" && Responde.comunicatsMsg != "connection problem" && Responde.comunicatsMsg != "")
+                        if (!Responde.comunicatsMsg.StartsWith("ok") && String.Compare(Responde.comunicatsMsg, "0") != 0 && String.Compare(Responde.comunicatsMsg, "connection problem") != 0 && String.Compare(Responde.comunicatsMsg, "") != 0)
                         {
                             Komunikaty.AppendText(Responde.comunicatsMsg);
                         }
@@ -245,11 +245,16 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (Responde.contactsMsg != "ok"  && Responde.contactsMsg != "connection problem" && Responde.contactsMsg != "")
+                        if (String.Compare(Responde.contactsMsg, "connection problem") != 0 && String.Compare(Responde.contactsMsg, "") != 0)
                         {
                             string temp = Responde.contactsMsg.Substring(2);
 
-                            while (temp != "")
+                            if(String.Compare(temp, "") == 0)
+                            {
+                                Accounts.users.FindAll(el => el.Status == true).ForEach(el => el.Status = false);
+                            }
+
+                            while (String.Compare(temp, "") != 0)
                             {
                                 int index = temp.IndexOf("$");
 

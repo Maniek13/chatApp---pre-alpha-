@@ -10,7 +10,7 @@ namespace Klient.App.Controllers
 
         public void SendMsg(string contact, string wiadomość, bool priv)
         {
-            if (wiadomość != "")
+            if (String.Compare(wiadomość, "") != 0)
             {
                 Responde.odebrano.Reset();
 

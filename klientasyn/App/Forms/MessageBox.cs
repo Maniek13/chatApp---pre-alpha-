@@ -30,7 +30,6 @@ namespace Klient
             });
 
             filename = ussers[0] + ussers[1];
-
             InitializeComponent();
         }
 
@@ -38,7 +37,7 @@ namespace Klient
         {
             this.message = TextToSend.Text;
 
-            if (this.message != "")
+            if (String.Compare(this.message, "") != 0)
             {
                 MessagesController messagesController = new MessagesController();
                 messagesController.Wiadomość(this.name, this.message, true);
@@ -114,7 +113,7 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (!usserChatData.Msg.StartsWith("ok") && usserChatData.Msg != "0" && usserChatData.Msg != "connection problem")
+                        if (!usserChatData.Msg.StartsWith("ok") && String.Compare(usserChatData.Msg, "0") != 0 && String.Compare(usserChatData.Msg, "connection problem") != 0)
                         {
                             ChatWindow.AppendText(usserChatData.Msg);
                         }
