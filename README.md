@@ -14,10 +14,9 @@ ________Working
 - chat (priv and public)
 
 ________In progres
-- sometimes freezing and don't show msgs
+- sometimes freezing and don't send msgs
 - need optimization
 - add function to uncheck contact in list
-- error when client start first (reset server)
 - add more functions
 
 

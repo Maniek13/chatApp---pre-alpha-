@@ -244,7 +244,7 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
-                        if (Responde.contactsMsg != "ok" && Responde.contactsMsg != "0" && Responde.contactsMsg != "connection problem" && Responde.contactsMsg != "")
+                        if (Responde.contactsMsg != "ok"  && Responde.contactsMsg != "connection problem" && Responde.contactsMsg != "")
                         {
                             string temp = Responde.contactsMsg.Substring(2);
 
