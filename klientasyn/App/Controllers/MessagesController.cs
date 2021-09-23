@@ -10,7 +10,6 @@ namespace Klient.App.Controllers
 
         public void SendMsg(string contact, string wiadomość, bool priv)
         {
-
             if (wiadomość != "")
             {
                 Responde.odebrano.Reset();
@@ -18,7 +17,6 @@ namespace Klient.App.Controllers
                 if (priv == true)
                 {
                     Responde.msg = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
-
                 }
                 else if (contact != "")
                 {
@@ -36,14 +34,11 @@ namespace Klient.App.Controllers
                 };
                 wątek.Start();
                 Responde.odebrano.WaitOne();
-
-
             }
         }
 
         public void Wiadomość(string contact, string wiadomosc)
         {
-        
             Konta temp = Accounts.users.Find(x => x.Nazwa == contact);
             
             if(temp != null)
@@ -54,7 +49,6 @@ namespace Klient.App.Controllers
             {
                 SendMsg("", wiadomosc, false);
             }
-           
         }
 
         public void Wiadomość(string contact, string wiadomość, bool priv)
@@ -82,6 +76,5 @@ namespace Klient.App.Controllers
 
             return Responde.msg;
         }
-
     }
 }

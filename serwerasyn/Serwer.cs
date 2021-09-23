@@ -22,8 +22,6 @@ namespace serwer
 
         public void Start_Click(object sender, EventArgs e)
         {
-
-
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.LoadMsgs();
             obliczenia.WczytanieKont();
@@ -49,8 +47,8 @@ namespace serwer
             };
             delete.Start();
             */
-            
         }
+
         private void DeleteOldData()
         {
             Obliczenia obl = new Obliczenia();
@@ -74,6 +72,7 @@ namespace serwer
         private void Form1_Load(object sender, EventArgs e)
         {   
         }
+
         private void Stop_Click(object sender, EventArgs e)
         {
             /*
@@ -84,6 +83,7 @@ namespace serwer
             */
             stop = true;
             source.Cancel();
+            source.Dispose();
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.Reset();
             textBox1.Text = "Stoped";
@@ -92,9 +92,11 @@ namespace serwer
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
         }
+
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
         }
+
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
         }

@@ -22,47 +22,19 @@ namespace Klient
         private void Zaloguj_Click(object sender, EventArgs e)
         {
             Responde.msg = "LOG" + Login.Text + "$" + hasło.Text;
-
-            Responde.odebrano.Reset();
-            AsynchronousClient asynchronousClient = new AsynchronousClient();
-            Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
-            {
-                IsBackground = true
-            };
-            wątek.Start();
-            Responde.odebrano.WaitOne();
-            wątek.Abort();
-            wątek.Join();
-
-            if (Responde.msg.StartsWith("ok"))
-            {
-                UserList();
-
-                KlientAplikacja nowy = new KlientAplikacja();
-                nowy.Show();
-                this.Hide();
-            }
-            else if (Responde.msg != "connection problem")
-            {
-                Login.Clear();
-                hasło.Clear();
-                textBox1.Text = Responde.msg;
-
-            }
-            else
-            {
-                Login.Clear();
-                hasło.Clear();
-                textBox1.Text = Responde.msg;
-            }
+            LogOrRegisterInquiry();
         }
 
 
         private void Zarejestruj_Click(object sender, EventArgs e)
         {
-            Responde.odebrano.Reset();
             Responde.msg = "REJ" + Login.Text + "$" + hasło.Text;
+            LogOrRegisterInquiry();
+        }
 
+        private void LogOrRegisterInquiry()
+        {
+            Responde.odebrano.Reset();
             AsynchronousClient asynchronousClient = new AsynchronousClient();
             Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {

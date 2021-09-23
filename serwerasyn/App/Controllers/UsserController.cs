@@ -32,7 +32,6 @@ namespace serwer.App.Controllers
             {
                 var finded = _context.Ussers.SqlQuery("Select * from Ussers").ToListAsync().Result.Find(el => el.Name == usser.Name && el.Password == usser.Password);
 
-                
                 if(finded != null)
                 {
                     return 1;
@@ -41,7 +40,6 @@ namespace serwer.App.Controllers
                 {
                     return 0;
                 }
-                
             }
             catch
             {
@@ -60,6 +58,5 @@ namespace serwer.App.Controllers
                 return null;
             }
         }
-
     }
 }

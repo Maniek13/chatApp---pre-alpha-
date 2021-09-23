@@ -79,22 +79,7 @@ namespace serwer.App.Controllers
 
                 if (users.FirstOrDefault(x => x.RegisteredUser == login && x.Pasword == password) != null)
                 {
-
-                    string usser_list = "";
-                    if(activeUsers.FirstOrDefault(el => el.Name == login) == null)
-                    {
-                        activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
-                    }
-
-                    foreach (Userspasword user in users)
-                    {
-                        if (user.RegisteredUser != login)
-                        {
-                            usser_list += user.RegisteredUser + '$';
-                        }
-                    }
-
-                    return "ok" + usser_list;
+                    return "ok" + UsserListLoginRegister(login);
                 }
                 else
                 {
@@ -125,25 +110,7 @@ namespace serwer.App.Controllers
                     if(ok == 1)
                     {
                         users.Add(new Userspasword(login, password));
-
-                        if (activeUsers.FirstOrDefault(el => el.Name == login) == null)
-                        {
-                            activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
-                        }
-
-                        string usser_list = "";
-                        foreach (Userspasword user in users)
-                        {
-                            if (user.RegisteredUser != login)
-                            {
-                                usser_list += user.RegisteredUser + '$';
-                            }
-                        }
-
-
-                        //   ZapisKont();  save data to file
-
-                        return "ok" + usser_list;
+                        return "ok" + UsserListLoginRegister(login);
                     }
                     else
                     {
@@ -156,6 +123,27 @@ namespace serwer.App.Controllers
             {
                 return "";
             }
+        }
+
+        public string UsserListLoginRegister(string login)
+        {
+            string usser_list = "";
+
+            if (activeUsers.FirstOrDefault(el => el.Name == login) == null)
+            {
+                activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
+            }
+
+
+            foreach (Userspasword user in users)
+            {
+                if (user.RegisteredUser != login)
+                {
+                    usser_list += user.RegisteredUser + '$';
+                }
+            }
+
+            return usser_list;
         }
 
         public string ActiveUssers(string msg)
@@ -342,28 +330,6 @@ namespace serwer.App.Controllers
             }
             return odp == "" ? "0" : odp;
         }
-        
-        public void ZapisKont()
-        {
-            if (users.Count != 0)
-            {
-                File.Delete(Path() + @"\\dane\\ussers\\ussers.txt");
-
-                FileStream plik = new FileStream(Path() + @"\\dane\\ussers\\ussers.txt", FileMode.OpenOrCreate);
-
-                StreamWriter f = new StreamWriter(plik);
-
-                while (users.Count != 0)
-                {
-                    f.WriteLine(users.First().RegisteredUser + "$" + users.First().Pasword);
-                    users.Remove(users.First());
-                }
-
-                f.Close();
-                plik.Close();
-            }
-        }
-        
 
         public void DeleteOldMessages()
         {

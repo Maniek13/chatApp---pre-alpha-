@@ -49,7 +49,6 @@ namespace Klient
 
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-
         }
 
         private void Wyślij_Click(object sender, EventArgs e)
@@ -63,15 +62,7 @@ namespace Klient
             string wiadomość = Wiadomosc.Text;
 
             MessagesController messagesController = new MessagesController();
-            //odp
             messagesController.Wiadomość(contactToSend, wiadomość);
-
-            /*
-            if (odp != "ok")
-            {
-                Komunikaty.AppendText(odp + Environment.NewLine);
-            }
-            */
             Wiadomosc.Text = "";
         }
 
@@ -87,7 +78,6 @@ namespace Klient
             {
                 contactToSend = str;
             }
-
             return contactToSend;
         }
 
@@ -130,12 +120,10 @@ namespace Klient
 
         private void Komunikaty_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void Wiadomosc_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void Dodaj_Click(object sender, EventArgs e)
@@ -158,7 +146,6 @@ namespace Klient
                     contact = Kontakty.SelectedItem.ToString();
                 }
             }
-            
         }
 
         private void Kontakty_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -286,8 +273,6 @@ namespace Klient
                             }
 
                             Accounts.users.ForEach(delegate (Konta el) {
-
-
                                 if (Kontakty.Items.Contains(el.Nazwa))
                                 {
                                     if (el.Status == true)
