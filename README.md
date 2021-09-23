@@ -15,8 +15,7 @@ ________Working
 
 ________In progres
 - sometimes freezing and don't send msgs
-- need optimization
-- add function to uncheck contact in list
+- optimization
 - add more functions
 
 

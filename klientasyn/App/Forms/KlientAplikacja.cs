@@ -14,6 +14,7 @@ namespace Klient
         public static ManualResetEvent showsContacts = new ManualResetEvent(false);
         public CancellationTokenSource source = new CancellationTokenSource();
         private static bool stop = false;
+        private string contact = "";
 
         /* Dodawanie kont
            private KlientLogowanie _client;
@@ -53,17 +54,17 @@ namespace Klient
 
         private void Wyślij_Click(object sender, EventArgs e)
         {
-            string contact = "";
+            string contactToSend = "";
             if (Kontakty.SelectedItem != null)
             {
-                contact = SelectedContactName();
+                contactToSend = SelectedContactName();
             }
 
             string wiadomość = Wiadomosc.Text;
 
             MessagesController messagesController = new MessagesController();
             //odp
-            messagesController.Wiadomość(contact, wiadomość);
+            messagesController.Wiadomość(contactToSend, wiadomość);
 
             /*
             if (odp != "ok")
@@ -76,21 +77,21 @@ namespace Klient
 
         private string SelectedContactName()
         {
-            string contact;
+            string contactToSend;
             string str = Kontakty.SelectedItem.ToString();
             if (str.Contains("online"))
             {
-                contact = str.Substring(0, str.Length - 7);
+                contactToSend = str.Substring(0, str.Length - 7);
             }
             else
             {
-                contact = str;
+                contactToSend = str;
             }
 
-            return contact;
+            return contactToSend;
         }
 
-        private void Kontakty_SelectedIndexChanged(object sender, EventArgs e)
+        private void checkedListBox1_ItemCheck(object sender, EventArgs e)
         {
         }
 
@@ -145,6 +146,19 @@ namespace Klient
 
         private void Kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
         {
+            if(Kontakty.SelectedItem != null)
+            {
+                if (Kontakty.SelectedItem.ToString() == contact)
+                {
+                    Kontakty.ClearSelected();
+                    contact = "";
+                }
+                else
+                {
+                    contact = Kontakty.SelectedItem.ToString();
+                }
+            }
+            
         }
 
         private void Kontakty_MouseDoubleClick(object sender, MouseEventArgs e)
