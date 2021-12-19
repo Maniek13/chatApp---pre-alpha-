@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading;
 using Klient.App.Objects;
 
@@ -16,15 +17,15 @@ namespace Klient.App.Controllers
 
                 if (priv == true)
                 {
-                    Responde.msg = "Wiadomosc od:Priv" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
+                    Responde.msg = $"Wiadomosc od:Priv{login}#{wiadomość}%{contact}&{DateTime.Now}";
                 }
                 else if (contact != "")
                 {
-                    Responde.msg = "Wiadomosc od:" + login + "#" + wiadomość + "%" + contact + "&" + DateTime.Now;
+                    Responde.msg = $"Wiadomosc od:{login}#{wiadomość}%{contact}&{DateTime.Now}";
                 }
                 else
                 {
-                    Responde.msg = "Wiadomosc od:" + login + "#" + wiadomość + "%&" + DateTime.Now;
+                    Responde.msg = $"Wiadomosc od:{login}#{wiadomość}%&{DateTime.Now}";
                 }
 
                 AsynchronousClient asynchronousClient = new AsynchronousClient();
@@ -59,7 +60,7 @@ namespace Klient.App.Controllers
         public string ShowNewMsgs(string contact)
         {
             Responde.odebrano.Reset();
-            Responde.msg = "Wyswietl wiadomosci#" + contact;
+            Responde.msg = $"Wyswietl wiadomosci#{contact}";
 
             return GetData();
         }

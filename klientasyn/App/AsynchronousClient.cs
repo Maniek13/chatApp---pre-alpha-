@@ -18,7 +18,7 @@ namespace Klient.App
         private static readonly ManualResetEvent receiveDone =
             new ManualResetEvent(false);
 
-        private String response = "";
+        private string response = "";
         private readonly bool? _isContacts;
         private readonly string _FileName = "";
 

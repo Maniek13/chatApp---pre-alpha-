@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using serwer.App.Objects;
@@ -78,7 +79,7 @@ namespace serwer.App.Controllers
 
                 if (users.FirstOrDefault(x => x.RegisteredUser == login && x.Pasword == password) != null)
                 {
-                    return "ok" + UsserListLoginRegister(login);
+                    return $"ok{UsserListLoginRegister(login)}";
                 }
                 else
                 {
@@ -109,13 +110,12 @@ namespace serwer.App.Controllers
                     if(ok == 1)
                     {
                         users.Add(new Userspasword(login, password));
-                        return "ok" + UsserListLoginRegister(login);
+                        return "ok{UsserListLoginRegister(login)}";
                     }
                     else
                     {
                         return "";
                     }
-                   
                 }
             }
             else
@@ -133,12 +133,11 @@ namespace serwer.App.Controllers
                 activeUsers.Add(new Usser { Name = login, Time = DateTime.Now });
             }
 
-
             foreach (Userspasword user in users)
             {
                 if (user.RegisteredUser != login)
                 {
-                    usser_list += user.RegisteredUser + '$';
+                    usser_list += $"{user.RegisteredUser}$";
                 }
             }
 
@@ -148,7 +147,6 @@ namespace serwer.App.Controllers
         public string ActiveUssers(string msg)
         {
             //"Active ussersLOGIN";
-
             if (msg.StartsWith("Active ussers"))
             {
                 string login = msg.Substring(13);
@@ -169,12 +167,12 @@ namespace serwer.App.Controllers
                         }
                         else
                         {
-                            usser_list += usser.Name + '$';
+                            usser_list += ($"{usser.Name}$");
                         }
                     }
                 }
 
-                return "ok" + usser_list;
+                return $"ok{usser_list}";
             }
             else
             {
@@ -243,12 +241,12 @@ namespace serwer.App.Controllers
                     });
 
 
-                    plik = new FileStream(Path() + "\\dane\\messages\\" + ussers[0] + ussers[1] + ".txt", FileMode.OpenOrCreate);
+                    plik = new FileStream(Path() + $"\\dane\\messages\\{ussers[0]}{ussers[1]}.txt", FileMode.OpenOrCreate);
                     StreamReader sr = new StreamReader(plik);
                     sr.ReadToEnd();
 
                     StreamWriter f = new StreamWriter(plik);
-                    f.WriteLine(login + "$" + adresat + "#" + wiadomość + "&" + czas);
+                    f.WriteLine($"{login}${adresat}#{wiadomość}&{czas}");
                     f.Close();
                     plik.Close();
 
@@ -260,7 +258,6 @@ namespace serwer.App.Controllers
                     privateMessages.FirstOrDefault(el => el.Name == ussers[0] + ussers[1]).Messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = login, Date = Convert.ToDateTime(czas) });
                     privateMessages.FirstOrDefault(el => el.Name == ussers[0] + ussers[1]).Messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = adresat, Date = Convert.ToDateTime(czas) });
                 }
-
 
                 return "ok";
             }
@@ -315,15 +312,15 @@ namespace serwer.App.Controllers
                     string oneMsg;
                     if (String.Compare(message.To, "") != 0)
                     {
-                        oneMsg = message.From + " do " + message.To + ": ";
+                        oneMsg = $"{message.From}do{message.To}: ";
                     }
                     else
                     {
-                        oneMsg = message.From + ": ";
+                        oneMsg = $"{message.From}: ";
                     }
 
                     oneMsg += message.Text;
-                    odp += message.Date.ToString("d/M/yy H:mm") + " " + oneMsg + Environment.NewLine;
+                    odp += $"{message.Date.ToString("d/M/yy H:mm")} {oneMsg}{Environment.NewLine}";
                     message.Showed = true;
                 }
             }
@@ -364,7 +361,6 @@ namespace serwer.App.Controllers
                     lenght = dateIndexLast - toIndex;
                     string to = line.Substring(toIndex + 1, lenght - 1);
                     string from = line.Substring(0, toIndex);
-               
 
                     privateMessages.FirstOrDefault(el => el.Name == fileName).Messages.Add(new Messages { Showed = false, Text = msgOne, From = from, To = to, Login = from, Date = temp });
                     privateMessages.FirstOrDefault(el => el.Name == fileName).Messages.Add(new Messages { Showed = false, Text = msgOne, From = from, To = to, Login = to, Date = temp });

@@ -6,15 +6,16 @@ using System.Collections.Generic;
 using System.Threading;
 using Klient.App;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace Klient
 {
     public partial class MessageBox : Form
     {
-        private readonly string name;
-        private string message;
+        private readonly string name = "";
+        private string message = "";
         public CancellationTokenSource sourceMsgBox = new CancellationTokenSource();
-        private readonly string filename;
+        private readonly string filename = "";
         private TaskFactory factory;
         private bool stop = false;
 
@@ -82,7 +83,7 @@ namespace Klient
                 if (DateTime.Now.Second % 2 == 0)
                 {
                     var msg = PrivChatEVT.chatEVTDatas.Find(el => el.Name == filename);
-                    msg.Msg = "Wyswietl wiadomosci#" + filename + "%" + Account.usser;
+                    msg.Msg = $"Wyswietl wiadomosci#{filename}%{Account.usser}";
                     Wiadomości();
                     msg.msgsShowed.WaitOne();
                     msg.msgsShowed.Reset();

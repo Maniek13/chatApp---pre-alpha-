@@ -9,14 +9,9 @@ Server:
 Client
 1. Copy and run
 
-________Working
-- add usser
-- chat (priv and public)
 
-________In progres
-- sometimes freezing and don't send msgs
-- optimization
-- add more functions
+________To do
+-add show message when open private chat second time
 
 
 ![image](https://user-images.githubusercontent.com/47826375/132100518-96ed1cf8-b993-42e2-a3be-c8b11de61d3c.png)

@@ -21,14 +21,14 @@ namespace Klient
 
         private void Zaloguj_Click(object sender, EventArgs e)
         {
-            Responde.msg = "LOG" + Login.Text + "$" + hasło.Text;
+            Responde.msg = $"LOG{Login.Text}${hasło.Text}";
             LogOrRegisterInquiry();
         }
 
 
         private void Zarejestruj_Click(object sender, EventArgs e)
         {
-            Responde.msg = "REJ" + Login.Text + "$" + hasło.Text;
+            Responde.msg = $"REJ{Login.Text}${hasło.Text}";
             LogOrRegisterInquiry();
         }
 
@@ -52,7 +52,7 @@ namespace Klient
                 nowy.Show();
                 this.Hide();
             }
-            else if (String.Compare(Responde.msg, "connection problem") != 0)
+            else if (String.Compare(Responde.msg, "connection problem") != 0 || String.Compare(Responde.msg, "Istnieje") != 0 || String.Compare(Responde.msg, "Nie istnieje") != 0)
             {
                 Login.Clear();
                 hasło.Clear();

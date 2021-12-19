@@ -136,7 +136,7 @@ namespace Klient
         {
             if(Kontakty.SelectedItem != null)
             {
-                if (Kontakty.SelectedItem.ToString() == contact)
+                if (String.Compare(Kontakty.SelectedItem.ToString(),contact) == 0)
                 {
                     Kontakty.ClearSelected();
                     contact = "";
@@ -166,7 +166,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 3 == 0)
                 {
-                    Responde.comunicatsMsg = "Wyswietl wiadomosci"+ Account.usser;
+                    Responde.comunicatsMsg = $"Wyswietl wiadomosci{Account.usser}";
                     Wiadomości();
                     wyswietlono.WaitOne();
                     wyswietlono.Reset();
@@ -181,7 +181,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 5 == 0)
                 {
-                    Responde.contactsMsg = "Active ussers" + Account.usser;
+                    Responde.contactsMsg = $"Active ussers{Account.usser}";
                     Contacts();
                     showsContacts.WaitOne();
                     showsContacts.Reset();
@@ -266,7 +266,6 @@ namespace Klient
                                     if (status == false)
                                     {
                                         Accounts.users.Find(el => el.Nazwa == konto.Nazwa).Status = true;
-
                                     }
                                 }
                                 else
@@ -283,23 +282,21 @@ namespace Klient
                                     if (el.Status == true)
                                     {
                                         Kontakty.Items.Remove(el.Nazwa);
-                                        Kontakty.Items.Add(el.Nazwa + " online");
+                                        Kontakty.Items.Add($"{el.Nazwa} online");
                                     }
                                 }
-                                else if (Kontakty.Items.Contains(el.Nazwa + " online"))
+                                else if (Kontakty.Items.Contains($"{el.Nazwa} online"))
                                 {
                                     if (el.Status == false)
                                     {
-                                        Kontakty.Items.Remove(el.Nazwa + " online");
+                                        Kontakty.Items.Remove($"{el.Nazwa} online");
                                         Kontakty.Items.Add(el.Nazwa);
                                     }
-                                    
                                 }
                                 else
                                 {
-                                    Kontakty.Items.Add(el.Nazwa + " online");
+                                    Kontakty.Items.Add($"{el.Nazwa} online");
                                 }
-
                             });
                         }
                     }));
@@ -312,7 +309,6 @@ namespace Klient
 
             showsContacts.Set();
         }
-
 
         private void Close(object sender, EventArgs e)
         {
