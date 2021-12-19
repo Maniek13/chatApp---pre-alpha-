@@ -12,6 +12,7 @@ Client
 
 ________To do
 -add show message when open private chat second time
+-add responsible view
 
 
 ![image](https://user-images.githubusercontent.com/47826375/132100518-96ed1cf8-b993-42e2-a3be-c8b11de61d3c.png)
