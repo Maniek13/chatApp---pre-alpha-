@@ -19,6 +19,14 @@ namespace Klient
             InitializeComponent();
         }
 
+        public KlientLogowanie(string msg)
+        {
+            this.FormClosed += Close;
+            InitializeComponent();
+            textBox1.Text = msg;
+        }
+
+
         private void Zaloguj_Click(object sender, EventArgs e)
         {
             Responde.msg = $"LOG{Login.Text}${hasło.Text}";

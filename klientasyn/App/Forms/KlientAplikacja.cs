@@ -15,6 +15,7 @@ namespace Klient
         public CancellationTokenSource source = new CancellationTokenSource();
         private static bool stop = false;
         private string contact = "";
+        private bool ErrorLogout = false;
 
         /* Dodawanie kont
            private KlientLogowanie _client;
@@ -27,6 +28,7 @@ namespace Klient
 
         public KlientAplikacja()
         {
+            stop = false;
             this.FormClosed += Close;
             InitializeComponent();
         }
@@ -63,6 +65,18 @@ namespace Klient
 
             MessagesController messagesController = new MessagesController();
             messagesController.Wiadomość(contactToSend, wiadomość);
+
+            if (Error.IsError)
+            {
+                Komunikaty.AppendText(Error.ExceptionMsg);
+
+
+                ConnectionProblemLogout();
+
+
+                Error.IsError = false;
+            }
+            
             Wiadomosc.Text = "";
         }
 
@@ -210,6 +224,13 @@ namespace Klient
                 {
                     Invoke(new Action(() =>
                     {
+                        if (String.Compare(Responde.comunicatsMsg, "connection problem") == 0)
+                        {
+                            Error.IsError = true;
+                            Error.ExceptionMsg = Responde.comunicatsMsg;
+                            ConnectionProblemLogout();
+                        }
+
                         if (!Responde.comunicatsMsg.StartsWith("ok") && String.Compare(Responde.comunicatsMsg, "0") != 0 && String.Compare(Responde.comunicatsMsg, "connection problem") != 0 && String.Compare(Responde.comunicatsMsg, "") != 0)
                         {
                             Komunikaty.AppendText(Responde.comunicatsMsg);
@@ -315,7 +336,25 @@ namespace Klient
             stop = true;
             source.Cancel();
             source.Dispose();
-            Environment.Exit(0);
+
+            if(!ErrorLogout)
+                Environment.Exit(0);
+        }
+
+        private void ConnectionProblemLogout()
+        {
+            if (String.Compare(Error.ExceptionMsg, "connection problem") == 0)
+            {
+                Error.IsError = false;
+                ErrorLogout = true;
+                Kontakty = null;
+                Komunikaty = null;
+                Accounts.users.Clear();
+                
+                this.Close();
+                KlientLogowanie klientLogowanie = new KlientLogowanie("Server was down");
+                klientLogowanie.Show();
+            }
         }
     }
 }

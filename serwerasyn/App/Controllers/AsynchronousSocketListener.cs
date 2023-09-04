@@ -1,9 +1,10 @@
-﻿using System;
+﻿using serwer.App.Helper;
+using serwer.App.Objects;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using serwer.App.Objects;
 
 namespace serwer.App.Controllers
 {
@@ -11,26 +12,29 @@ namespace serwer.App.Controllers
     {
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
-        public static void StartListening()
+        private IPAddress[] ipv4Addresses;
+        private IPEndPoint localEndPoint;
+        private Socket listener;
+
+        public AsynchronousSocketListener()
         {
-             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            ipv4Addresses = Array.FindAll(
+                Dns.GetHostEntry(string.Empty).AddressList,
+                a => a.AddressFamily == AddressFamily.InterNetwork);
 
-          //  IPHostEntry ipHostInfo = Dns.GetHostEntry("127.0.0.1");
-
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
-
-
-            Socket listener = new Socket(ipAddress.AddressFamily,
+            localEndPoint = new IPEndPoint(ipv4Addresses[0], 11000);
+            listener = new Socket(ipv4Addresses[0].AddressFamily,
                 SocketType.Stream, ProtocolType.Tcp);
+            ServerHelpers.Ip = ipv4Addresses[0].ToString();
+        }
 
+        public void StartListening()
+        {
+            listener.Bind(localEndPoint);
+            listener.Listen(100);
             Serwer msg = new Serwer();
-
             try
             {
-                listener.Bind(localEndPoint);
-                listener.Listen(100);
-
                 while (true)
                 {
                     allDone.Reset();
@@ -38,6 +42,7 @@ namespace serwer.App.Controllers
                         new AsyncCallback(AcceptCallback),
                         listener);
                     allDone.WaitOne();
+                   
                 }
             }
             catch (Exception p)
@@ -46,7 +51,7 @@ namespace serwer.App.Controllers
             }
         }
 
-        public static void AcceptCallback(IAsyncResult ar)
+        public void AcceptCallback(IAsyncResult ar)
         {
             try
             {
@@ -69,7 +74,7 @@ namespace serwer.App.Controllers
             
         }
 
-        public async static void ReadCallback(IAsyncResult ar)
+        public async void ReadCallback(IAsyncResult ar)
         {
             try
             {
@@ -100,7 +105,7 @@ namespace serwer.App.Controllers
             
         }
 
-        private static void Send(Socket handler, String data)
+        private void Send(Socket handler, String data)
         {
             byte[] byteData = Encoding.ASCII.GetBytes(data);
 
@@ -108,7 +113,7 @@ namespace serwer.App.Controllers
                 new AsyncCallback(SendCallback), handler);
         }
 
-        private static void SendCallback(IAsyncResult ar)
+        private void SendCallback(IAsyncResult ar)
         {
             try
             {

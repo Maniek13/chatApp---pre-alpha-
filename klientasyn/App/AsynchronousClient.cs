@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using Klient.App.Objects;
+using System.Configuration;
 
 namespace Klient.App
 {
@@ -43,7 +44,7 @@ namespace Klient.App
 
             try
             {
-                IPHostEntry ipHostInfo = Dns.GetHostEntry("127.0.0.1");
+                IPHostEntry ipHostInfo = Dns.GetHostEntry(ConfigurationSettings.AppSettings["IpAddress"]);
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
@@ -87,6 +88,8 @@ namespace Klient.App
                 else
                 {
                     response = "connection problem";
+                    Error.IsError = true;
+                    Error.ExceptionMsg = response;
                 }
 
                 RespondeStatusAndMsg();

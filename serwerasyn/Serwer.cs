@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using serwer.App.Controllers;
 using System.Threading.Tasks;
+using serwer.App.Helper;
 
 namespace serwer
 {
@@ -10,43 +11,59 @@ namespace serwer
     {
         //public Thread wątek;
         //public Thread delete;
-        public static ManualResetEvent deleted =
-        new ManualResetEvent(false);
+        public static ManualResetEvent deleted = new ManualResetEvent(false);
+        public static ManualResetEvent st = new ManualResetEvent(false);
+
         private static bool stop = false;
-        public CancellationTokenSource source = new CancellationTokenSource();
+        public CancellationTokenSource source;
+
+        AsynchronousSocketListener listener;
 
         public Serwer()
         {
+            listener = new AsynchronousSocketListener();
             InitializeComponent();
         }
 
         public void Start_Click(object sender, EventArgs e)
         {
+            ServerHelpers.IsStopedApp = false;
+            Stop.Enabled = true;
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.LoadMsgs();
             obliczenia.WczytanieKont();
             
+            source = new CancellationTokenSource();
             CancellationToken token = source.Token;
-            TaskFactory factory = new TaskFactory(token);
 
-            factory.StartNew(AsynchronousSocketListener.StartListening, token);
-            factory.StartNew(DeleteOldData, token);
-            
-            textBox1.Text = "Working...";
-            /*
-            wątek = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening))
+
+            Task.Factory.StartNew(() =>
             {
-                IsBackground = true
-            };
-            wątek.Start();
+                while (true)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    listener.StartListening();
 
+                }
+            }, token);
 
-            delete = new Thread(new ThreadStart(DeleteOldData))
+            Task.Factory.StartNew(() =>
             {
-                IsBackground = true
-            };
-            delete.Start();
-            */
+                while (true)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    DeleteOldData();
+                }
+            }, token);
+
+
+            textBox1.Text = $"Working on ip: {ServerHelpers.Ip}";
         }
 
         private void DeleteOldData()
@@ -75,18 +92,16 @@ namespace serwer
 
         private void Stop_Click(object sender, EventArgs e)
         {
-            /*
-            wątek.Abort();
-            delete.Join();
-            delete.Abort();
-            wątek.Join();
-            */
             stop = true;
             source.Cancel();
             source.Dispose();
+
+            ServerHelpers.IsStopedApp = true;
+
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.Reset();
             textBox1.Text = "Stoped";
+            Stop.Enabled = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

@@ -49,16 +49,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>9AC666D75B649C68F6A2B331CB0057BFA9221AE6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1AED00B239A94320A4A6DC9D1050B95B2AC429BD</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Klient_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Klient_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Klient_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,6 +86,7 @@
     <Compile Include="App\Objects\Account.cs" />
     <Compile Include="App\Objects\Accounts.cs" />
     <Compile Include="App\Objects\ChatEVTData.cs" />
+    <Compile Include="App\Objects\Error.cs" />
     <Compile Include="App\Objects\Konta.cs" />
     <Compile Include="App\Controllers\MessagesController.cs" />
     <Compile Include="App\Objects\PrivChatEVT.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using serwer.App.Helper;
 using serwer.App.Objects;
 
 namespace serwer.App.Controllers
@@ -25,6 +26,11 @@ namespace serwer.App.Controllers
 
         public async Task<string> Start(string wiadomość)
         {
+            if (ServerHelpers.IsStopedApp)
+            {
+                return "connection problem";
+            }
+
             string z;
 
             z = Wiadomość(wiadomość);
@@ -61,10 +67,11 @@ namespace serwer.App.Controllers
             UsserController usserController = new UsserController();
             List<Models.Usser> ussers = usserController.FindAllUssers();
 
-            ussers.ForEach(delegate (Models.Usser el)
-            {
-                users.Add(new Userspasword(el.Name, el.Password));
-            });
+            if(ussers != null)
+                ussers.ForEach(delegate (Models.Usser el)
+                {
+                    users.Add(new Userspasword(el.Name, el.Password));
+                });
         }
 
         public string Logowanie(string msg)
@@ -110,7 +117,7 @@ namespace serwer.App.Controllers
                     if(ok == 1)
                     {
                         users.Add(new Userspasword(login, password));
-                        return "ok{UsserListLoginRegister(login)}";
+                        return $"ok{UsserListLoginRegister(login)}";
                     }
                     else
                     {
@@ -154,6 +161,9 @@ namespace serwer.App.Controllers
                 string usser_list = "";
 
                 Usser who = activeUsers.FirstOrDefault(el => el.Name == login);
+                if (who == null)
+                    return "reset client";
+
                 who.Time = DateTime.Now;
 
 
@@ -312,7 +322,7 @@ namespace serwer.App.Controllers
                     string oneMsg;
                     if (String.Compare(message.To, "") != 0)
                     {
-                        oneMsg = $"{message.From}do{message.To}: ";
+                        oneMsg = $"{message.From} do {message.To}: ";
                     }
                     else
                     {

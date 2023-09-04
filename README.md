@@ -4,10 +4,12 @@ Server:
 1. Copy files
 2. Run add-migration init
 3. Run update-database
-4. Run server and click start
+4. Run server and click start 
 
 Client
-1. Copy and run
+1. Copy ip from status field in server and replece it in Klient.exe.config or App.config 
+
+<add key="IpAddress" value="address from server"/>
 
 
 ________To do
