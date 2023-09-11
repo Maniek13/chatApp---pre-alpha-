@@ -1,15 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using System;
 
 namespace serwer.App.Models
 {
-    class Usser
+    internal class Usser
     {
-        [Key]
-        public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Password { get; set; }
+        public DateTime Time { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace serwer.App.Objects
+namespace serwer.App.Models
 {
     class PrivateMessages
     {

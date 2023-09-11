@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Klient.App.Models;
+using System.Collections.Generic;
 
-namespace Klient.App.Objects
+namespace Klient.App.StaticMembers
 {
     class PrivChatEVT
     {

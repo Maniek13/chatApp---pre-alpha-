@@ -1,4 +1,4 @@
-﻿namespace Klient.App.Objects
+﻿namespace Klient.App.Models
 {
     public class Konta
     {

@@ -1,4 +1,4 @@
-﻿namespace serwer.App.Objects
+﻿namespace serwer.App.Models
 {
     public class Userspasword
     {

@@ -58,19 +58,16 @@
   <ItemGroup>
     <Compile Include="App\Context\ChatContext.cs" />
     <Compile Include="App\Controllers\AsynchronousSocketListener.cs" />
-    <Compile Include="App\Controllers\UsserController.cs" />
+    <Compile Include="App\DbController\UsserController.cs" />
+    <Compile Include="App\Helper\Converter.cs" />
     <Compile Include="App\Helper\ServerHelpers.cs" />
-    <Compile Include="App\Models\Usser.cs" />
-    <Compile Include="App\Objects\Messages.cs" />
-    <Compile Include="App\Objects\PrivateMessages.cs" />
-    <Compile Include="App\Objects\StateObject.cs" />
+    <Compile Include="App\DbModels\Usser.cs" />
+    <Compile Include="App\Models\Messages.cs" />
+    <Compile Include="App\Models\PrivateMessages.cs" />
+    <Compile Include="StaticMembers\AppDate.cs" />
     <Compile Include="App\Controllers\Obliczenia.cs" />
-    <Compile Include="App\Objects\Userspasword.cs" />
-    <Compile Include="App\Objects\Usser.cs" />
-    <Compile Include="Migrations\202309041215146_init.cs" />
-    <Compile Include="Migrations\202309041215146_init.designer.cs">
-      <DependentUpon>202309041215146_init.cs</DependentUpon>
-    </Compile>
+    <Compile Include="App\Models\Userspasword.cs" />
+    <Compile Include="App\Models\Usser.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Serwer.cs">
       <SubType>Form</SubType>
@@ -80,9 +77,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Migrations\202309041215146_init.resx">
-      <DependentUpon>202309041215146_init.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Serwer.resx">
       <DependentUpon>Serwer.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +103,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

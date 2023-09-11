@@ -1,9 +1,9 @@
 ﻿using serwer.App.Context;
-using serwer.App.Models;
+using serwer.App.DbModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace serwer.App.Controllers
+namespace serwer.App.DbControllers
 {
     class UsserController
     {

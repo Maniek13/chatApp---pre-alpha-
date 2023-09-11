@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Klient.App.Models;
+using Klient.App.StaticMembers;
+using System;
+using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Klient.App.Objects;
-using System.Configuration;
 
 namespace Klient.App
 {

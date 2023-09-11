@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace Klient.App.Objects
+namespace Klient.App.Models
 {
     class ChatEVTData
     {

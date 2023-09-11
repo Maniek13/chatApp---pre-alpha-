@@ -48,7 +48,7 @@ namespace Klient
             this.Send.TabIndex = 0;
             this.Send.Text = "Send";
             this.Send.UseVisualStyleBackColor = false;
-            this.Send.Click += new System.EventHandler(this.button1_Click);
+            this.Send.Click += new System.EventHandler(this.SendMessage_BtnClick);
             // 
             // TextToSend
             // 
@@ -58,7 +58,6 @@ namespace Klient
             this.TextToSend.Name = "TextToSend";
             this.TextToSend.Size = new System.Drawing.Size(476, 15);
             this.TextToSend.TabIndex = 1;
-            this.TextToSend.TextChanged += new System.EventHandler(this.TextToSend_TextChanged);
             // 
             // ContactName
             // 
@@ -69,7 +68,6 @@ namespace Klient
             this.ContactName.Size = new System.Drawing.Size(557, 23);
             this.ContactName.TabIndex = 3;
             this.ContactName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ContactName.Click += new System.EventHandler(this.ContactName_Click);
             // 
             // ChatWindow
             // 
@@ -86,7 +84,6 @@ namespace Klient
             this.ChatWindow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ChatWindow.Size = new System.Drawing.Size(557, 345);
             this.ChatWindow.TabIndex = 2;
-            this.ChatWindow.TextChanged += new System.EventHandler(this.ChatWindow_TextChanged);
             // 
             // MessageBox
             // 

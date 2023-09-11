@@ -49,7 +49,6 @@
             this.Login.Size = new System.Drawing.Size(100, 15);
             this.Login.TabIndex = 0;
             this.Login.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Login.TextChanged += new System.EventHandler(this.Login_TextChanged);
             // 
             // hasło
             // 
@@ -61,7 +60,6 @@
             this.hasło.TabIndex = 1;
             this.hasło.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.hasło.UseSystemPasswordChar = true;
-            this.hasło.TextChanged += new System.EventHandler(this.hasło_TextChanged);
             // 
             // zaloguj
             // 
@@ -97,7 +95,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(776, 15);
             this.textBox1.TabIndex = 5;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // LoginField
             // 
@@ -137,7 +134,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "KlientLogowanie";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.KlientLogowanie_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

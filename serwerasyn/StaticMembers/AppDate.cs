@@ -1,12 +1,12 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 
-namespace Klient.App.Objects
+namespace serwer.App.StaticMembers
 {
-    public class StateObject
+    public class AppDate
     {
         public Socket workSocket = null;
-        public const int BufferSize = 1048000;
+        public const int BufferSize = 1024000;
         public byte[] buffer = new byte[BufferSize];
         public StringBuilder sb = new StringBuilder();
     }

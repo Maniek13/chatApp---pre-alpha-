@@ -1,12 +1,12 @@
-﻿using System;
+﻿using serwer.App.DbControllers;
+using serwer.App.Helper;
+using serwer.App.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using serwer.App.Helper;
-using serwer.App.Objects;
 
 namespace serwer.App.Controllers
 {
@@ -65,7 +65,10 @@ namespace serwer.App.Controllers
         public void WczytanieKont()
         {
             UsserController usserController = new UsserController();
-            List<Models.Usser> ussers = usserController.FindAllUssers();
+
+
+            List<Models.Usser> ussers = usserController.FindAllUssers().Select( el => Converter.ConvertToUser(el)).ToList();
+
 
             if(ussers != null)
                 ussers.ForEach(delegate (Models.Usser el)
@@ -112,7 +115,7 @@ namespace serwer.App.Controllers
                 else
                 {
                     UsserController usr = new UsserController();
-                    int ok = await usr.AddUsser(new Models.Usser{Name = login, Password = password });
+                    int ok = await usr.AddUsser(new DbModels.Usser{Name = login, Password = password });
 
                     if(ok == 1)
                     {

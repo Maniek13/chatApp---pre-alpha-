@@ -1,8 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Klient.App;
+using Klient.App.Models;
+using Klient.App.StaticMembers;
+using System;
 using System.Threading;
-using Klient.App.Objects;
-using Klient.App;
+using System.Windows.Forms;
 
 namespace Klient
 {
@@ -74,8 +75,9 @@ namespace Klient
             }
         }
 
-        private void UserList()
+        private Accounts UserList()
         {
+            Accounts accounts = new Accounts();
             Account.usser = Login.Text;
 
             string temp = Responde.msg.Substring(2);
@@ -83,9 +85,18 @@ namespace Klient
             while (temp != "")
             {
                 int index = temp.IndexOf("$");
-                Accounts.users.Add((new Konta(temp.Substring(0, index), temp.Substring(0, index), false)));
+
+                PrivateMessage pm = new PrivateMessage()
+                {
+                    User = new Konta(temp.Substring(0, index), temp.Substring(0, index), false),
+                    IsOpen = false,
+                };
+
+                Accounts.users.Add(pm);
                 temp = temp.Substring(index + 1);
             }
+
+            return accounts;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -93,22 +104,6 @@ namespace Klient
             KlientAplikacja nowy = new KlientAplikacja();
             nowy.Show();
             this.Hide();
-        }
-
-        private void Login_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void hasło_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void KlientLogowanie_Load(object sender, EventArgs e)
-        {
         }
 
         private void Close(object sender, EventArgs e)

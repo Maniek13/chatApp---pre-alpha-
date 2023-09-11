@@ -1,12 +1,12 @@
-﻿using Klient.App.Objects;
-using System;
-using System.Windows.Forms;
+﻿using Klient.App;
 using Klient.App.Controllers;
+using Klient.App.Models;
+using Klient.App.StaticMembers;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using Klient.App;
 using System.Threading.Tasks;
-using System.Text;
+using System.Windows.Forms;
 
 namespace Klient
 {
@@ -19,11 +19,12 @@ namespace Klient
         private TaskFactory factory;
         private bool stop = false;
 
-        public MessageBox(string name)
+
+        public MessageBox(PrivateMessage pm)
         {
-            this.FormClosed += CloseMessageBox;
-            this.name = name;
-            List<string> ussers = new List<string> { name, Account.usser };
+            this.FormClosed += (sender, e) => CloseMessageBox(sender, e, pm);
+            this.name = pm.User.Kontakt;
+            List<string> ussers = new List<string> { pm.User.Kontakt, Account.usser };
 
             ussers.Sort(delegate (string x, string y)
             {
@@ -34,7 +35,7 @@ namespace Klient
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SendMessage_BtnClick(object sender, EventArgs e)
         {
             this.message = TextToSend.Text;
 
@@ -61,19 +62,6 @@ namespace Klient
             PrivChatEVT.chatEVTDatas.Add(chatEVTData);
 
             factory.StartNew(Messages, token);
-           
-        }
-
-        private void TextToSend_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void ChatWindow_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void ContactName_Click(object sender, EventArgs e)
-        {
         }
 
         private void Messages()
@@ -129,8 +117,9 @@ namespace Klient
             usserChatData.msgsShowed.Set();
         }
 
-        private void CloseMessageBox(object sender, EventArgs e)
+        private void CloseMessageBox(object sender, EventArgs e, PrivateMessage pm)
         {
+            pm.IsOpen = false;
             stop = true;
             sourceMsgBox.Cancel();
             sourceMsgBox.Dispose();

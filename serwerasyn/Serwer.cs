@@ -41,12 +41,13 @@ namespace serwer
             {
                 while (true)
                 {
+
                     if (token.IsCancellationRequested)
                     {
                         break;
                     }
                     listener.StartListening();
-
+                    Thread.Sleep(1000);
                 }
             }, token);
 
@@ -59,6 +60,7 @@ namespace serwer
                         break;
                     }
                     DeleteOldData();
+                    Thread.Sleep(1000);
                 }
             }, token);
 

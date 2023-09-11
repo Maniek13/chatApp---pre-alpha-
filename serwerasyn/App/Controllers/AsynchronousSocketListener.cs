@@ -1,5 +1,5 @@
 ﻿using serwer.App.Helper;
-using serwer.App.Objects;
+using serwer.App.StaticMembers;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -59,11 +59,11 @@ namespace serwer.App.Controllers
 
                 Socket listener = (Socket)ar.AsyncState;
                 Socket handler = listener.EndAccept(ar);
-                StateObject state = new StateObject
+                AppDate state = new AppDate
                 {
                     workSocket = handler
                 };
-                handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                handler.BeginReceive(state.buffer, 0, AppDate.BufferSize, 0,
                     new AsyncCallback(ReadCallback), state);
             }
             catch (Exception p)
@@ -80,17 +80,17 @@ namespace serwer.App.Controllers
             {
                 String content;
 
-                StateObject state = (StateObject)ar.AsyncState;
-                Socket handler = state.workSocket;
+                AppDate appDate = (AppDate)ar.AsyncState;
+                Socket handler = appDate.workSocket;
 
                 int bytesRead = handler.EndReceive(ar);
 
                 if (bytesRead > 0)
                 {
-                    state.sb.Append(Encoding.ASCII.GetString(
-                        state.buffer, 0, bytesRead));
+                    appDate.sb.Append(Encoding.ASCII.GetString(
+                        appDate.buffer, 0, bytesRead));
 
-                    content = state.sb.ToString();
+                    content = appDate.sb.ToString();
 
                     Obliczenia obliczenia = new Obliczenia();
                     content = await obliczenia.Start(content);

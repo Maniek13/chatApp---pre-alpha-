@@ -78,20 +78,22 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\AsynchronousClient.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="App\Objects\Account.cs" />
-    <Compile Include="App\Objects\Accounts.cs" />
-    <Compile Include="App\Objects\ChatEVTData.cs" />
-    <Compile Include="App\Objects\Error.cs" />
-    <Compile Include="App\Objects\Konta.cs" />
+    <Compile Include="App\Models\Account.cs" />
+    <Compile Include="App\Models\PrivateMessage.cs" />
+    <Compile Include="App\StaticMembers\Accounts.cs" />
+    <Compile Include="App\Models\ChatEVTData.cs" />
+    <Compile Include="App\Models\Error.cs" />
+    <Compile Include="App\Models\Konta.cs" />
     <Compile Include="App\Controllers\MessagesController.cs" />
-    <Compile Include="App\Objects\PrivChatEVT.cs" />
-    <Compile Include="App\Objects\Responde.cs" />
-    <Compile Include="App\Objects\StateObject.cs" />
+    <Compile Include="App\StaticMembers\PrivChatEVT.cs" />
+    <Compile Include="App\Models\Responde.cs" />
+    <Compile Include="App\StaticMembers\StateObject.cs" />
     <Compile Include="App\Forms\KlientLogowanie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +145,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="Klient_TemporaryKey.pfx" />
+    <None Include="Properties\DataSources\Klient.App.StaticMembers.Accounts.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -154,7 +157,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

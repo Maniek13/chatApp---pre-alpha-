@@ -1,4 +1,4 @@
-﻿using serwer.App.Models;
+﻿using serwer.App.DbModels;
 using System.Data.Entity;
 
 namespace serwer.App.Context

@@ -41,11 +41,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Wiadomosc.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Wiadomosc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Wiadomosc.Location = new System.Drawing.Point(1, 367);
+            this.Wiadomosc.Location = new System.Drawing.Point(2, 654);
+            this.Wiadomosc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Wiadomosc.Name = "Wiadomosc";
-            this.Wiadomosc.Size = new System.Drawing.Size(548, 15);
+            this.Wiadomosc.Size = new System.Drawing.Size(822, 23);
             this.Wiadomosc.TabIndex = 3;
-            this.Wiadomosc.TextChanged += new System.EventHandler(this.Wiadomosc_TextChanged);
             // 
             // Wyślij
             // 
@@ -54,9 +54,10 @@
             this.Wyślij.FlatAppearance.BorderSize = 0;
             this.Wyślij.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Wyślij.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Wyślij.Location = new System.Drawing.Point(555, 358);
+            this.Wyślij.Location = new System.Drawing.Point(833, 641);
+            this.Wyślij.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Wyślij.Name = "Wyślij";
-            this.Wyślij.Size = new System.Drawing.Size(78, 24);
+            this.Wyślij.Size = new System.Drawing.Size(117, 37);
             this.Wyślij.TabIndex = 4;
             this.Wyślij.Text = "Send";
             this.Wyślij.UseVisualStyleBackColor = false;
@@ -68,25 +69,26 @@
             this.Komunikaty.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Komunikaty.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.Komunikaty.ForeColor = System.Drawing.Color.Black;
-            this.Komunikaty.Location = new System.Drawing.Point(1, 1);
+            this.Komunikaty.Location = new System.Drawing.Point(2, 2);
+            this.Komunikaty.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Komunikaty.MaxLength = 0;
             this.Komunikaty.Multiline = true;
             this.Komunikaty.Name = "Komunikaty";
             this.Komunikaty.ReadOnly = true;
             this.Komunikaty.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Komunikaty.Size = new System.Drawing.Size(632, 351);
+            this.Komunikaty.Size = new System.Drawing.Size(948, 629);
             this.Komunikaty.TabIndex = 7;
-            this.Komunikaty.TextChanged += new System.EventHandler(this.Komunikaty_TextChanged);
             // 
             // Kontakty
             // 
             this.Kontakty.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Kontakty.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.Kontakty.FormattingEnabled = true;
-            this.Kontakty.ItemHeight = 16;
-            this.Kontakty.Location = new System.Drawing.Point(653, 1);
+            this.Kontakty.ItemHeight = 25;
+            this.Kontakty.Location = new System.Drawing.Point(980, 2);
+            this.Kontakty.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Kontakty.Name = "Kontakty";
-            this.Kontakty.Size = new System.Drawing.Size(146, 336);
+            this.Kontakty.Size = new System.Drawing.Size(389, 675);
             this.Kontakty.Sorted = true;
             this.Kontakty.TabIndex = 9;
             this.Kontakty.SelectedIndexChanged += new System.EventHandler(this.Kontakty_SelectedIndexChanged_1);
@@ -94,14 +96,15 @@
             // 
             // KlientAplikacja
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1382, 692);
             this.Controls.Add(this.Kontakty);
             this.Controls.Add(this.Komunikaty);
             this.Controls.Add(this.Wyślij);
             this.Controls.Add(this.Wiadomosc);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "KlientAplikacja";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);

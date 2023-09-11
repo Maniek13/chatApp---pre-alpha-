@@ -1,7 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using Klient.App.Models;
+using Klient.App.StaticMembers;
+using System;
+using System.Linq;
 using System.Threading;
-using Klient.App.Objects;
 
 namespace Klient.App.Controllers
 {
@@ -40,11 +41,11 @@ namespace Klient.App.Controllers
 
         public void Wiadomość(string contact, string wiadomosc)
         {
-            Konta temp = Accounts.users.Find(x => x.Nazwa == contact);
+            PrivateMessage temp = Accounts.users.ToList().Find(x => x.User.Nazwa == contact); ;
             
             if(temp != null)
             {
-                SendMsg(temp.Kontakt, wiadomosc, false);
+                SendMsg(temp.User.Kontakt, wiadomosc, false);
             }
             else
             {
@@ -65,7 +66,7 @@ namespace Klient.App.Controllers
             return GetData();
         }
 
-        public static string GetData()
+        public string GetData()
         {
             AsynchronousClient asynchronousClient = new AsynchronousClient();
             Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
