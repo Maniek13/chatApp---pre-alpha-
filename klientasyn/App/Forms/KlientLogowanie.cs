@@ -11,7 +11,7 @@ namespace Klient
     {
         public string Logowanie()
         {
-            return Login.Text;
+            return LoginField.Text;
         }
 
         public KlientLogowanie()
@@ -24,33 +24,33 @@ namespace Klient
         {
             this.FormClosed += Close;
             InitializeComponent();
-            textBox1.Text = msg;
+            StatusBox.Text = msg;
         }
 
 
-        private void Zaloguj_Click(object sender, EventArgs e)
+        private void LoginBtn_Click(object sender, EventArgs e)
         {
-            Responde.msg = $"LOG{Login.Text}${hasło.Text}";
+            Responde.msg = $"LOG{LoginField.Text}${PasswordField.Text}";
             LogOrRegisterInquiry();
         }
 
 
-        private void Zarejestruj_Click(object sender, EventArgs e)
+        private void RegisterBtn_Click(object sender, EventArgs e)
         {
-            Responde.msg = $"REJ{Login.Text}${hasło.Text}";
+            Responde.msg = $"REJ{LoginField.Text}${PasswordField.Text}";
             LogOrRegisterInquiry();
         }
 
         private void LogOrRegisterInquiry()
         {
-            Responde.odebrano.Reset();
+            Responde.received.Reset();
             AsynchronousClient asynchronousClient = new AsynchronousClient();
             Thread wątek = new Thread(new ThreadStart(asynchronousClient.StartClient))
             {
                 IsBackground = true
             };
             wątek.Start();
-            Responde.odebrano.WaitOne();
+            Responde.received.WaitOne();
             wątek.Abort();
             wątek.Join();
 
@@ -63,22 +63,22 @@ namespace Klient
             }
             else if (String.Compare(Responde.msg, "connection problem") != 0 || String.Compare(Responde.msg, "Istnieje") != 0 || String.Compare(Responde.msg, "Nie istnieje") != 0)
             {
-                Login.Clear();
-                hasło.Clear();
-                textBox1.Text = Responde.msg;
+                LoginField.Clear();
+                PasswordField.Clear();
+                StatusBox.Text = Responde.msg;
             }
             else
             {
-                Login.Clear();
-                hasło.Clear();
-                textBox1.Text = Responde.msg;
+                LoginField.Clear();
+                PasswordField.Clear();
+                StatusBox.Text = Responde.msg;
             }
         }
 
         private Accounts UserList()
         {
             Accounts accounts = new Accounts();
-            Account.usser = Login.Text;
+            UserAccount.User = LoginField.Text;
 
             string temp = Responde.msg.Substring(2);
 
@@ -86,24 +86,17 @@ namespace Klient
             {
                 int index = temp.IndexOf("$");
 
-                PrivateMessage pm = new PrivateMessage()
+                UserPrivateMessageBox pm = new UserPrivateMessageBox()
                 {
-                    User = new Konta(temp.Substring(0, index), temp.Substring(0, index), false),
+                    User = new UsersAccount(temp.Substring(0, index), temp.Substring(0, index), false),
                     IsOpen = false,
                 };
 
-                Accounts.users.Add(pm);
+                Accounts.Users.Add(pm);
                 temp = temp.Substring(index + 1);
             }
 
             return accounts;
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            KlientAplikacja nowy = new KlientAplikacja();
-            nowy.Show();
-            this.Hide();
         }
 
         private void Close(object sender, EventArgs e)

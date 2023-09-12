@@ -63,11 +63,11 @@ namespace Klient.App
                     {
                         Send(client, Responde.contactsMsg);
                     }
-                    else if(_isContacts == false)
+                    else if (_isContacts == false)
                     {
                         Send(client, Responde.comunicatsMsg);
                     }
-                    else if(String.Compare(_FileName, "") != 0)
+                    else if (String.Compare(_FileName, "") != 0)
                     {
                         string msgToSend = PrivChatEVT.chatEVTDatas.Find(el => el.Name == _FileName).Msg;
                         Send(client, msgToSend);
@@ -230,7 +230,7 @@ namespace Klient.App
             else
             {
                 Responde.msg = response;
-                Responde.odebrano.Set();
+                Responde.received.Set();
             }
         }
     }

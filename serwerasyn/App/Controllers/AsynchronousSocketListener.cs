@@ -42,7 +42,7 @@ namespace serwer.App.Controllers
                         new AsyncCallback(AcceptCallback),
                         listener);
                     allDone.WaitOne();
-                   
+
                 }
             }
             catch (Exception p)
@@ -71,7 +71,7 @@ namespace serwer.App.Controllers
                 Console.WriteLine("Error..... " + p.StackTrace);
                 allDone.Set();
             }
-            
+
         }
 
         public async void ReadCallback(IAsyncResult ar)
@@ -102,7 +102,6 @@ namespace serwer.App.Controllers
             {
                 Console.WriteLine("Error..... " + p.StackTrace);
             }
-            
         }
 
         private void Send(Socket handler, String data)
@@ -127,6 +126,5 @@ namespace serwer.App.Controllers
                 Console.WriteLine("Error..... " + p.StackTrace);
             }
         }
-
     }
 }

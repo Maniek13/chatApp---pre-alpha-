@@ -8,13 +8,13 @@ namespace Klient.App.Controllers
 {
     class MessagesController
     {
-        private readonly string login = Account.usser;
+        private readonly string login = UserAccount.User;
 
         public void SendMsg(string contact, string wiadomość, bool priv)
         {
             if (String.Compare(wiadomość, "") != 0)
             {
-                Responde.odebrano.Reset();
+                Responde.received.Reset();
 
                 if (priv == true)
                 {
@@ -35,17 +35,17 @@ namespace Klient.App.Controllers
                     IsBackground = true
                 };
                 wątek.Start();
-                Responde.odebrano.WaitOne();
+                Responde.received.WaitOne();
             }
         }
 
         public void Wiadomość(string contact, string wiadomosc)
         {
-            PrivateMessage temp = Accounts.users.ToList().Find(x => x.User.Nazwa == contact); ;
-            
-            if(temp != null)
+            UserPrivateMessageBox temp = Accounts.Users.ToList().Find(x => x.User.ShowedName == contact); ;
+
+            if (temp != null)
             {
-                SendMsg(temp.User.Kontakt, wiadomosc, false);
+                SendMsg(temp.User.Account, wiadomosc, false);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace Klient.App.Controllers
 
         public string ShowNewMsgs(string contact)
         {
-            Responde.odebrano.Reset();
+            Responde.received.Reset();
             Responde.msg = $"Wyswietl wiadomosci#{contact}";
 
             return GetData();
@@ -74,7 +74,7 @@ namespace Klient.App.Controllers
                 IsBackground = true
             };
             wątek.Start();
-            Responde.odebrano.WaitOne();
+            Responde.received.WaitOne();
 
             return Responde.msg;
         }

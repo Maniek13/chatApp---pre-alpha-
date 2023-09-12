@@ -10,7 +10,7 @@ namespace Klient.App.Models
         public static String msg = "";
         public static String contactsMsg = "";
         public static String comunicatsMsg = "";
-        public static ManualResetEvent odebrano =
+        public static ManualResetEvent received =
             new ManualResetEvent(false);
         public static ManualResetEvent contacts =
             new ManualResetEvent(false);

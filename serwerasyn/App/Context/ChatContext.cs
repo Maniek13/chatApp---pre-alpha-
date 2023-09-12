@@ -7,13 +7,10 @@ namespace serwer.App.Context
     {
         private const string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog = Chat;";
 
-
         public ChatContext() : base()
         {
             this.Database.Connection.ConnectionString = connectionString;
         }
-
-
         public DbSet<Usser> Ussers { get; set; }
     }
 }

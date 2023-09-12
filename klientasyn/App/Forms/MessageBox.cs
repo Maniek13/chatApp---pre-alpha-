@@ -20,11 +20,11 @@ namespace Klient
         private bool stop = false;
 
 
-        public MessageBox(PrivateMessage pm)
+        public MessageBox(UserPrivateMessageBox pm)
         {
-            this.FormClosed += (sender, e) => CloseMessageBox(sender, e, pm);
-            this.name = pm.User.Kontakt;
-            List<string> ussers = new List<string> { pm.User.Kontakt, Account.usser };
+            this.FormClosed += (sender, e) => CloseMessageBox(pm);
+            this.name = pm.User.Account;
+            List<string> ussers = new List<string> { pm.User.Account, UserAccount.User };
 
             ussers.Sort(delegate (string x, string y)
             {
@@ -37,13 +37,13 @@ namespace Klient
 
         private void SendMessage_BtnClick(object sender, EventArgs e)
         {
-            this.message = TextToSend.Text;
+            this.message = TextToSendField.Text;
 
             if (String.Compare(this.message, "") != 0)
             {
                 MessagesController messagesController = new MessagesController();
                 messagesController.Wiadomość(this.name, this.message, true);
-                TextToSend.Text = "";
+                TextToSendField.Text = "";
             }
         }
 
@@ -71,16 +71,16 @@ namespace Klient
                 if (DateTime.Now.Second % 2 == 0)
                 {
                     var msg = PrivChatEVT.chatEVTDatas.Find(el => el.Name == filename);
-                    msg.Msg = $"Wyswietl wiadomosci#{filename}%{Account.usser}";
-                    Wiadomości();
-                    msg.msgsShowed.WaitOne();
-                    msg.msgsShowed.Reset();
-                    msg.msgsShowed.WaitOne(1000);
+                    msg.Msg = $"Wyswietl wiadomosci#{filename}%{UserAccount.User}";
+                    ShowMessages();
+                    msg.MsgsShowed.WaitOne();
+                    msg.MsgsShowed.Reset();
+                    msg.MsgsShowed.WaitOne(1000);
                 }
             }
         }
 
-        private void Wiadomości()
+        private void ShowMessages()
         {
             var usserChatData = PrivChatEVT.chatEVTDatas.Find(el => el.Name == filename);
             usserChatData.Set.Reset();
@@ -111,13 +111,13 @@ namespace Klient
             }
             catch (InvalidOperationException)
             {
-                usserChatData.msgsShowed.Set();
+                usserChatData.MsgsShowed.Set();
             }
 
-            usserChatData.msgsShowed.Set();
+            usserChatData.MsgsShowed.Set();
         }
 
-        private void CloseMessageBox(object sender, EventArgs e, PrivateMessage pm)
+        private void CloseMessageBox(UserPrivateMessageBox pm)
         {
             pm.IsOpen = false;
             stop = true;

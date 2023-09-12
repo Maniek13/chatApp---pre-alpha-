@@ -50,7 +50,6 @@ namespace serwer.App.Controllers
                     }
                 }
             }
-
             return z;
         }
 
@@ -67,10 +66,10 @@ namespace serwer.App.Controllers
             UsserController usserController = new UsserController();
 
 
-            List<Models.Usser> ussers = usserController.FindAllUssers().Select( el => Converter.ConvertToUser(el)).ToList();
+            List<Models.Usser> ussers = usserController.FindAllUssers().Select(el => Converter.ConvertToUser(el)).ToList();
 
 
-            if(ussers != null)
+            if (ussers != null)
                 ussers.ForEach(delegate (Models.Usser el)
                 {
                     users.Add(new Userspasword(el.Name, el.Password));
@@ -115,9 +114,9 @@ namespace serwer.App.Controllers
                 else
                 {
                     UsserController usr = new UsserController();
-                    int ok = await usr.AddUsser(new DbModels.Usser{Name = login, Password = password });
+                    int ok = await usr.AddUsser(new DbModels.Usser { Name = login, Password = password });
 
-                    if(ok == 1)
+                    if (ok == 1)
                     {
                         users.Add(new Userspasword(login, password));
                         return $"ok{UsserListLoginRegister(login)}";
@@ -184,7 +183,6 @@ namespace serwer.App.Controllers
                         }
                     }
                 }
-
                 return $"ok{usser_list}";
             }
             else
@@ -234,14 +232,14 @@ namespace serwer.App.Controllers
 
                 string czas = temp.Substring(z + 1);
 
-                
+
                 if (priv != true)
                 {
-                    foreach(Usser us in activeUsers)
+                    foreach (Usser us in activeUsers)
                     {
                         messages.Add(new Messages { Showed = false, Text = wiadomość, From = login, To = adresat, Login = us.Name, Date = Convert.ToDateTime(czas) });
                     }
-                    
+
                 }
                 else
                 {
@@ -295,7 +293,7 @@ namespace serwer.App.Controllers
 
                     var msgs = privateMessages.FirstOrDefault(el => el.Name == FileName);
 
-                    if(msgs == null)
+                    if (msgs == null)
                     {
                         return "0";
                     }
@@ -318,7 +316,7 @@ namespace serwer.App.Controllers
         {
             string odp = "";
 
-            foreach(Messages message in messages)
+            foreach (Messages message in messages)
             {
                 if (message.Showed == false)
                 {
@@ -356,7 +354,7 @@ namespace serwer.App.Controllers
             {
                 int index = file.LastIndexOf("\\");
                 int nameLenght = file.Length - 5 - index;
-                string fileName = file.Substring(index+1, nameLenght);
+                string fileName = file.Substring(index + 1, nameLenght);
                 string[] msgs = File.ReadAllLines(file);
                 privateMessages.Add(new PrivateMessages { Name = fileName });
 

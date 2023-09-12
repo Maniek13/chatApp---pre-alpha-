@@ -13,15 +13,16 @@ namespace serwer.App.DbControllers
         {
             _context = new ChatContext();
         }
-
         public async Task<int> AddUsser(Usser usser)
         {
-            try{
+            try
+            {
                 _context.Ussers.Add(usser);
                 await _context.SaveChangesAsync();
                 return 1;
             }
-            catch{
+            catch
+            {
                 return -1;
             }
         }
@@ -32,7 +33,7 @@ namespace serwer.App.DbControllers
             {
                 var finded = _context.Ussers.SqlQuery("Select * from Ussers").ToListAsync().Result.Find(el => el.Name == usser.Name && el.Password == usser.Password);
 
-                if(finded != null)
+                if (finded != null)
                 {
                     return 1;
                 }

@@ -29,72 +29,83 @@ namespace Klient
         /// </summary>
         private void InitializeComponent()
         {
-            this.Send = new System.Windows.Forms.Button();
-            this.TextToSend = new System.Windows.Forms.TextBox();
+            this.SendBtn = new System.Windows.Forms.Button();
+            this.TextToSendField = new System.Windows.Forms.TextBox();
             this.ContactName = new System.Windows.Forms.Label();
             this.ChatWindow = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // Send
+            // SendBtn
             // 
-            this.Send.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Send.FlatAppearance.BorderSize = 0;
-            this.Send.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Send.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Send.Location = new System.Drawing.Point(533, 385);
-            this.Send.Margin = new System.Windows.Forms.Padding(0);
-            this.Send.Name = "Send";
-            this.Send.Size = new System.Drawing.Size(75, 28);
-            this.Send.TabIndex = 0;
-            this.Send.Text = "Send";
-            this.Send.UseVisualStyleBackColor = false;
-            this.Send.Click += new System.EventHandler(this.SendMessage_BtnClick);
+            this.SendBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SendBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.SendBtn.FlatAppearance.BorderSize = 0;
+            this.SendBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SendBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.SendBtn.Location = new System.Drawing.Point(800, 592);
+            this.SendBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.SendBtn.Name = "SendBtn";
+            this.SendBtn.Size = new System.Drawing.Size(112, 43);
+            this.SendBtn.TabIndex = 0;
+            this.SendBtn.Text = "Send";
+            this.SendBtn.UseVisualStyleBackColor = false;
+            this.SendBtn.Click += new System.EventHandler(this.SendMessage_BtnClick);
             // 
-            // TextToSend
+            // TextToSendField
             // 
-            this.TextToSend.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TextToSend.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TextToSend.Location = new System.Drawing.Point(51, 398);
-            this.TextToSend.Name = "TextToSend";
-            this.TextToSend.Size = new System.Drawing.Size(476, 15);
-            this.TextToSend.TabIndex = 1;
+            this.TextToSendField.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextToSendField.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextToSendField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TextToSendField.Location = new System.Drawing.Point(76, 612);
+            this.TextToSendField.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TextToSendField.Name = "TextToSendField";
+            this.TextToSendField.Size = new System.Drawing.Size(714, 23);
+            this.TextToSendField.TabIndex = 1;
             // 
             // ContactName
             // 
-            this.ContactName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ContactName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ContactName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.ContactName.Location = new System.Drawing.Point(51, 9);
+            this.ContactName.Location = new System.Drawing.Point(76, 14);
+            this.ContactName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ContactName.Name = "ContactName";
-            this.ContactName.Size = new System.Drawing.Size(557, 23);
+            this.ContactName.Size = new System.Drawing.Size(836, 35);
             this.ContactName.TabIndex = 3;
             this.ContactName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ChatWindow
             // 
+            this.ChatWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ChatWindow.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ChatWindow.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ChatWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ChatWindow.ForeColor = System.Drawing.Color.Black;
-            this.ChatWindow.Location = new System.Drawing.Point(51, 34);
+            this.ChatWindow.Location = new System.Drawing.Point(76, 52);
+            this.ChatWindow.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChatWindow.MaxLength = 0;
             this.ChatWindow.Multiline = true;
             this.ChatWindow.Name = "ChatWindow";
             this.ChatWindow.ReadOnly = true;
             this.ChatWindow.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ChatWindow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ChatWindow.Size = new System.Drawing.Size(557, 345);
+            this.ChatWindow.Size = new System.Drawing.Size(836, 531);
             this.ChatWindow.TabIndex = 2;
             // 
             // MessageBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(663, 450);
+            this.ClientSize = new System.Drawing.Size(994, 692);
             this.Controls.Add(this.ContactName);
             this.Controls.Add(this.ChatWindow);
-            this.Controls.Add(this.TextToSend);
-            this.Controls.Add(this.Send);
+            this.Controls.Add(this.TextToSendField);
+            this.Controls.Add(this.SendBtn);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MessageBox";
             this.Text = "MessageBox";
             this.Load += new System.EventHandler(this.MessageBox_Load);
@@ -105,8 +116,8 @@ namespace Klient
 
         #endregion
 
-        private System.Windows.Forms.Button Send;
-        private System.Windows.Forms.TextBox TextToSend;
+        private System.Windows.Forms.Button SendBtn;
+        private System.Windows.Forms.TextBox TextToSendField;
         private System.Windows.Forms.Label ContactName;
         private System.Windows.Forms.TextBox ChatWindow;
     }

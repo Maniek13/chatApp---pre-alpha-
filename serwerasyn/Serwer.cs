@@ -1,38 +1,38 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Threading;
-using serwer.App.Controllers;
-using System.Threading.Tasks;
+﻿using serwer.App.Controllers;
 using serwer.App.Helper;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace serwer
 {
     public partial class Serwer : Form
     {
-        //public Thread wątek;
-        //public Thread delete;
         public static ManualResetEvent deleted = new ManualResetEvent(false);
         public static ManualResetEvent st = new ManualResetEvent(false);
 
         private static bool stop = false;
         public CancellationTokenSource source;
 
-        AsynchronousSocketListener listener;
+        private readonly AsynchronousSocketListener listener;
 
         public Serwer()
         {
             listener = new AsynchronousSocketListener();
             InitializeComponent();
+            StopBtn.Enabled = false;
         }
 
         public void Start_Click(object sender, EventArgs e)
         {
             ServerHelpers.IsStopedApp = false;
-            Stop.Enabled = true;
+            StopBtn.Enabled = true;
+            StartBtn.Enabled = false;
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.LoadMsgs();
             obliczenia.WczytanieKont();
-            
+
             source = new CancellationTokenSource();
             CancellationToken token = source.Token;
 
@@ -65,7 +65,7 @@ namespace serwer
             }, token);
 
 
-            textBox1.Text = $"Working on ip: {ServerHelpers.Ip}";
+            StatusBox.Text = $"Working on ip: {ServerHelpers.Ip}";
         }
 
         private void DeleteOldData()
@@ -88,10 +88,6 @@ namespace serwer
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {   
-        }
-
         private void Stop_Click(object sender, EventArgs e)
         {
             stop = true;
@@ -102,20 +98,9 @@ namespace serwer
 
             Obliczenia obliczenia = new Obliczenia();
             obliczenia.Reset();
-            textBox1.Text = "Stoped";
-            Stop.Enabled = false;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
+            StatusBox.Text = "Stoped";
+            StopBtn.Enabled = false;
+            StartBtn.Enabled = true;
         }
     }
 }

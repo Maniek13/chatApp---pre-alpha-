@@ -28,56 +28,62 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Start = new System.Windows.Forms.Button();
-            this.Stop = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.StartBtn = new System.Windows.Forms.Button();
+            this.StopBtn = new System.Windows.Forms.Button();
+            this.StatusBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // Start
+            // StartBtn
             // 
-            this.Start.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Start.FlatAppearance.BorderSize = 0;
-            this.Start.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Start.Location = new System.Drawing.Point(220, 118);
-            this.Start.Name = "Start";
-            this.Start.Size = new System.Drawing.Size(75, 20);
-            this.Start.TabIndex = 0;
-            this.Start.Text = "Start";
-            this.Start.UseVisualStyleBackColor = false;
-            this.Start.Click += new System.EventHandler(this.Start_Click);
+            this.StartBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StartBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.StartBtn.FlatAppearance.BorderSize = 0;
+            this.StartBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.StartBtn.Location = new System.Drawing.Point(330, 187);
+            this.StartBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.StartBtn.Name = "StartBtn";
+            this.StartBtn.Size = new System.Drawing.Size(112, 32);
+            this.StartBtn.TabIndex = 0;
+            this.StartBtn.Text = "Start";
+            this.StartBtn.UseVisualStyleBackColor = false;
+            this.StartBtn.Click += new System.EventHandler(this.Start_Click);
             // 
-            // Stop
+            // StopBtn
             // 
-            this.Stop.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Stop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Stop.Location = new System.Drawing.Point(488, 118);
-            this.Stop.Name = "Stop";
-            this.Stop.Size = new System.Drawing.Size(75, 20);
-            this.Stop.TabIndex = 1;
-            this.Stop.Text = "Stop";
-            this.Stop.UseVisualStyleBackColor = false;
-            this.Stop.Click += new System.EventHandler(this.Stop_Click);
+            this.StopBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StopBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.StopBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.StopBtn.Location = new System.Drawing.Point(728, 187);
+            this.StopBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.StopBtn.Name = "StopBtn";
+            this.StopBtn.Size = new System.Drawing.Size(112, 32);
+            this.StopBtn.TabIndex = 1;
+            this.StopBtn.Text = "Stop";
+            this.StopBtn.UseVisualStyleBackColor = false;
+            this.StopBtn.Click += new System.EventHandler(this.Stop_Click);
             // 
-            // textBox1
+            // StatusBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(301, 118);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(181, 20);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.StatusBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StatusBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.StatusBox.Location = new System.Drawing.Point(450, 187);
+            this.StatusBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.StatusBox.Name = "StatusBox";
+            this.StatusBox.Size = new System.Drawing.Size(270, 26);
+            this.StatusBox.TabIndex = 2;
             // 
             // Serwer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkOliveGreen;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.Stop);
-            this.Controls.Add(this.Start);
+            this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.StatusBox);
+            this.Controls.Add(this.StopBtn);
+            this.Controls.Add(this.StartBtn);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Serwer";
             this.Text = "Stop";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,9 +91,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button Start;
-        private System.Windows.Forms.Button Stop;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button StartBtn;
+        private System.Windows.Forms.Button StopBtn;
+        private System.Windows.Forms.TextBox StatusBox;
     }
 }
 

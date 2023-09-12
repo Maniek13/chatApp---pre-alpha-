@@ -1,20 +1,21 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Klient.App.Models
 {
-    public class PrivateMessage : INotifyPropertyChanged
+    public class UserPrivateMessageBox : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Konta _user { get; set; }
+        private UsersAccount _user { get; set; }
         private bool _isOpen { get; set; }
 
 
-        public Konta User
+        public UsersAccount User
         {
-            get { return _user; 
+            get
+            {
+                return _user;
             }
             set
             {

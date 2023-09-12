@@ -30,62 +30,62 @@ namespace Klient
            }
         */
 
-        public ObservableCollection<PrivateMessage> Messages
+        public ObservableCollection<UserPrivateMessageBox> Messages
         {
-            get => Kontakty.DataSource as ObservableCollection<PrivateMessage>;
-            set => Kontakty.DataSource = value;
+            get => ContactsBox.DataSource as ObservableCollection<UserPrivateMessageBox>;
+            set => ContactsBox.DataSource = value;
         }
         public KlientAplikacja()
         {
             stop = false;
             this.FormClosed += Close;
             InitializeComponent();
-            Messages = new ObservableCollection<PrivateMessage>(Accounts.users);
-            Kontakty.Format += KontaktyShowText;
+            Messages = new ObservableCollection<UserPrivateMessageBox>(Accounts.Users);
+            ContactsBox.Format += ContactsShowText;
         }
-        private void KontaktyShowText(object sender, ListControlConvertEventArgs e)
+        private void ContactsShowText(object sender, ListControlConvertEventArgs e)
         {
-            if (e.ListItem is PrivateMessage pm)
+            if (e.ListItem is UserPrivateMessageBox pm)
             {
                 string status = pm.User.Status == true ? "online" : "";
-                e.Value = $"{pm.User.Nazwa} {status}";
+                e.Value = $"{pm.User.ShowedName} {status}";
             }
         }
 
-        public void DodajKontakt(string nick)
+        public void AddContact(string nick)
         {
-            Kontakty.BeginUpdate();
-            Kontakty.Items.Add(new PrivateMessage() { User = new Konta(nick, nick, false), IsOpen = false });
-            Kontakty.EndUpdate();
+            ContactsBox.BeginUpdate();
+            ContactsBox.Items.Add(new UserPrivateMessageBox() { User = new UsersAccount(nick, nick, false), IsOpen = false });
+            ContactsBox.EndUpdate();
         }
 
-        private void Wyślij_Click(object sender, EventArgs e)
+        private void SendMsg_BtnClick(object sender, EventArgs e)
         {
             string contactToSend = "";
-            if (Kontakty.SelectedItem != null)
+            if (ContactsBox.SelectedItem != null)
             {
                 contactToSend = SelectedContactName();
             }
 
-            string wiadomość = Wiadomosc.Text;
+            string wiadomość = MessageField.Text;
 
             MessagesController messagesController = new MessagesController();
             messagesController.Wiadomość(contactToSend, wiadomość);
 
             if (Error.IsError)
             {
-                Komunikaty.AppendText(Error.ExceptionMsg);
+                MessagesBox.AppendText(Error.ExceptionMsg);
                 ConnectionProblemLogout();
                 Error.IsError = false;
             }
-            
-            Wiadomosc.Text = "";
+
+            MessageField.Text = "";
         }
 
         private string SelectedContactName()
         {
-            PrivateMessage pm = (PrivateMessage)Kontakty.SelectedItem;
-            return pm.User.Kontakt;
+            UserPrivateMessageBox pm = (UserPrivateMessageBox)ContactsBox.SelectedItem;
+            return pm.User.Account;
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -95,7 +95,7 @@ namespace Klient
             CancellationToken token = source.Token;
             TaskFactory factory = new TaskFactory(token);
 
-            factory.StartNew(WyświetlWiadomosći, token);
+            factory.StartNew(ShowMessages, token);
             factory.StartNew(ShowContacts, token);
         }
 
@@ -105,43 +105,43 @@ namespace Klient
             konta.Show();
         }
 
-        private void Kontakty_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void Contacts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(Kontakty.SelectedItem != null)
+            if (ContactsBox.SelectedItem != null)
             {
-                PrivateMessage pm = (PrivateMessage)Kontakty.SelectedItem;
-                if (String.Compare(pm.User.Nazwa.ToString(),contact) == 0)
+                UserPrivateMessageBox pm = (UserPrivateMessageBox)ContactsBox.SelectedItem;
+                if (String.Compare(pm.User.ShowedName.ToString(), contact) == 0)
                 {
-                    Kontakty.ClearSelected();
+                    ContactsBox.ClearSelected();
                     contact = "";
                 }
                 else
                 {
-                    contact = pm.User.Nazwa.ToString();
+                    contact = pm.User.ShowedName.ToString();
                 }
             }
         }
 
-        private void Kontakty_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void Contacts_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            PrivateMessage pm = (PrivateMessage)Kontakty.SelectedItem;
+            UserPrivateMessageBox pm = (UserPrivateMessageBox)ContactsBox.SelectedItem;
 
-            if (Kontakty.SelectedItem != null && pm.IsOpen == false)
+            if (ContactsBox.SelectedItem != null && pm.IsOpen == false)
             {
-                ((PrivateMessage)Kontakty.SelectedItem).IsOpen = true;
+                ((UserPrivateMessageBox)ContactsBox.SelectedItem).IsOpen = true;
 
-                MessageBox messageBox = new MessageBox((PrivateMessage)Kontakty.SelectedItem);
-                messageBox.Show(); 
+                MessageBox messageBox = new MessageBox((UserPrivateMessageBox)ContactsBox.SelectedItem);
+                messageBox.Show();
             }
         }
 
-        public void WyświetlWiadomosći()
+        public void ShowMessages()
         {
             while (stop == false)
             {
                 if (DateTime.Now.Second % 3 == 0)
                 {
-                    Responde.comunicatsMsg = $"Wyswietl wiadomosci{Account.usser}";
+                    Responde.comunicatsMsg = $"Wyswietl wiadomosci{UserAccount.User}";
                     Wiadomości();
                     wyswietlono.WaitOne();
                     wyswietlono.Reset();
@@ -156,7 +156,7 @@ namespace Klient
             {
                 if (DateTime.Now.Second % 5 == 0)
                 {
-                    Responde.contactsMsg = $"Active ussers{Account.usser}";
+                    Responde.contactsMsg = $"Active ussers{UserAccount.User}";
                     Contacts();
                     showsContacts.WaitOne();
                     showsContacts.Reset();
@@ -194,7 +194,7 @@ namespace Klient
 
                         if (!Responde.comunicatsMsg.StartsWith("ok") && String.Compare(Responde.comunicatsMsg, "0") != 0 && String.Compare(Responde.comunicatsMsg, "connection problem") != 0 && String.Compare(Responde.comunicatsMsg, "") != 0)
                         {
-                            Komunikaty.AppendText(Responde.comunicatsMsg);
+                            MessagesBox.AppendText(Responde.comunicatsMsg);
                         }
                     }));
                 }
@@ -233,63 +233,63 @@ namespace Klient
                         {
                             string temp = Responde.contactsMsg.Substring(2);
 
-                            List<PrivateMessage> activeUsers = new List<PrivateMessage>();
+                            List<UserPrivateMessageBox> activeUsers = new List<UserPrivateMessageBox>();
 
                             while (String.Compare(temp, "") != 0)
                             {
                                 int index = temp.IndexOf("$");
 
-                                var konto = new Konta(temp.Substring(0, index), temp.Substring(0, index), true);
+                                var konto = new UsersAccount(temp.Substring(0, index), temp.Substring(0, index), true);
 
-                                PrivateMessage pm;
+                                UserPrivateMessageBox pm;
 
-                                if (!Accounts.users.ToList().Exists(el => el.User.Nazwa == konto.Nazwa))
+                                if (!Accounts.Users.ToList().Exists(el => el.User.ShowedName == konto.ShowedName))
                                 {
-                                    pm = new PrivateMessage
+                                    pm = new UserPrivateMessageBox
                                     {
                                         User = konto,
                                         IsOpen = false
                                     };
 
-                                    Accounts.users.Add(pm);
+                                    Accounts.Users.Add(pm);
                                     isChanged = true;
                                 }
                                 else
                                 {
-                                    pm = Accounts.users.Find(el => el.User.Nazwa == konto.Nazwa);
+                                    pm = Accounts.Users.Find(el => el.User.ShowedName == konto.ShowedName);
 
                                     if (pm.User.Status == false)
                                     {
-                                        Accounts.users.Find(el => el.User.Nazwa == konto.Nazwa).User.Status = true;
+                                        Accounts.Users.Find(el => el.User.ShowedName == konto.ShowedName).User.Status = true;
                                         isChanged = true;
                                     }
                                 }
 
                                 activeUsers.Add(pm);
-                                
+
                                 temp = temp.Substring(index + 1);
                             }
 
-                            foreach(var user in Accounts.users.Except(activeUsers))
+                            foreach (var user in Accounts.Users.Except(activeUsers))
                             {
-                                if(user.User.Status)
+                                if (user.User.Status)
                                 {
                                     isChanged = true;
-                                    Accounts.users.Find(el => el.User == user.User).User.Status = false;
+                                    Accounts.Users.Find(el => el.User == user.User).User.Status = false;
                                 }
-                                
+
                             }
 
                             if (isChanged)
-                                Messages = new ObservableCollection<PrivateMessage>(Accounts.users);
+                                Messages = new ObservableCollection<UserPrivateMessageBox>(Accounts.Users);
                         }
                     }));
                 }
-            
+
             }
             catch (InvalidOperationException ex)
             {
-                Komunikaty.AppendText(ex.Message);
+                MessagesBox.AppendText(ex.Message);
             }
 
             showsContacts.Set();
@@ -301,7 +301,7 @@ namespace Klient
             source.Cancel();
             source.Dispose();
 
-            if(!ErrorLogout)
+            if (!ErrorLogout)
                 Environment.Exit(0);
         }
 
@@ -311,10 +311,10 @@ namespace Klient
             {
                 Error.IsError = false;
                 ErrorLogout = true;
-                Kontakty = null;
-                Komunikaty = null;
-                Accounts.users.Clear();
-                
+                ContactsBox = null;
+                MessagesBox = null;
+                Accounts.Users.Clear();
+
                 this.Close();
                 KlientLogowanie klientLogowanie = new KlientLogowanie("Server was down");
                 klientLogowanie.Show();

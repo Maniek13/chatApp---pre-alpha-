@@ -12,29 +12,24 @@ namespace Klient
         public NewUser(KlientAplikacja client)
         {
             this._client = client;
-            InitializeComponent();      
+            InitializeComponent();
         }
 
         private void NewUser_BtnClick(object sender, EventArgs e)
-        { 
+        {
             Nowy();
         }
         public void Nowy()
         {
-            var konto = new Konta(textBox1.Text, textBox2.Text, false);
-            PrivateMessage pm = new PrivateMessage()
+            var konto = new UsersAccount(textBox1.Text, textBox2.Text, false);
+            UserPrivateMessageBox pm = new UserPrivateMessageBox()
             {
                 User = konto,
                 IsOpen = false,
             };
-            Accounts.users.Add(pm);
-            this._client.DodajKontakt(textBox2.Text);
+            Accounts.Users.Add(pm);
+            this._client.AddContact(textBox2.Text);
             this.Hide();
-        }
-
-        private void NewUser_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
