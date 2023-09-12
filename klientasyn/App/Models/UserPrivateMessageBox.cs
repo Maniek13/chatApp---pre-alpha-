@@ -1,15 +1,11 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using Klient.App.Helpers;
 
 namespace Klient.App.Models
 {
-    public class UserPrivateMessageBox : INotifyPropertyChanged
+    public class UserPrivateMessageBox : PropertyChange
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private UsersAccount _user { get; set; }
         private bool _isOpen { get; set; }
-
 
         public UsersAccount User
         {
@@ -37,15 +33,6 @@ namespace Klient.App.Models
                     _isOpen = value;
                     OnPropertyChanged();
                 }
-            }
-        }
-
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (propertyName != string.Empty)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

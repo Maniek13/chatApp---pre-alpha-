@@ -84,6 +84,7 @@
     <Compile Include="App\AsynchronousClient.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="App\Helpers\PropertyChange.cs" />
     <Compile Include="App\Models\UserAccount.cs" />
     <Compile Include="App\Models\UserPrivateMessageBox.cs" />
     <Compile Include="App\StaticMembers\Accounts.cs" />
